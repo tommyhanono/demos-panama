@@ -47,6 +47,26 @@ NEGOCIOS = [
     ("Clínica Dental Smile Factory",         "dental", "Juan Díaz",                  "la clínica"),
     ("Clínica Santísima Trinidad",           "dental", "Ancón",                      "la clínica"),
     ("Clínica Dental Santa Catarina",        "dental", "Calidonia",                  "la clínica"),
+    # ---------- BARBERÍAS ----------
+    ("Felix Barbería",                       "barber", "Calle 62A Oeste, San Francisco", "la barbería"),
+    ("Barbería Machete",                     "barber", "Calle Sur, San Francisco",      "la barbería"),
+    ("Barbería Universidad Nacional",        "barber", "Vía Argentina, Bella Vista",    "la barbería"),
+    ("BLK Barber Shop",                      "barber", "Av. 12 de Octubre, Pueblo Nuevo","la barbería"),
+    ("Aldos Barber Shop",                    "barber", "Calle 9, Parque Lefevre",       "la barbería"),
+    ("Gaza Barbershop",                      "barber", "Calle 93 Oeste, Río Abajo",     "la barbería"),
+    ("Jay's Barber Shop",                    "barber", "Av. Central, Calidonia",        "la barbería"),
+    ("Johny Barbería",                       "barber", "Calle 13 Oeste, Santa Ana",     "la barbería"),
+    ("Barbería Bless4ever",                  "barber", "Av. José María Torrijos, Pedregal", "la barbería"),
+    ("Alberto's Barbería",                   "barber", "Ernesto Córdoba Campos",        "la barbería"),
+    # ---------- SALONES DE BELLEZA ----------
+    ("Maravilla Beauty Club",                "salon", "Plaza Belén, San Francisco",     "el salón"),
+    ("Beauty Hair Liss",                     "salon", "Vía Porras, San Francisco",      "el salón"),
+    ("Gaia Salón",                           "salon", "Calle Las Acacias, Bella Vista", "el salón"),
+    ("Glamorium",                            "salon", "Av. Samuel Lewis, Bella Vista",  "el salón"),
+    ("Beauty Essence & Spa",                 "salon", "P.H. El Dorado, Bethania",       "el salón"),
+    ("Akaneh Beauty Salón",                  "salon", "Av. Costanera, Don Bosco",       "el salón"),
+    ("Rocío Hair Center",                    "salon", "Av. 1 B Norte, Bella Vista",     "el salón"),
+    ("Sala de Belleza Doralis",              "salon", "Calle 75 I Oeste, Bethania",     "el salón"),
 ]
 
 

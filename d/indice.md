@@ -28,3 +28,21 @@
 - **Clínica Dental Smile Factory** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-smile-factory.html
 - **Clínica Santísima Trinidad** — https://tommyhanono.github.io/demos-panama/d/clinica-santisima-trinidad.html
 - **Clínica Dental Santa Catarina** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-santa-catarina.html
+- **Felix Barbería** — https://tommyhanono.github.io/demos-panama/d/felix-barberia.html
+- **Barbería Machete** — https://tommyhanono.github.io/demos-panama/d/barberia-machete.html
+- **Barbería Universidad Nacional** — https://tommyhanono.github.io/demos-panama/d/barberia-universidad-nacional.html
+- **BLK Barber Shop** — https://tommyhanono.github.io/demos-panama/d/blk-barber-shop.html
+- **Aldos Barber Shop** — https://tommyhanono.github.io/demos-panama/d/aldos-barber-shop.html
+- **Gaza Barbershop** — https://tommyhanono.github.io/demos-panama/d/gaza-barbershop.html
+- **Jay's Barber Shop** — https://tommyhanono.github.io/demos-panama/d/jay-s-barber-shop.html
+- **Johny Barbería** — https://tommyhanono.github.io/demos-panama/d/johny-barberia.html
+- **Barbería Bless4ever** — https://tommyhanono.github.io/demos-panama/d/barberia-bless4ever.html
+- **Alberto's Barbería** — https://tommyhanono.github.io/demos-panama/d/alberto-s-barberia.html
+- **Maravilla Beauty Club** — https://tommyhanono.github.io/demos-panama/d/maravilla-beauty-club.html
+- **Beauty Hair Liss** — https://tommyhanono.github.io/demos-panama/d/beauty-hair-liss.html
+- **Gaia Salón** — https://tommyhanono.github.io/demos-panama/d/gaia-salon.html
+- **Glamorium** — https://tommyhanono.github.io/demos-panama/d/glamorium.html
+- **Beauty Essence & Spa** — https://tommyhanono.github.io/demos-panama/d/beauty-essence-spa.html
+- **Akaneh Beauty Salón** — https://tommyhanono.github.io/demos-panama/d/akaneh-beauty-salon.html
+- **Rocío Hair Center** — https://tommyhanono.github.io/demos-panama/d/rocio-hair-center.html
+- **Sala de Belleza Doralis** — https://tommyhanono.github.io/demos-panama/d/sala-de-belleza-doralis.html

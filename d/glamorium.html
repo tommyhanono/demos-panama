@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glamorium — Sistema de citas, fichas y recordatorios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../demo.css">
+<style>
+  .formula{background:var(--color-surface-2);border-radius:var(--radius-card);
+    padding:var(--space-4);margin-bottom:var(--space-3);font-family:'JetBrains Mono',monospace}
+  .formula .fl{display:flex;justify-content:space-between;gap:var(--space-3);padding:7px 0;
+    font-size:13px;border-top:1px solid var(--color-line)}
+  .formula .fl:first-of-type{border-top:0}
+  .formula .fl span{color:var(--color-text-muted)}
+  .formula .fl b{font-weight:700}
+  .yappy{background:var(--color-action);color:var(--color-action-ink);
+    border-radius:var(--radius-card);padding:var(--space-4);margin-bottom:var(--space-4);
+    display:flex;gap:var(--space-3);align-items:flex-start;box-shadow:var(--shadow-lift)}
+  .yappy .sigla{width:44px;height:44px;border-radius:var(--radius-card);flex:none;
+    background:oklch(0.99 0.004 85);color:var(--color-action);display:grid;place-items:center;
+    font-family:'Fraunces',serif;font-weight:700;font-size:13px}
+  .yappy h4{font-size:15px;margin-bottom:2px}
+  .yappy p{font-size:13px;opacity:.82;line-height:1.5}
+</style>
+</head>
+<body data-modo="movil">
+
+<div class="selector" id="selector">
+  <div class="selector-caja">
+    <div class="marca-sel"><div class="monograma">Gl</div>
+      <div><h1>Glamorium</h1><p>Av. Samuel Lewis, Bella Vista</p></div></div>
+    <h2>¿Desde dónde quiere verlo?</h2>
+    <p class="intro">El sistema tiene dos caras y no son la misma pantalla estirada: una es la que usa
+      su clienta para reservar, y la otra es la que usted mira para saber cómo va el salón.</p>
+    <div class="opciones-vista">
+      <button class="tarjeta-vista" onclick="entrar('escritorio')">
+        <div class="marco-disp"><div class="pantalla-mini">
+          <div class="ln acento media"></div>
+          <div class="mini-grid"><div class="bloque acento"></div><div class="bloque"></div>
+            <div class="bloque"></div><div class="bloque"></div></div>
+          <div class="ln corta"></div><div class="ln"></div></div></div>
+        <div class="quien">Para usted y su recepción</div>
+        <h3>Computadora</h3>
+        <p>El día completo: agenda por estilista, fichas con la fórmula de cada clienta y producción.</p>
+        <ul><li>Panel con atajos de teclado</li><li>Fichas técnicas y fórmulas de color</li>
+          <li>Producción por estilista</li></ul>
+      </button>
+      <button class="tarjeta-vista" onclick="entrar('movil')">
+        <div class="marco-disp"><div class="pantalla-mini tel">
+          <div class="ln acento"></div><div class="ln corta"></div><div class="ln"></div>
+          <div class="ln media"></div><div class="ln acento"></div></div></div>
+        <div class="quien">Para su clienta</div>
+        <h3>Celular</h3>
+        <p>Cómo reserva su clienta, sin escribirle a nadie y a cualquier hora del día.</p>
+        <ul><li>Cita en cuatro toques</li><li>Anticipo por Yappy en servicios largos</li>
+          <li>Recordatorio de que le toca retoque</li></ul>
+      </button>
+    </div>
+    <p class="pie-sel">Puede cambiar de una a otra en cualquier momento, sin perder nada.</p>
+  </div>
+</div>
+
+<div class="marco">
+  <aside class="lateral">
+    <div class="ident"><div class="monograma">Gl</div>
+      <div><h1 style="font-size:16px">Glamorium</h1><p style="font-size:12px">Av. Samuel Lewis, Bella Vista</p></div></div>
+    <nav class="nav-lat">
+      <button aria-selected="false" data-v="cliente" onclick="verVista('cliente')">Citas<span class="clave">R</span></button>
+      <button aria-selected="false" data-v="carnet" onclick="verVista('carnet')">Fichas<span class="clave">E</span></button>
+      <button aria-selected="true" data-v="panel" onclick="verVista('panel')">Panel<span class="clave">P</span></button>
+      <button aria-selected="false" data-v="cuenta" onclick="verVista('cuenta')">La cuenta<span class="clave">C</span></button>
+      <button aria-selected="false" data-v="tecnico" onclick="verVista('tecnico')">Sistema<span class="clave">S</span></button>
+    </nav>
+    <div class="lateral-pie">
+      <div class="salud"><span class="punto-ok"></span>Sistema en línea<span class="mono">99.9%</span></div>
+      <div class="salud">Citas esta semana<span class="mono">94</span></div>
+      <div class="salud">Clientas<span class="mono">521</span></div>
+    </div>
+  </aside>
+
+  <div class="zona-principal">
+  <header class="head">
+    <div class="ident"><div class="monograma">Gl</div>
+      <div><h1>Glamorium</h1><p>Av. Samuel Lewis, Bella Vista</p></div></div>
+    <div class="avisos">
+      <span class="aviso vivo">Abierto hasta las 7:00 pm</span>
+      <span class="aviso">5.0 · 149 reseñas</span>
+      <span class="aviso">Tres estilistas</span>
+    </div>
+  </header>
+
+  <section class="portada">
+    <h2>Reserva tu cita sin escribirle a nadie</h2>
+    <p class="bajada">Escoge servicio, estilista y hora. Te confirmamos por WhatsApp al instante.</p>
+    <button class="btn btn-primario" onclick="verVista('cliente')">Reservar cita</button>
+  </section>
+
+  <div class="vistas" role="tablist">
+    <button class="vista-btn" role="tab" aria-selected="true" data-v="cliente" onclick="verVista('cliente')">Clienta</button>
+    <button class="vista-btn" role="tab" aria-selected="false" data-v="carnet" onclick="verVista('carnet')">Ficha</button>
+    <button class="vista-btn" role="tab" aria-selected="false" data-v="panel" onclick="verVista('panel')">Panel</button>
+    <button class="vista-btn" role="tab" aria-selected="false" data-v="cuenta" onclick="verVista('cuenta')">Cuenta</button>
+  </div>
+
+  <!-- ============ CLIENTA ============ -->
+  <div class="vista activa" id="v-cliente">
+    <div class="barra-sup"><div><h2>Citas</h2><div class="sub">Lo que ve su clienta al entrar</div></div>
+      <div class="acciones"><button class="btn-mini">Bloquear horario</button>
+        <button class="btn-mini primario">Nueva cita</button></div></div>
+
+    <div class="progreso"><i class="on" id="g1"></i><i id="g2"></i><i id="g3"></i><i id="g4"></i></div>
+
+    <div class="paso activo" id="p1">
+      <p class="eyebrow seccion">Qué te vas a hacer</p>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Corte y secado',25,60)">
+        <span class="inicial">60′</span><span><h4>Corte y secado</h4><small>Lavado incluido</small></span>
+        <span class="valor">$25</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Color completo',65,150)">
+        <span class="inicial">2h30</span><span><h4>Color completo</h4><small>Raíz y largos</small></span>
+        <span class="valor">$65</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Mechas y babylights',95,210)">
+        <span class="inicial">3h30</span><span><h4>Mechas y babylights</h4><small>Con matizado</small></span>
+        <span class="valor">$95</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Tratamiento capilar',40,75)">
+        <span class="inicial">75′</span><span><h4>Tratamiento capilar</h4><small>Hidratación profunda</small></span>
+        <span class="valor">$40</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Manicure y pedicure',38,90)">
+        <span class="inicial">90′</span><span><h4>Manicure y pedicure</h4><small>Esmaltado semipermanente</small></span>
+        <span class="valor">$38</span></button>
+    </div>
+
+    <div class="paso" id="p2">
+      <p class="eyebrow seccion">Con quién</p>
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'Génesis')">
+        <span class="inicial">GE</span><span><h4>Génesis</h4><small>Color y mechas · 8 años</small></span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'Lourdes')">
+        <span class="inicial">LO</span><span><h4>Lourdes</h4><small>Corte y peinado</small></span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'Katherine')">
+        <span class="inicial">KA</span><span><h4>Katherine</h4><small>Uñas y tratamientos</small></span></button>
+    </div>
+
+    <div class="paso" id="p3">
+      <div class="exp" style="margin-bottom:var(--space-4)">
+        <p class="eyebrow" style="margin-bottom:var(--space-2)">Ya te conocemos</p>
+        <p style="font-size:14px;color:var(--color-text-muted)">Tu último color fue el 20 de junio con
+          Génesis: <strong style="color:var(--color-text)">7.3 rubio dorado, 20 vol</strong>. Ya te toca retoque de raíz.</p>
+      </div>
+      <p class="eyebrow seccion">Día y hora</p>
+      <div class="tira-dias" id="dias"></div>
+      <div class="rejilla-horas" id="horas"></div>
+    </div>
+
+    <div class="paso" id="p4">
+      <p class="eyebrow seccion">Confirma tu cita</p>
+      <dl class="resumen" id="resumen"></dl>
+      <div class="yappy">
+        <span class="sigla">Yappy</span>
+        <span><h4>Aparta con $10</h4>
+        <p>Se te descuentan del total. En servicios de dos horas o más, es lo que asegura que el espacio sea tuyo.</p></span>
+      </div>
+      <div class="campo"><label for="f-nombre">Tu nombre</label><input id="f-nombre" value="Andrea Him"></div>
+      <div class="campo"><label for="f-tel">WhatsApp</label><input id="f-tel" inputmode="tel" value="6123-4567"></div>
+      <button class="btn btn-primario" onclick="confirmar()">Pagar $10 y confirmar</button>
+      <button class="btn btn-secundario" style="margin-top:var(--space-2)" onclick="confirmar()">Reservar sin anticipo</button>
+    </div>
+
+    <div class="paso" id="p5">
+      <div class="listo"><div class="sello">✓</div><h3>Cita confirmada</h3><p id="txt-listo"></p></div>
+      <div class="col2">
+        <div>
+          <p class="eyebrow seccion">Lo que le llega a la clienta</p>
+          <div class="hilo"><div class="hilo-top"><span class="punto"></span>Glamorium</div>
+            <div class="hilo-cuerpo" id="hilo1"><div class="puntos"><i></i><i></i><i></i></div></div></div>
+          <p class="eyebrow seccion">Y el día antes, sin que nadie lo escriba</p>
+          <div class="hilo"><div class="hilo-top"><span class="punto"></span>Glamorium</div>
+            <div class="hilo-cuerpo" id="hilo2"><div class="puntos"><i></i><i></i><i></i></div></div></div>
+        </div>
+        <div>
+          <p class="margen" style="margin-top:0"><strong>Un color de tres horas que se cae vale $95.</strong>
+          No es un corte de $25: es la mitad de la tarde de una estilista, y ese espacio ya no se
+          vuelve a vender. Por eso el anticipo se pide solo en los servicios largos.</p>
+          <button class="btn btn-secundario" style="margin-top:var(--space-4)" onclick="reiniciar()">Probar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FICHA ============ -->
+  <div class="vista" id="v-carnet">
+    <div class="barra-sup"><div><h2>Ficha · Andrea Him</h2>
+      <div class="sub">6123-4567 · clienta desde febrero 2023</div></div>
+      <div class="acciones"><button class="btn-mini">Escribirle</button>
+        <button class="btn-mini primario">Agendar retoque</button></div></div>
+
+    <div class="col2">
+      <div>
+        <div class="carnet">
+          <div class="carnet-top">
+            <div><h3>Andrea Him</h3><small>Viene cada 8 semanas · siempre con Génesis</small></div>
+            <small>#0287</small>
+          </div>
+          <div class="dosis"><span class="marca m-pronto">Le toca</span>
+            <span>Retoque de raíz<span class="det">último color 20·06·26</span></span>
+            <b>hace 7 semanas</b></div>
+          <div class="dosis"><span class="marca m-ok">Al día</span>
+            <span>Tratamiento capilar<span class="det">post-decoloración</span></span>
+            <b>18·07·26</b></div>
+          <div class="dosis"><span class="marca m-vencida">Alerta</span>
+            <span>Sensibilidad<span class="det">no usar amoníaco en cuero cabelludo</span></span>
+            <b>desde 2024</b></div>
+        </div>
+
+        <p class="eyebrow seccion">La fórmula que usó Génesis</p>
+        <div class="formula">
+          <div class="fl"><span>base</span><b>7.3 rubio dorado</b></div>
+          <div class="fl"><span>oxidante</span><b>20 vol · 1:1.5</b></div>
+          <div class="fl"><span>matiz</span><b>0.21 perla, 3 cm</b></div>
+          <div class="fl"><span>tiempo</span><b>35 min · raíz primero</b></div>
+          <div class="fl"><span>marca</span><b>línea sin amoníaco</b></div>
+        </div>
+        <p class="margen" style="margin-top:0"><strong>Esto es lo que no está en ningún cuaderno.</strong>
+        Si Génesis no viene ese día, cualquier otra estilista puede repetir el color exacto. Y si Génesis
+        se va del salón, la fórmula se queda con usted.</p>
+      </div>
+
+      <div>
+        <div class="datos-rapidos">
+          <div class="dato"><b>19</b><small>visitas</small></div>
+          <div class="dato"><b>$1,140</b><small>ha gastado</small></div>
+          <div class="dato"><b>8</b><small>semanas entre color</small></div>
+        </div>
+
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Historial</p>
+          <div class="exp-fila"><span class="fecha">18·07·26</span>
+            <span class="que">Tratamiento capilar<small>Katherine</small></span><span class="monto">$40</span></div>
+          <div class="exp-fila"><span class="fecha">20·06·26</span>
+            <span class="que">Color completo<small>Génesis · 7.3 + 20 vol</small></span><span class="monto">$65</span></div>
+          <div class="exp-fila"><span class="fecha">25·04·26</span>
+            <span class="que">Mechas y babylights<small>Génesis · matizado 0.21</small></span><span class="monto">$95</span></div>
+          <div class="exp-fila"><span class="fecha">02·03·26</span>
+            <span class="que">Corte y secado<small>Lourdes</small></span><span class="monto">$25</span></div>
+        </div>
+
+        <div class="hilo"><div class="hilo-top"><span class="punto"></span>Glamorium</div>
+          <div class="hilo-cuerpo">
+            <div class="burbuja">Hola Andrea
+
+Ya van siete semanas de tu último color, así que se te debe estar viendo la raíz.
+
+Génesis tiene campo el jueves y el sábado. Reserva aquí:
+
+glamorium.demo/citas
+
+Glamorium<div class="sello-hora">10:00 a.m. · entregado</div></div>
+          </div></div>
+
+        <p class="margen"><strong>Ese mensaje sale solo a las siete semanas.</strong> Nadie tiene que
+        acordarse de Andrea: con 521 clientas es imposible, y ahí está la diferencia entre una clienta
+        que vuelve cada dos meses y una que se pierde sin que nadie note cuándo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PANEL ============ -->
+  <div class="vista" id="v-panel">
+    <div class="barra-sup"><div><h2>Panel</h2><div class="sub">Viernes 7 de agosto · 521 clientas</div></div>
+      <div class="acciones"><button class="btn-mini">Exportar a Excel</button>
+        <button class="btn-mini primario">Escribir a las que les toca</button></div></div>
+
+    <div class="bento">
+      <div class="celda ancha acento"><b class="num">73</b>
+        <small>Clientas a las que ya les toca retoque y no han reservado</small></div>
+      <div class="celda media"><b class="num">$584</b><small>Producido hoy</small></div>
+      <div class="celda media"><b class="num">$120</b><small>Anticipos cobrados</small></div>
+    </div>
+
+    <div class="col2">
+      <div>
+        <p class="eyebrow seccion">Producción por estilista</p>
+        <div class="barra"><div class="bt"><span>Génesis</span><b>$285 · 5 servicios</b></div>
+          <div class="pista"><div class="relleno" style="width:100%"></div></div></div>
+        <div class="barra"><div class="bt"><span>Lourdes</span><b>$175 · 7 servicios</b></div>
+          <div class="pista"><div class="relleno" style="width:61%"></div></div></div>
+        <div class="barra"><div class="bt"><span>Katherine</span><b>$124 · 4 servicios</b></div>
+          <div class="pista"><div class="relleno" style="width:44%"></div></div></div>
+
+        <p class="eyebrow seccion">Agenda de hoy</p>
+        <div class="turno"><span class="hora-col">9:00</span>
+          <span><h4>Andrea Him</h4><small>Color completo · Génesis</small></span>
+          <span class="estado ok">Pagó $10</span></div>
+        <div class="turno"><span class="hora-col">11:30</span>
+          <span><h4>Paola Sáez</h4><small>Corte y secado · Lourdes</small></span>
+          <span class="estado ok">Confirmó</span></div>
+        <div class="turno"><span class="hora-col">1:00</span>
+          <span><h4>Valeria Ortega</h4><small>Mechas · Génesis</small></span>
+          <span class="estado ok">Pagó $10</span></div>
+        <div class="turno"><span class="hora-col">3:00</span>
+          <span><h4>Camila Ruiz</h4><small>Manicure · Katherine</small></span>
+          <span class="estado pendiente">Sin confirmar</span></div>
+      </div>
+
+      <div>
+        <p class="eyebrow seccion">Clientas que no vuelven hace rato</p>
+        <div class="exp">
+          <div class="inactivo"><span class="marca m-vencida">6 meses</span> Daniela Pinto <b>venía cada 8 sem</b></div>
+          <div class="inactivo"><span class="marca m-vencida">5 meses</span> Mariana Vega <b>venía cada 6 sem</b></div>
+          <div class="inactivo"><span class="marca m-pronto">3 meses</span> Gabriela Díaz <b>venía cada 8 sem</b></div>
+          <div class="inactivo"><span class="marca m-pronto">3 meses</span> Isabel Castro <b>venía cada 4 sem</b></div>
+        </div>
+        <p class="margen" style="margin-top:var(--space-3)"><strong>Las cuatro eran clientas fijas de
+        color.</strong> A ese ticket, recuperar dos de ellas paga la mensualidad del sistema por
+        tres meses.</p>
+
+        <div class="bento" style="margin-top:var(--space-6)">
+          <div class="celda media"><b class="num">26</b><small>Citas reservadas fuera de horario</small></div>
+          <div class="celda media"><b class="num">$47</b><small>Ticket promedio</small></div>
+          <div class="celda media"><b class="num">10-12am</b><small>Su hora más pedida</small></div>
+          <div class="celda media"><b class="num">58%</b><small>Clientas que repiten</small></div>
+        </div>
+
+        <p class="margen"><strong>El ticket promedio es la cifra que más sirve.</strong> Saber que está
+        en $47 le dice si conviene empujar tratamientos, que suben el ticket sin ocupar más silla.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LA CUENTA ============ -->
+  <div class="vista" id="v-cuenta">
+    <div class="barra-sup"><div><h2>La cuenta</h2><div class="sub">Con sus números, no con los míos</div></div></div>
+    <div class="col2">
+      <div class="calc">
+        <h3>Corra su propio número</h3>
+        <p>Ponga cuántas clientas tiene y qué parte cree que dejó de venir. El resto lo calcula solo.</p>
+        <label for="rng-a">Clientas en su base</label>
+        <input type="range" id="rng-a" min="100" max="1500" step="25" value="521" oninput="calcular()">
+        <div class="cifra" id="c-a">521</div>
+        <label for="rng-b">Qué parte dejó de venir</label>
+        <input type="range" id="rng-b" min="5" max="40" step="1" value="14" oninput="calcular()">
+        <div class="cifra" id="c-b">14%</div>
+        <div class="resultado">
+          <div class="rf"><span>Clientas por recuperar</span><b id="c-pac">73</b></div>
+          <div class="rf"><span>Si vuelve 1 de cada 3</span><b id="c-vuelven">24</b></div>
+          <div class="rf"><span>Ticket promedio</span><b>$47</b></div>
+          <div class="rf grande"><span>Recupera</span><b id="c-total">$1,128</b></div>
+        </div>
+      </div>
+      <div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Lo que cuesta el sistema</p>
+          <div class="exp-fila"><span class="que">Implementación<small>Una sola vez. Incluye cargar estilistas, servicios y precios, más capacitación</small></span>
+            <span class="monto">$450</span></div>
+          <div class="exp-fila"><span class="que">Mensualidad<small>Alojamiento, respaldos, cambios y soporte por WhatsApp</small></span>
+            <span class="monto">$40</span></div>
+          <div class="exp-fila"><span class="que"><strong>Primer año completo</strong><small>Implementación más doce meses</small></span>
+            <span class="monto"><strong>$930</strong></span></div>
+        </div>
+        <p class="margen" id="veredicto"></p>
+        <div class="exp" style="margin-top:var(--space-4)">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Lo que no cuesta extra</p>
+          <div class="exp-fila"><span class="que">Sus clientas son suyas<small>La lista y las fórmulas se descargan en Excel</small></span></div>
+          <div class="exp-fila"><span class="que">El dominio queda a su nombre<small>Desde el primer día</small></span></div>
+          <div class="exp-fila"><span class="que">Sin contrato de permanencia<small>Cancela avisando con 30 días</small></span></div>
+          <div class="exp-fila"><span class="que">30 días de garantía<small>Si no le sirve, da de baja y no paga más</small></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SISTEMA ============ -->
+  <div class="vista" id="v-tecnico">
+    <div class="barra-sup"><div><h2>Sistema</h2><div class="sub">Lo que hay debajo, por si se lo preguntan</div></div></div>
+    <div class="col2">
+      <div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Estado</p>
+          <div class="tecnico">
+            <div class="tec-fila"><span>Disponibilidad últimos 90 días</span><b class="ok">99.94%</b></div>
+            <div class="tec-fila"><span>Respaldo automático</span><b class="ok">cada 6 h</b></div>
+            <div class="tec-fila"><span>Cifrado en tránsito</span><b class="ok">TLS 1.3</b></div>
+            <div class="tec-fila"><span>Cobro con Yappy</span><b class="ok">1% + ITBMS</b></div>
+            <div class="tec-fila"><span>Carga de la ficha</span><b>0.7 s</b></div>
+          </div>
+        </div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Usuarios y permisos</p>
+          <div class="rol"><span class="inicial">GE</span>
+            <span><strong>Génesis</strong><small style="display:block;color:var(--color-text-muted);font-size:12.5px">Estilista</small></span>
+            <span class="permiso">su agenda · fórmulas</span></div>
+          <div class="rol"><span class="inicial">RE</span>
+            <span><strong>Recepción</strong><small style="display:block;color:var(--color-text-muted);font-size:12.5px">Un usuario</small></span>
+            <span class="permiso">agenda · cobros</span></div>
+          <div class="rol"><span class="inicial">AD</span>
+            <span><strong>Dueña</strong><small style="display:block;color:var(--color-text-muted);font-size:12.5px">Administración</small></span>
+            <span class="permiso">todo · producción</span></div>
+        </div>
+        <p class="margen" style="margin-top:var(--space-3)"><strong>Cada estilista ve su agenda y sus
+        fórmulas, no la caja.</strong> Solo usted ve cuánto produjo cada una.</p>
+      </div>
+      <div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Se conecta con lo que ya usa</p>
+          <div class="exp-fila"><span class="que"><strong>WhatsApp</strong><small>Confirmaciones, recordatorios y aviso de retoque</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Yappy</strong><small>Anticipos en servicios largos. 1% + ITBMS, de Banco General</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Instagram</strong><small>El enlace de la bio lleva directo a reservar</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Google Business</strong><small>Botón de reservar en su ficha</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Excel y CSV</strong><small>Clientas, fórmulas, citas y producción</small></span></div>
+        </div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Si un día se va</p>
+          <div class="exp-fila"><span class="que">Descarga su lista de clientas<small>Con teléfonos, historial y fórmulas de color</small></span></div>
+          <div class="exp-fila"><span class="que">El dominio ya está a su nombre<small>Desde el día uno</small></span></div>
+          <div class="exp-fila"><span class="que">Sin penalidad<small>30 días de aviso y listo</small></span></div>
+        </div>
+        <p class="margen"><strong>Lo digo porque en este rubro pasa:</strong> la mayoría de las
+        plataformas gratuitas se quedan con la lista de sus clientas. Aquí la lista y las fórmulas son
+        suyas, y se las puede llevar.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="creditos">
+    Demostración preparada para <strong>Glamorium</strong><br>
+    Los datos son de ejemplo. Se configura con sus estilistas, servicios y precios reales.<br><br>
+    Tommy Hanono · WhatsApp 6681-8669
+  </footer>
+  </div>
+</div>
+
+<button class="cambiar-vista" id="btn-cambiar" onclick="abrirSelector()" hidden>Cambiar vista</button>
+
+<script>
+window.DEMO = {
+  negocio: 'Glamorium',
+  etiquetaServicio: 'Servicio',
+  etiquetaProfesional: 'Con',
+  horas: ['9:00','10:00','11:00','11:30','1:00','2:00','3:00','4:00','5:00'],
+  ocupadas: ['11:00','3:00'],
+  mensaje1: d => 'Hola '+d.nombre+', tu cita quedó confirmada.\n\n<strong>'+d.serv+'</strong> con '+d.prof+
+    '\n'+d.dia+' a las '+d.hora+'\nTotal: $'+d.precio.toFixed(2)+
+    '\n\nSi necesitas cambiarla, responde a este mensaje.\n\nGlamorium',
+  mensaje2: d => d.nombre+', te recordamos tu cita de mañana a las '+d.hora+' con '+d.prof+
+    '.\n\nResponde SÍ para confirmar o NO si necesitas reagendar.',
+  sello2: '5:00 p.m. · entregado',
+  calc: {
+    formatoA: v => v.toLocaleString('en-US'),
+    formula: (base, pct) => {
+      const cli = Math.round(base*pct/100), vuelven = Math.round(cli/3), total = vuelven*47;
+      const anual = total*12;
+      return {
+        filas: {pac: cli, vuelven: vuelven, total: '$'+total.toLocaleString('en-US')},
+        veredicto: anual > 930
+          ? '<strong>Con esos números, el sistema se paga solo.</strong> Recuperar $'+total.toLocaleString('en-US')+
+            ' al mes son $'+anual.toLocaleString('en-US')+' al año, contra $930 del primer año completo. '+
+            'Y eso contando solo clientas que ya fueron suyas: no incluye una sola clienta nueva.'
+          : '<strong>Con esos números todavía no se paga solo</strong>, y prefiero decírselo. Con una '+
+            'base de ese tamaño le conviene empezar por la agenda y los recordatorios, que cuestan menos, '+
+            'y dejar el resto para cuando la base crezca.'
+      };
+    }
+  }
+};
+</script>
+<script src="../demo.js"></script>
+</body>
+</html>
