@@ -109,13 +109,16 @@ enviar(){
     && echo "OK: $nombre" >> "$LOG" || echo "FALLO: $nombre" >> "$LOG"
 }
 
+INTERVALO="${INTERVALO:-120}"   # segundos entre mensajes. Para la tanda completa se usa 300.
+N=0
+
 lote(){   # lote <fn_plantilla> <nombre>|<numero> ...
   local fn="$1"; shift
-  local primero=1
   for par in "$@"; do
     local nom="${par%%|*}" num="${par##*|}"
-    [[ $primero -eq 0 && "$MODO" != "test" ]] && sleep 120
-    primero=0
+    [[ $N -gt 0 && "$MODO" != "test" ]] && sleep "$INTERVALO"
+    N=$((N+1))
+    [[ "$MODO" == "test" ]] && echo "\n### [$N] plantilla: $fn"
     enviar "$nom" "$num" "$($fn "$nom")"
   done
 }
@@ -194,7 +197,73 @@ case "$RONDA" in
       "Clínica Dental Ibiza|50763992698" \
       "Clínica Dental Smile Factory|50761264253" ;;
 
-  *) echo "Ronda no definida. Válidas: 2 a 7."; exit 1 ;;
+  todas) # ===== LAS 48 EN UN SOLO DÍA, ordenadas por valor =====
+    # 1) VETERINARIAS sin web — mejor ticket, mejor dolor
+    lote vet \
+      "Mercy Veterinary Hospital|50765141701" \
+      "Veterinaria Lapenta|50765155908" \
+      "Panamá Pets Clínica Veterinaria|50762071805" \
+      "Mascota Consentida|50767442777" \
+      "Fashion Pet|50762009830" \
+      "Patitas Market|50761173841" \
+      "la clínica del Dr. Jorge Landires|50766724092" \
+      "Tomo Vet|50769806018"
+    # 2) DENTALES — ticket más alto
+    lote dental \
+      "Clínica Dental Tovar|50766717699" \
+      "Dental Design|50766755062" \
+      "Clínica Dental City|50766754222" \
+      "Denti Club|50762715353" \
+      "Esthetic Dental Clinic|50769494350" \
+      "Clínica Barnes Lam|50766740005" \
+      "el centro del Dr. Horacio Villarreal|50766185475" \
+      "Brilliant Smile Dental Clinic|50761224472" \
+      "Clínica Dental Ibiza|50763992698" \
+      "Clínica Dental Smile Factory|50761264253" \
+      "Clínica Santísima Trinidad|50766181809" \
+      "Clínica Dental Santa Catarina|50762064562"
+    # 3) VETERINARIAS con web
+    lote vet \
+      "Dogland|50767702910" \
+      "Pets Fashion|50769671859" \
+      "Kaspet|50766729280" \
+      "Clínica Veterinaria Andy's Pets|50762570925" \
+      "Consultoría Veterinaria de Panamá|50768486747" \
+      "Asistencia Médica Animal|50768745363" \
+      "Veterinaria 24 de Diciembre|50766555070" \
+      "Veterinaria Chilibre|50767802795"
+    # 4) BARBERÍAS — cierre más rápido
+    lote barber \
+      "Felix Barbería|50768089482" \
+      "Barbería Machete|50766383234" \
+      "Barbería Universidad Nacional|50762044349" \
+      "BLK Barber Shop|50768823867" \
+      "Aldos Barber Shop|50766542565" \
+      "Gaza Barbershop|50762208312" \
+      "Jay's Barber Shop|50765515326" \
+      "Johny Barbería|50767399874" \
+      "Barbería Bless4ever|50766598694" \
+      "Alberto's Barbería|50765001585"
+    # 5) SALONES
+    lote salon \
+      "Maravilla Beauty Club|50760109024" \
+      "Beauty Hair Liss|50767417496" \
+      "Gaia Salón|50765503850" \
+      "Glamorium|50769412588" \
+      "Beauty Essence & Spa|50767757145" \
+      "Akaneh Beauty Salón|50762237804" \
+      "Rocío Hair Center|50767516061" \
+      "Sala de Belleza Doralis|50768871016"
+    # 6) TALLERES
+    lote taller \
+      "Panamá Top Car|50766756222" \
+      "Industrias Tuñon de Gracia|50769971814" \
+      "Autos La Guadalupe|50764049150" \
+      "Taller Full Color|50763785874" \
+      "Kevin Car Shop|50762756041" \
+      "Cangas Trucks|50762511782" ;;
+
+  *) echo "Ronda no definida. Válidas: 2 a 7, o 'todas'."; exit 1 ;;
 esac
 
 if [[ "$MODO" != "test" ]]; then
