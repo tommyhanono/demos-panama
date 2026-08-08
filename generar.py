@@ -67,6 +67,13 @@ NEGOCIOS = [
     ("Akaneh Beauty Salón",                  "salon", "Av. Costanera, Don Bosco",       "el salón"),
     ("Rocío Hair Center",                    "salon", "Av. 1 B Norte, Bella Vista",     "el salón"),
     ("Sala de Belleza Doralis",              "salon", "Calle 75 I Oeste, Bethania",     "el salón"),
+    # ---------- TALLERES ----------
+    ("Panamá Top Car",                       "taller", "Av. La Paz, Bethania",          "el taller"),
+    ("Industrias Tuñon de Gracia",           "taller", "Calle 80, Bethania",            "el taller"),
+    ("Autos La Guadalupe",                   "taller", "Calle 4a, Parque Lefevre",      "el taller"),
+    ("Taller Full Color",                    "taller", "Av. Ernesto T. Lefevre",        "el taller"),
+    ("Kevin Car Shop",                       "taller", "Calle 19, Río Abajo",           "el taller"),
+    ("Cangas Trucks",                        "taller", "Calle 57, Bella Vista",         "el taller"),
 ]
 
 

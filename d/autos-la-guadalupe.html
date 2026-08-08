@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Autos La Guadalupe — Órdenes de trabajo y estado del vehículo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../demo.css">
+<style>
+  .placa{display:inline-flex;align-items:center;gap:6px;background:var(--color-surface-2);
+    border:1px solid var(--color-line);border-radius:5px;padding:3px 9px;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.06em}
+  .ruta{position:relative;padding-left:var(--space-6);margin:var(--space-4) 0}
+  .ruta::before{content:'';position:absolute;left:9px;top:8px;bottom:14px;width:2px;
+    background:var(--color-line)}
+  .etapa{position:relative;padding-bottom:var(--space-6)}
+  .etapa:last-child{padding-bottom:0}
+  .etapa::before{content:'';position:absolute;left:calc(-1 * var(--space-6) + 4px);top:4px;
+    width:12px;height:12px;border-radius:50%;background:var(--color-surface);
+    border:2px solid var(--color-line)}
+  .etapa.hecha::before{background:var(--color-ok);border-color:var(--color-ok)}
+  .etapa.actual::before{background:var(--color-action);border-color:var(--color-action);
+    box-shadow:0 0 0 4px oklch(0.38 0.075 255/.16)}
+  .etapa h4{font-size:15px;font-weight:600}
+  .etapa small{display:block;font-size:12.5px;color:var(--color-text-muted);margin-top:1px}
+  .etapa .cuando{font-family:'JetBrains Mono',monospace;font-size:11.5px;
+    color:var(--color-text-muted);margin-top:3px}
+  .etapa.pendiente h4{color:var(--color-text-muted)}
+  .cotiza{background:var(--color-surface-2);border-radius:var(--radius-card);padding:var(--space-4);
+    margin:var(--space-3) 0}
+  .cotiza .cl{display:flex;justify-content:space-between;gap:var(--space-3);padding:7px 0;
+    font-size:14px;border-top:1px solid var(--color-line)}
+  .cotiza .cl:first-of-type{border-top:0}
+  .cotiza .cl b{font-variant-numeric:tabular-nums;font-weight:600}
+  .cotiza .cl.suma{border-top:1.5px solid var(--color-text);margin-top:var(--space-2);
+    padding-top:var(--space-3);font-size:16px}
+  .cotiza .cl.suma b{font-family:'Fraunces',serif;font-size:19px}
+</style>
+</head>
+<body data-modo="movil">
+
+<div class="selector" id="selector">
+  <div class="selector-caja">
+    <div class="marca-sel"><div class="monograma">AG</div>
+      <div><h1>Autos La Guadalupe</h1><p>Calle 4a, Parque Lefevre</p></div></div>
+    <h2>¿Desde dónde quiere verlo?</h2>
+    <p class="intro">El sistema tiene dos caras y no son la misma pantalla estirada: una es la que
+      abre su cliente para ver cómo va su carro, y la otra es el tablero del taller.</p>
+    <div class="opciones-vista">
+      <button class="tarjeta-vista" onclick="entrar('escritorio')">
+        <div class="marco-disp"><div class="pantalla-mini">
+          <div class="ln acento media"></div>
+          <div class="mini-grid"><div class="bloque acento"></div><div class="bloque"></div>
+            <div class="bloque"></div><div class="bloque"></div></div>
+          <div class="ln corta"></div><div class="ln"></div></div></div>
+        <div class="quien">Para usted y su taller</div>
+        <h3>Computadora</h3>
+        <p>El tablero: qué carros hay adentro, en qué etapa va cada uno y qué falta aprobar.</p>
+        <ul><li>Tablero con atajos de teclado</li><li>Órdenes de trabajo e historial por placa</li>
+          <li>Recordatorios de próximo servicio</li></ul>
+      </button>
+      <button class="tarjeta-vista" onclick="entrar('movil')">
+        <div class="marco-disp"><div class="pantalla-mini tel">
+          <div class="ln acento"></div><div class="ln corta"></div><div class="ln"></div>
+          <div class="ln media"></div><div class="ln acento"></div></div></div>
+        <div class="quien">Para su cliente</div>
+        <h3>Celular</h3>
+        <p>Cómo sigue su carro sin llamar, y cómo aprueba la cotización desde el teléfono.</p>
+        <ul><li>Estado del vehículo en vivo</li><li>Cotización con aprobación</li>
+          <li>Aviso automático cuando está listo</li></ul>
+      </button>
+    </div>
+    <p class="pie-sel">Puede cambiar de una a otra en cualquier momento, sin perder nada.</p>
+  </div>
+</div>
+
+<div class="marco">
+  <aside class="lateral">
+    <div class="ident"><div class="monograma">AG</div>
+      <div><h1 style="font-size:16px">Autos La Guadalupe</h1><p style="font-size:12px">Calle 4a, Parque Lefevre</p></div></div>
+    <nav class="nav-lat">
+      <button aria-selected="false" data-v="cliente" onclick="verVista('cliente')">Citas<span class="clave">R</span></button>
+      <button aria-selected="false" data-v="carnet" onclick="verVista('carnet')">Estado<span class="clave">E</span></button>
+      <button aria-selected="true" data-v="panel" onclick="verVista('panel')">Tablero<span class="clave">P</span></button>
+      <button aria-selected="false" data-v="cuenta" onclick="verVista('cuenta')">La cuenta<span class="clave">C</span></button>
+      <button aria-selected="false" data-v="tecnico" onclick="verVista('tecnico')">Sistema<span class="clave">S</span></button>
+    </nav>
+    <div class="lateral-pie">
+      <div class="salud"><span class="punto-ok"></span>Sistema en línea<span class="mono">99.9%</span></div>
+      <div class="salud">Carros adentro<span class="mono">7</span></div>
+      <div class="salud">Vehículos<span class="mono">1,340</span></div>
+    </div>
+  </aside>
+
+  <div class="zona-principal">
+  <header class="head">
+    <div class="ident"><div class="monograma">AG</div>
+      <div><h1>Autos La Guadalupe</h1><p>Calle 4a, Parque Lefevre</p></div></div>
+    <div class="avisos">
+      <span class="aviso vivo">Abierto hasta las 5:00 pm</span>
+      <span class="aviso">Lunes a sábado</span>
+      <span class="aviso">Diagnóstico computarizado</span>
+    </div>
+  </header>
+
+  <section class="portada">
+    <h2>Sigue tu carro sin tener que llamar</h2>
+    <p class="bajada">Te avisamos por WhatsApp en cada etapa, y apruebas la cotización desde el teléfono.</p>
+    <button class="btn btn-primario" onclick="verVista('carnet')">Ver estado de mi carro</button>
+    <button class="btn btn-secundario" style="margin-top:var(--space-2)" onclick="verVista('cliente')">Agendar servicio</button>
+  </section>
+
+  <div class="vistas" role="tablist">
+    <button class="vista-btn" role="tab" aria-selected="true" data-v="cliente" onclick="verVista('cliente')">Agendar</button>
+    <button class="vista-btn" role="tab" aria-selected="false" data-v="carnet" onclick="verVista('carnet')">Estado</button>
+    <button class="vista-btn" role="tab" aria-selected="false" data-v="panel" onclick="verVista('panel')">Tablero</button>
+    <button class="vista-btn" role="tab" aria-selected="false" data-v="cuenta" onclick="verVista('cuenta')">Cuenta</button>
+  </div>
+
+  <!-- ============ AGENDAR ============ -->
+  <div class="vista activa" id="v-cliente">
+    <div class="barra-sup"><div><h2>Citas</h2><div class="sub">Lo que ve el cliente al entrar</div></div>
+      <div class="acciones"><button class="btn-mini">Bloquear bahía</button>
+        <button class="btn-mini primario">Nueva orden</button></div></div>
+
+    <div class="progreso"><i class="on" id="g1"></i><i id="g2"></i><i id="g3"></i><i id="g4"></i></div>
+
+    <div class="paso activo" id="p1">
+      <p class="eyebrow seccion">Qué necesita el carro</p>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Cambio de aceite y filtros',65,45)">
+        <span class="inicial">45′</span><span><h4>Cambio de aceite y filtros</h4><small>Sintético incluido</small></span>
+        <span class="valor">$65</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Diagnóstico computarizado',35,60)">
+        <span class="inicial">60′</span><span><h4>Diagnóstico computarizado</h4><small>Escáner y reporte</small></span>
+        <span class="valor">$35</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Frenos · revisión y cambio',120,120)">
+        <span class="inicial">2h</span><span><h4>Frenos · revisión y cambio</h4><small>Pastillas y discos</small></span>
+        <span class="valor">desde $120</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Mantenimiento de 10,000 km',180,180)">
+        <span class="inicial">3h</span><span><h4>Mantenimiento de 10,000 km</h4><small>Completo, según manual</small></span>
+        <span class="valor">$180</span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirServicio(this,'Aire acondicionado',85,90)">
+        <span class="inicial">90′</span><span><h4>Aire acondicionado</h4><small>Carga de gas y revisión</small></span>
+        <span class="valor">$85</span></button>
+    </div>
+
+    <div class="paso" id="p2">
+      <p class="eyebrow seccion">Cómo lo va a dejar</p>
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'lo deja en el taller')">
+        <span class="inicial">1</span><span><h4>Lo dejo en el taller</h4><small>Le avisamos cuando esté listo</small></span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'espera en el taller')">
+        <span class="inicial">2</span><span><h4>Espero aquí</h4><small>Solo para trabajos de menos de una hora</small></span></button>
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'pasamos a recogerlo')">
+        <span class="inicial">3</span><span><h4>Pasan a recogerlo</h4><small>Dentro de la ciudad, sin costo</small></span></button>
+    </div>
+
+    <div class="paso" id="p3">
+      <p class="eyebrow seccion">Día y hora</p>
+      <div class="tira-dias" id="dias"></div>
+      <div class="rejilla-horas" id="horas"></div>
+    </div>
+
+    <div class="paso" id="p4">
+      <p class="eyebrow seccion">Datos del vehículo</p>
+      <div class="campo"><label for="f-extra">Placa</label><input id="f-extra" value="AB1234"></div>
+      <div class="campo"><label for="f-modelo">Marca y modelo</label><input id="f-modelo" value="Toyota Hilux 2019"></div>
+      <div class="campo"><label for="f-nombre">Su nombre</label><input id="f-nombre" value="Carlos Him"></div>
+      <div class="campo"><label for="f-tel">WhatsApp</label><input id="f-tel" inputmode="tel" value="6123-4567"></div>
+      <dl class="resumen" id="resumen"></dl>
+      <button class="btn btn-primario" onclick="confirmar()">Confirmar cita</button>
+    </div>
+
+    <div class="paso" id="p5">
+      <div class="listo"><div class="sello">✓</div><h3>Cita confirmada</h3><p id="txt-listo"></p></div>
+      <div class="col2">
+        <div>
+          <p class="eyebrow seccion">Lo que le llega al cliente</p>
+          <div class="hilo"><div class="hilo-top"><span class="punto"></span>Autos La Guadalupe</div>
+            <div class="hilo-cuerpo" id="hilo1"><div class="puntos"><i></i><i></i><i></i></div></div></div>
+          <p class="eyebrow seccion">Y cuando el carro está listo</p>
+          <div class="hilo"><div class="hilo-top"><span class="punto"></span>Autos La Guadalupe</div>
+            <div class="hilo-cuerpo" id="hilo2"><div class="puntos"><i></i><i></i><i></i></div></div></div>
+        </div>
+        <div>
+          <p class="margen" style="margin-top:0"><strong>Ese segundo mensaje es el que le devuelve
+          el día.</strong> Cada cliente llama tres o cuatro veces preguntando si ya está listo, y
+          alguien tiene que soltar la herramienta para contestar. Con siete carros adentro son más de
+          veinte llamadas diarias que dejan de entrar.</p>
+          <button class="btn btn-secundario" style="margin-top:var(--space-4)" onclick="reiniciar()">Probar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ESTADO DEL VEHÍCULO ============ -->
+  <div class="vista" id="v-carnet">
+    <div class="barra-sup"><div><h2>Orden 2418 · Toyota Hilux 2019</h2>
+      <div class="sub">Carlos Him · 6123-4567 · ingresó hoy 8:15 a.m.</div></div>
+      <div class="acciones"><button class="btn-mini">Imprimir orden</button>
+        <button class="btn-mini primario">Marcar como listo</button></div></div>
+
+    <div class="col2">
+      <div>
+        <div class="carnet">
+          <div class="carnet-top">
+            <div><h3>Toyota Hilux 2019</h3><small>Carlos Him · 84,320 km</small></div>
+            <span class="placa" style="background:oklch(0.99 0.004 85/.15);border-color:oklch(0.99 0.004 85/.3);color:inherit">AB1234</span>
+          </div>
+          <div class="dosis"><span class="marca m-ok">Aprobado</span>
+            <span>Cotización<span class="det">aprobada por WhatsApp · 9:42 a.m.</span></span>
+            <b>$247.00</b></div>
+          <div class="dosis"><span class="marca m-pronto">En proceso</span>
+            <span>Trabajo actual<span class="det">cambio de pastillas y rectificado</span></span>
+            <b>desde 10:10</b></div>
+          <div class="dosis"><span class="marca m-ok">Estimado</span>
+            <span>Entrega<span class="det">hoy, según avance</span></span>
+            <b>3:30 p.m.</b></div>
+        </div>
+
+        <p class="eyebrow seccion">Dónde va su carro</p>
+        <div class="ruta">
+          <div class="etapa hecha"><h4>Recibido</h4>
+            <small>Revisión de entrada y fotos del estado</small>
+            <div class="cuando">hoy · 8:15 a.m.</div></div>
+          <div class="etapa hecha"><h4>Diagnóstico</h4>
+            <small>Pastillas al 15% y disco delantero con desgaste</small>
+            <div class="cuando">hoy · 9:20 a.m.</div></div>
+          <div class="etapa hecha"><h4>Cotización aprobada</h4>
+            <small>Aprobada por el cliente desde el celular</small>
+            <div class="cuando">hoy · 9:42 a.m.</div></div>
+          <div class="etapa actual"><h4>En reparación</h4>
+            <small>Mecánico asignado: Luis</small>
+            <div class="cuando">desde las 10:10 a.m.</div></div>
+          <div class="etapa pendiente"><h4>Prueba de ruta</h4>
+            <small>Verificación antes de entregar</small></div>
+          <div class="etapa pendiente"><h4>Listo para entrega</h4>
+            <small>Se le avisa automáticamente</small></div>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow seccion">La cotización que aprobó</p>
+        <div class="cotiza">
+          <div class="cl"><span>Pastillas delanteras · juego</span><b>$78.00</b></div>
+          <div class="cl"><span>Rectificado de discos</span><b>$45.00</b></div>
+          <div class="cl"><span>Líquido de frenos DOT 4</span><b>$18.00</b></div>
+          <div class="cl"><span>Mano de obra · 2 h</span><b>$90.00</b></div>
+          <div class="cl"><span>ITBMS 7%</span><b>$16.17</b></div>
+          <div class="cl suma"><span>Total</span><b>$247.17</b></div>
+        </div>
+
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Historial de la placa AB1234</p>
+          <div class="exp-fila"><span class="fecha">14·03·26</span>
+            <span class="que">Mantenimiento 80,000 km<small>Aceite, filtros y bujías</small></span>
+            <span class="monto">$180</span></div>
+          <div class="exp-fila"><span class="fecha">08·11·25</span>
+            <span class="que">Aire acondicionado<small>Carga de gas</small></span><span class="monto">$85</span></div>
+          <div class="exp-fila"><span class="fecha">22·07·25</span>
+            <span class="que">Cambio de aceite<small>Sintético 5W-30</small></span><span class="monto">$65</span></div>
+          <div class="exp-fila"><span class="fecha">03·03·25</span>
+            <span class="que">Amortiguadores traseros<small>Par completo</small></span><span class="monto">$310</span></div>
+        </div>
+
+        <div class="hilo"><div class="hilo-top"><span class="punto"></span>Autos La Guadalupe</div>
+          <div class="hilo-cuerpo">
+            <div class="burbuja">Don Carlos, buenos días.
+
+Su Hilux <strong>AB1234</strong> ya va para los 90,000 km y le toca mantenimiento.
+
+Puede agendar aquí:
+autos-la-guadalupe.demo/citas
+
+Autos La Guadalupe<div class="sello-hora">8:30 a.m. · entregado</div></div>
+          </div></div>
+
+        <p class="margen"><strong>Ese último mensaje es el que convierte un trabajo suelto en cliente
+        fijo.</strong> El sistema sabe que el Hilux entró a 84,320 km y calcula cuándo le toca el
+        próximo. Sin eso, el cliente vuelve cuando se acuerda, que casi siempre es cuando ya falló algo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TABLERO ============ -->
+  <div class="vista" id="v-panel">
+    <div class="barra-sup"><div><h2>Tablero</h2><div class="sub">Viernes 7 de agosto · 1,340 vehículos en el historial</div></div>
+      <div class="acciones"><button class="btn-mini">Exportar a Excel</button>
+        <button class="btn-mini primario">Enviar recordatorios</button></div></div>
+
+    <div class="bento">
+      <div class="celda ancha acento"><b class="num">7</b>
+        <small>Carros adentro ahora · 2 esperando aprobación del cliente</small></div>
+      <div class="celda media"><b class="num">$1,284</b><small>Facturado hoy</small></div>
+      <div class="celda media"><b class="num">96</b><small>Mantenimientos por vencer</small></div>
+    </div>
+
+    <div class="col2">
+      <div>
+        <p class="eyebrow seccion">Qué hay en el taller</p>
+        <div class="turno"><span class="hora-col"><span class="placa" style="font-size:11px;padding:2px 5px">AB1234</span></span>
+          <span><h4>Toyota Hilux 2019</h4><small>Frenos · Luis</small></span>
+          <span class="estado ok">En reparación</span></div>
+        <div class="turno"><span class="hora-col"><span class="placa" style="font-size:11px;padding:2px 5px">CD5678</span></span>
+          <span><h4>Kia Sportage 2021</h4><small>Diagnóstico · Marcos</small></span>
+          <span class="estado pendiente">Espera aprobación</span></div>
+        <div class="turno"><span class="hora-col"><span class="placa" style="font-size:11px;padding:2px 5px">EF9012</span></span>
+          <span><h4>Hyundai Tucson 2020</h4><small>Mantenimiento 10 mil</small></span>
+          <span class="estado ok">En reparación</span></div>
+        <div class="turno"><span class="hora-col"><span class="placa" style="font-size:11px;padding:2px 5px">GH3456</span></span>
+          <span><h4>Nissan Frontier 2018</h4><small>Aire acondicionado</small></span>
+          <span class="estado pendiente">Espera repuesto</span></div>
+        <div class="turno"><span class="hora-col"><span class="placa" style="font-size:11px;padding:2px 5px">IJ7890</span></span>
+          <span><h4>Honda CR-V 2022</h4><small>Cambio de aceite · listo</small></span>
+          <span class="estado ok">Listo</span></div>
+
+        <p class="eyebrow seccion">De dónde viene el dinero este mes</p>
+        <div class="barra"><div class="bt"><span>Mantenimientos programados</span><b>$5,760 · 32 servicios</b></div>
+          <div class="pista"><div class="relleno" style="width:100%"></div></div></div>
+        <div class="barra"><div class="bt"><span>Frenos y suspensión</span><b>$3,420 · 19 trabajos</b></div>
+          <div class="pista"><div class="relleno" style="width:59%"></div></div></div>
+        <div class="barra"><div class="bt"><span>Aire acondicionado</span><b>$1,700 · 20 servicios</b></div>
+          <div class="pista"><div class="relleno" style="width:30%"></div></div></div>
+        <div class="barra"><div class="bt"><span>Diagnóstico</span><b>$980 · 28 revisiones</b></div>
+          <div class="pista"><div class="relleno" style="width:17%"></div></div></div>
+      </div>
+
+      <div>
+        <p class="eyebrow seccion">Les toca mantenimiento y no han venido</p>
+        <div class="exp">
+          <div class="inactivo"><span class="marca m-vencida">+8,000 km</span> KL2345 · Corolla 2020 <b>Ana Ruiz</b></div>
+          <div class="inactivo"><span class="marca m-vencida">+6,500 km</span> MN6789 · Rav4 2019 <b>Jorge Vega</b></div>
+          <div class="inactivo"><span class="marca m-pronto">+3,200 km</span> OP0123 · Sportage 2021 <b>Luisa Him</b></div>
+          <div class="inactivo"><span class="marca m-pronto">+2,800 km</span> QR4567 · Hilux 2017 <b>Pedro Sáez</b></div>
+        </div>
+        <p class="margen" style="margin-top:var(--space-3)"><strong>96 vehículos pasados de
+        kilometraje.</strong> A $180 el mantenimiento completo, eso son más de $17,000 en trabajo que
+        ya conocen su taller y todavía no ha vuelto.</p>
+
+        <div class="bento" style="margin-top:var(--space-6)">
+          <div class="celda media"><b class="num">0</b><small>Llamadas de "¿ya está listo?"</small></div>
+          <div class="celda media"><b class="num">41 min</b><small>Promedio hasta aprobar cotización</small></div>
+          <div class="celda media"><b class="num">$182</b><small>Ticket promedio</small></div>
+          <div class="celda media"><b class="num">68%</b><small>Clientes que regresan</small></div>
+        </div>
+
+        <p class="margen"><strong>41 minutos para aprobar una cotización.</strong> Antes eso tomaba
+        medio día: el cliente no contestaba, había que llamarlo dos veces, y el carro ocupaba la bahía
+        sin avanzar. Aprobar desde el celular con las fotos adentro cambia eso.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LA CUENTA ============ -->
+  <div class="vista" id="v-cuenta">
+    <div class="barra-sup"><div><h2>La cuenta</h2><div class="sub">Con sus números, no con los míos</div></div></div>
+    <div class="col2">
+      <div class="calc">
+        <h3>Corra su propio número</h3>
+        <p>Ponga cuántos vehículos tiene en su historial y qué parte cree que ya está pasada de kilometraje.</p>
+        <label for="rng-a">Vehículos en su historial</label>
+        <input type="range" id="rng-a" min="200" max="4000" step="50" value="1340" oninput="calcular()">
+        <div class="cifra" id="c-a">1,340</div>
+        <label for="rng-b">Qué parte está pasada de mantenimiento</label>
+        <input type="range" id="rng-b" min="2" max="25" step="1" value="7" oninput="calcular()">
+        <div class="cifra" id="c-b">7%</div>
+        <div class="resultado">
+          <div class="rf"><span>Vehículos por recuperar</span><b id="c-pac">94</b></div>
+          <div class="rf"><span>Si vuelve 1 de cada 4</span><b id="c-vuelven">24</b></div>
+          <div class="rf"><span>Mantenimiento promedio</span><b>$180</b></div>
+          <div class="rf grande"><span>Recupera</span><b id="c-total">$4,320</b></div>
+        </div>
+      </div>
+      <div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Lo que cuesta el sistema</p>
+          <div class="exp-fila"><span class="que">Implementación<small>Una sola vez. Incluye cargar servicios, precios y mecánicos, más capacitación</small></span>
+            <span class="monto">$600</span></div>
+          <div class="exp-fila"><span class="que">Mensualidad<small>Alojamiento, respaldos, cambios y soporte por WhatsApp</small></span>
+            <span class="monto">$50</span></div>
+          <div class="exp-fila"><span class="que"><strong>Primer año completo</strong><small>Implementación más doce meses</small></span>
+            <span class="monto"><strong>$1,200</strong></span></div>
+        </div>
+        <p class="margen" id="veredicto"></p>
+        <div class="exp" style="margin-top:var(--space-4)">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Lo que no cuesta extra</p>
+          <div class="exp-fila"><span class="que">Su historial es suyo<small>Placas, trabajos y clientes se descargan en Excel</small></span></div>
+          <div class="exp-fila"><span class="que">El dominio queda a su nombre<small>Desde el primer día</small></span></div>
+          <div class="exp-fila"><span class="que">Sin contrato de permanencia<small>Cancela avisando con 30 días</small></span></div>
+          <div class="exp-fila"><span class="que">30 días de garantía<small>Si no le sirve, da de baja y no paga más</small></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SISTEMA ============ -->
+  <div class="vista" id="v-tecnico">
+    <div class="barra-sup"><div><h2>Sistema</h2><div class="sub">Lo que hay debajo, por si se lo preguntan</div></div></div>
+    <div class="col2">
+      <div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Estado</p>
+          <div class="tecnico">
+            <div class="tec-fila"><span>Disponibilidad últimos 90 días</span><b class="ok">99.94%</b></div>
+            <div class="tec-fila"><span>Respaldo automático</span><b class="ok">cada 6 h</b></div>
+            <div class="tec-fila"><span>Cifrado en tránsito</span><b class="ok">TLS 1.3</b></div>
+            <div class="tec-fila"><span>Fotos por orden</span><b>hasta 20</b></div>
+            <div class="tec-fila"><span>Carga de la orden</span><b>0.7 s</b></div>
+          </div>
+        </div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Usuarios y permisos</p>
+          <div class="rol"><span class="inicial">LU</span>
+            <span><strong>Luis</strong><small style="display:block;color:var(--color-text-muted);font-size:12.5px">Mecánico</small></span>
+            <span class="permiso">sus órdenes · fotos</span></div>
+          <div class="rol"><span class="inicial">RE</span>
+            <span><strong>Recepción</strong><small style="display:block;color:var(--color-text-muted);font-size:12.5px">Un usuario</small></span>
+            <span class="permiso">órdenes · cotizar · cobros</span></div>
+          <div class="rol"><span class="inicial">AD</span>
+            <span><strong>Dueño</strong><small style="display:block;color:var(--color-text-muted);font-size:12.5px">Administración</small></span>
+            <span class="permiso">todo · reportes</span></div>
+        </div>
+        <p class="margen" style="margin-top:var(--space-3)"><strong>El mecánico sube las fotos desde
+        su propio celular</strong>, sin ver precios ni cobros. Eso mismo es lo que respalda al taller
+        si el cliente después reclama un golpe que ya traía.</p>
+      </div>
+      <div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Se conecta con lo que ya usa</p>
+          <div class="exp-fila"><span class="que"><strong>WhatsApp</strong><small>Aviso en cada etapa, cotización y "su carro está listo"</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Yappy</strong><small>Cobro y abonos. 1% + ITBMS, de Banco General</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Google Business</strong><small>Botón de agendar en su ficha</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Excel y CSV</strong><small>Órdenes, placas, repuestos e ingresos</small></span></div>
+          <div class="exp-fila"><span class="que"><strong>Facturación</strong><small>Los datos salen ordenados para su contador o su PAC</small></span></div>
+        </div>
+        <div class="exp">
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">Si un día se va</p>
+          <div class="exp-fila"><span class="que">Descarga el historial completo<small>Por placa, con trabajos, repuestos y montos</small></span></div>
+          <div class="exp-fila"><span class="que">El dominio ya está a su nombre<small>Desde el día uno</small></span></div>
+          <div class="exp-fila"><span class="que">Sin penalidad<small>30 días de aviso y listo</small></span></div>
+        </div>
+        <p class="margen"><strong>El historial por placa es el activo del taller.</strong> Saber qué se
+        le hizo a ese carro hace dos años es lo que hace que el cliente no se vaya a otro lado, y es
+        justo lo que se pierde cuando todo está en un cuaderno.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="creditos">
+    Demostración preparada para <strong>Autos La Guadalupe</strong><br>
+    Los datos son de ejemplo. Se configura con sus servicios, precios y mecánicos reales.<br><br>
+    Tommy Hanono · WhatsApp 6681-8669
+  </footer>
+  </div>
+</div>
+
+<button class="cambiar-vista" id="btn-cambiar" onclick="abrirSelector()" hidden>Cambiar vista</button>
+
+<script>
+window.DEMO = {
+  negocio: 'Autos La Guadalupe',
+  etiquetaServicio: 'Servicio',
+  etiquetaProfesional: 'Modalidad',
+  horas: ['7:30','8:00','9:00','10:00','11:00','1:00','2:00','3:00'],
+  ocupadas: ['8:00','2:00'],
+  mensaje1: d => 'Don '+d.nombre+', su cita quedó confirmada.\n\n<strong>'+d.serv+'</strong>\n'+
+    'Vehículo: '+d.extra+'\n'+d.dia+' a las '+d.hora+'\n('+d.prof+')'+
+    '\n\nLe iremos avisando en cada etapa.\n\nAutos La Guadalupe',
+  mensaje2: d => 'Don '+d.nombre+', su vehículo <strong>'+d.extra+'</strong> ya está listo.\n\n'+
+    'Total: $'+d.precio.toFixed(2)+'\nPuede pasar a recogerlo hasta las 5:00 p.m.\n\n'+
+    'Si prefiere, puede pagar por Yappy antes de venir.',
+  sello2: '3:28 p.m. · entregado',
+  calc: {
+    formatoA: v => v.toLocaleString('en-US'),
+    formula: (base, pct) => {
+      const veh = Math.round(base*pct/100), vuelven = Math.round(veh/4), total = vuelven*180;
+      const anual = total*12;
+      return {
+        filas: {pac: veh, vuelven: vuelven, total: '$'+total.toLocaleString('en-US')},
+        veredicto: anual > 1200
+          ? '<strong>Con esos números, el sistema se paga solo.</strong> Recuperar $'+total.toLocaleString('en-US')+
+            ' al mes son $'+anual.toLocaleString('en-US')+' al año, contra $1,200 del primer año completo. '+
+            'Y eso contando solo mantenimientos de carros que ya pasaron por su taller.'
+          : '<strong>Con esos números todavía no se paga solo</strong>, y prefiero decírselo. Con ese '+
+            'historial le conviene empezar por el aviso de "su carro está listo", que cuesta menos y '+
+            'le quita las llamadas, y dejar los recordatorios de mantenimiento para después.'
+      };
+    }
+  }
+};
+</script>
+<script src="../demo.js"></script>
+</body>
+</html>

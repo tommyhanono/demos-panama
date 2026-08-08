@@ -46,3 +46,9 @@
 - **Akaneh Beauty Salón** — https://tommyhanono.github.io/demos-panama/d/akaneh-beauty-salon.html
 - **Rocío Hair Center** — https://tommyhanono.github.io/demos-panama/d/rocio-hair-center.html
 - **Sala de Belleza Doralis** — https://tommyhanono.github.io/demos-panama/d/sala-de-belleza-doralis.html
+- **Panamá Top Car** — https://tommyhanono.github.io/demos-panama/d/panama-top-car.html
+- **Industrias Tuñon de Gracia** — https://tommyhanono.github.io/demos-panama/d/industrias-tunon-de-gracia.html
+- **Autos La Guadalupe** — https://tommyhanono.github.io/demos-panama/d/autos-la-guadalupe.html
+- **Taller Full Color** — https://tommyhanono.github.io/demos-panama/d/taller-full-color.html
+- **Kevin Car Shop** — https://tommyhanono.github.io/demos-panama/d/kevin-car-shop.html
+- **Cangas Trucks** — https://tommyhanono.github.io/demos-panama/d/cangas-trucks.html
