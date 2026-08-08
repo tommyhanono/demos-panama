@@ -16,3 +16,15 @@
 - **Asistencia Médica Animal** — https://tommyhanono.github.io/demos-panama/d/asistencia-medica-animal.html
 - **Veterinaria 24 de Diciembre** — https://tommyhanono.github.io/demos-panama/d/veterinaria-24-de-diciembre.html
 - **Veterinaria Chilibre** — https://tommyhanono.github.io/demos-panama/d/veterinaria-chilibre.html
+- **Clínica Dental Tovar** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-tovar.html
+- **Dental Design** — https://tommyhanono.github.io/demos-panama/d/dental-design.html
+- **Clínica Dental City** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-city.html
+- **Denti Club** — https://tommyhanono.github.io/demos-panama/d/denti-club.html
+- **Esthetic Dental Clinic** — https://tommyhanono.github.io/demos-panama/d/esthetic-dental-clinic.html
+- **Clínica Barnes Lam** — https://tommyhanono.github.io/demos-panama/d/clinica-barnes-lam.html
+- **Centro de Odontología Dr. Horacio Villarreal** — https://tommyhanono.github.io/demos-panama/d/centro-de-odontologia-dr-horacio-villarreal.html
+- **Brilliant Smile Dental Clinic** — https://tommyhanono.github.io/demos-panama/d/brilliant-smile-dental-clinic.html
+- **Clínica Dental Ibiza** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-ibiza.html
+- **Clínica Dental Smile Factory** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-smile-factory.html
+- **Clínica Santísima Trinidad** — https://tommyhanono.github.io/demos-panama/d/clinica-santisima-trinidad.html
+- **Clínica Dental Santa Catarina** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-santa-catarina.html

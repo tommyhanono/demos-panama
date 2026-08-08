@@ -34,7 +34,21 @@ NEGOCIOS = [
     ("Asistencia Médica Animal",             "vet", "Ernesto Córdoba Campos",        "la clínica"),
     ("Veterinaria 24 de Diciembre",          "vet", "Vía Tocumen",                   "la clínica"),
     ("Veterinaria Chilibre",                 "vet", "Vía Transístmica, Chilibre",    "la clínica"),
+    # ---------- CLÍNICAS DENTALES ----------
+    ("Clínica Dental Tovar",                 "dental", "San Francisco",              "la clínica"),
+    ("Dental Design",                        "dental", "Bella Vista",                "la clínica"),
+    ("Clínica Dental City",                  "dental", "Bella Vista",                "la clínica"),
+    ("Denti Club",                           "dental", "Bella Vista",                "la clínica"),
+    ("Esthetic Dental Clinic",               "dental", "Bella Vista",                "la clínica"),
+    ("Clínica Barnes Lam",                   "dental", "Bella Vista",                "la clínica"),
+    ("Centro de Odontología Dr. Horacio Villarreal", "dental", "Bethania",           "el centro"),
+    ("Brilliant Smile Dental Clinic",        "dental", "Bella Vista",                "la clínica"),
+    ("Clínica Dental Ibiza",                 "dental", "Parque Lefevre",             "la clínica"),
+    ("Clínica Dental Smile Factory",         "dental", "Juan Díaz",                  "la clínica"),
+    ("Clínica Santísima Trinidad",           "dental", "Ancón",                      "la clínica"),
+    ("Clínica Dental Santa Catarina",        "dental", "Calidonia",                  "la clínica"),
 ]
+
 
 def slug(texto: str) -> str:
     t = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode()

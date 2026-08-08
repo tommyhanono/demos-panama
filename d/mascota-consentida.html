@@ -8,181 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../tokens.css">
-<style>
-/* ===================== SELECTOR DE ENTRADA ===================== */
-.selector{position:fixed;inset:0;z-index:200;background:var(--color-bg);
-  display:grid;place-items:center;padding:var(--space-6);overflow-y:auto}
-.selector.oculto{display:none}
-.selector-caja{width:100%;max-width:900px;text-align:center}
-.selector .marca-sel{display:inline-flex;align-items:center;gap:var(--space-3);
-  margin-bottom:var(--space-8)}
-.selector .marca-sel .monograma{width:52px;height:52px;font-size:19px}
-.selector .marca-sel h1{font-size:23px;text-align:left}
-.selector .marca-sel p{font-size:13.5px;color:var(--color-text-muted);text-align:left}
-.selector h2{font-size:clamp(26px,4.5vw,38px);margin-bottom:var(--space-3)}
-.selector .intro{color:var(--color-text-muted);font-size:16px;max-width:56ch;
-  margin:0 auto var(--space-8)}
-.opciones-vista{display:grid;gap:var(--space-4);grid-template-columns:1fr}
-@media(min-width:760px){.opciones-vista{grid-template-columns:1fr 1fr;gap:var(--space-6)}}
-.tarjeta-vista{background:var(--color-surface);border:1px solid var(--color-line);
-  border-radius:var(--radius-card);padding:var(--space-6);text-align:left;cursor:pointer;
-  font-family:inherit;color:inherit;box-shadow:var(--shadow-card);
-  transition:box-shadow var(--motion-base) var(--motion-ease),
-    transform var(--motion-base) var(--motion-ease),border-color var(--motion-fast)}
-.tarjeta-vista:hover{box-shadow:var(--shadow-lift);transform:translateY(-3px);
-  border-color:var(--color-action)}
-.marco-disp{background:var(--color-surface-2);border-radius:6px;padding:var(--space-3);
-  margin-bottom:var(--space-4);display:grid;place-items:center;min-height:132px}
-.pantalla-mini{background:var(--color-surface);border:1px solid var(--color-line);
-  border-radius:4px;width:100%;max-width:190px;padding:7px;display:grid;gap:4px}
-.pantalla-mini.tel{max-width:74px;border-radius:9px;padding:6px 5px}
-.ln{height:5px;background:var(--color-line);border-radius:2px}
-.ln.acento{background:var(--color-action);opacity:.85}
-.ln.corta{width:52%}.ln.media{width:74%}
-.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.mini-grid .bloque{height:19px;background:var(--color-line);border-radius:2px}
-.mini-grid .bloque.acento{background:var(--color-action);opacity:.85}
-.tarjeta-vista h3{font-size:19px;margin-bottom:var(--space-1)}
-.tarjeta-vista .quien{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--color-action);margin-bottom:var(--space-2)}
-.tarjeta-vista p{font-size:14.5px;color:var(--color-text-muted);line-height:1.55}
-.tarjeta-vista ul{list-style:none;margin-top:var(--space-3);font-size:13.5px;
-  color:var(--color-text-muted)}
-.tarjeta-vista li{padding:3px 0 3px var(--space-4);position:relative}
-.tarjeta-vista li::before{content:'—';position:absolute;left:0;color:var(--color-action)}
-.pie-sel{margin-top:var(--space-8);font-size:13px;color:var(--color-text-muted)}
-
-/* ===================== ESCRITORIO ===================== */
-body[data-modo=escritorio]{background:oklch(0.91 0.010 85);display:block}
-body[data-modo=escritorio] .marco{max-width:none;width:100%;min-height:100vh;
-  display:grid;grid-template-columns:264px 1fr;background:var(--color-bg)}
-body[data-modo=escritorio] .lateral{display:flex}
-body[data-modo=escritorio] .head,
-body[data-modo=escritorio] .portada,
-body[data-modo=escritorio] .vistas{display:none}
-body[data-modo=escritorio] .zona-principal{padding:var(--space-8) var(--space-12);
-  max-width:1180px;width:100%}
-body[data-modo=escritorio] .vista{padding:0}
-body[data-modo=escritorio] .barra-sup{display:flex}
-body[data-modo=escritorio] .col2{display:grid;grid-template-columns:1.15fr .85fr;
-  gap:var(--space-8);align-items:start}
-body[data-modo=escritorio] .celda.media{grid-column:span 3}
-body[data-modo=escritorio] .celda.ancha{grid-column:span 6}
-body[data-modo=escritorio] .rejilla-horas{grid-template-columns:repeat(6,1fr)}
-body[data-modo=escritorio] .creditos{grid-column:1/-1}
-body[data-modo=escritorio] .solo-movil{display:none}
-
-.lateral{display:none;flex-direction:column;background:var(--color-surface);
-  border-right:1px solid var(--color-line);padding:var(--space-6) var(--space-4);
-  position:sticky;top:0;height:100vh;overflow-y:auto}
-.lateral .ident{margin-bottom:var(--space-8)}
-.nav-lat{display:flex;flex-direction:column;gap:2px}
-.nav-lat button{display:flex;align-items:center;gap:var(--space-3);width:100%;text-align:left;
-  padding:11px var(--space-3);border:0;background:transparent;border-radius:var(--radius-card);
-  font-family:inherit;font-size:14.5px;font-weight:600;color:var(--color-text-muted);
-  cursor:pointer;min-height:44px;transition:background var(--motion-fast) var(--motion-ease)}
-.nav-lat button:hover{background:var(--color-surface-2)}
-.nav-lat button[aria-selected=true]{background:var(--color-action);color:var(--color-action-ink)}
-.nav-lat .clave{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.55}
-.lateral-pie{margin-top:auto;padding-top:var(--space-6);border-top:1px solid var(--color-line)}
-.salud{display:flex;align-items:center;gap:var(--space-2);font-size:12.5px;
-  color:var(--color-text-muted);margin-bottom:5px}
-.salud .punto-ok{width:7px;height:7px;border-radius:50%;background:var(--color-ok);flex:none}
-.salud .mono{font-family:'JetBrains Mono',monospace;font-size:11.5px;margin-left:auto}
-
-.barra-sup{display:none;align-items:center;gap:var(--space-4);
-  padding-bottom:var(--space-6);margin-bottom:var(--space-6);
-  border-bottom:1px solid var(--color-line)}
-.barra-sup h2{font-size:26px}
-.barra-sup .sub{font-size:13.5px;color:var(--color-text-muted);margin-top:2px}
-.barra-sup .acciones{margin-left:auto;display:flex;gap:var(--space-2)}
-.btn-mini{min-height:40px;padding:8px var(--space-4);border-radius:var(--radius-card);
-  border:1px solid var(--color-line);background:var(--color-surface);font-family:inherit;
-  font-size:13.5px;font-weight:600;color:var(--color-text);cursor:pointer;
-  box-shadow:var(--shadow-card)}
-.btn-mini.primario{background:var(--color-action);color:var(--color-action-ink);border-color:var(--color-action)}
-.cambiar-vista{position:fixed;right:var(--space-6);bottom:var(--space-6);z-index:90;
-  min-height:44px;padding:10px var(--space-4);border-radius:999px;border:1px solid var(--color-line);
-  background:var(--color-surface);box-shadow:var(--shadow-lift);font-family:inherit;
-  font-size:13px;font-weight:600;color:var(--color-text);cursor:pointer}
-
-/* ===================== PIEZAS COMPARTIDAS ===================== */
-.carnet{background:var(--color-action);color:var(--color-action-ink);
-  border-radius:var(--radius-card);padding:var(--space-4);margin-bottom:var(--space-3);
-  box-shadow:var(--shadow-lift)}
-.carnet-top{display:flex;align-items:baseline;justify-content:space-between;
-  gap:var(--space-3);margin-bottom:var(--space-4)}
-.carnet h3{font-size:22px;color:inherit}
-.carnet-top small{font-size:12.5px;opacity:.8;font-family:'JetBrains Mono',monospace}
-.dosis{display:grid;grid-template-columns:auto 1fr auto;gap:var(--space-3);align-items:center;
-  padding:11px 0;border-top:1px solid oklch(0.99 0.004 85/.16);font-size:14px}
-.dosis .det{font-size:11.5px;opacity:.72;font-family:'JetBrains Mono',monospace;display:block}
-.marca{font-size:11px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:3px;
-  flex:none;min-width:74px;text-align:center}
-.m-ok{background:oklch(0.80 0.14 150/.22);color:oklch(0.93 0.10 150)}
-.m-pronto{background:oklch(0.85 0.15 80/.22);color:oklch(0.93 0.12 85)}
-.m-vencida{background:oklch(0.75 0.17 25/.26);color:oklch(0.92 0.10 30)}
-.dosis b{font-size:12.5px;opacity:.85;font-weight:600;text-align:right}
-
-.exp{background:var(--color-surface);border:1px solid var(--color-line);
-  border-radius:var(--radius-card);padding:var(--space-4);margin-bottom:var(--space-3);
-  box-shadow:var(--shadow-card)}
-.exp-fila{display:flex;gap:var(--space-3);padding:10px 0;border-top:1px solid var(--color-line);
-  font-size:14px;align-items:baseline}
-.exp-fila:first-of-type{border-top:0;padding-top:0}
-.exp-fila .fecha{font-size:12.5px;color:var(--color-text-muted);width:70px;flex:none;
-  font-family:'JetBrains Mono',monospace}
-.exp-fila .que{flex:1}
-.exp-fila .que small{display:block;color:var(--color-text-muted);font-size:12.5px}
-.exp-fila .monto{font-weight:600;font-variant-numeric:tabular-nums;flex:none}
-.datos-rapidos{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-2);
-  margin-bottom:var(--space-3)}
-.dato{background:var(--color-surface-2);border-radius:var(--radius-card);padding:var(--space-3);
-  text-align:center}
-.dato b{display:block;font-family:'Fraunces',serif;font-size:20px;font-variant-numeric:tabular-nums}
-.dato small{font-size:11.5px;color:var(--color-text-muted)}
-
-.calc{background:var(--color-action);color:var(--color-action-ink);
-  border-radius:var(--radius-card);padding:var(--space-6) var(--space-4);
-  box-shadow:var(--shadow-lift);margin-bottom:var(--space-4)}
-.calc h3{font-size:21px;color:inherit;margin-bottom:var(--space-1)}
-.calc>p{font-size:13.5px;opacity:.78;margin-bottom:var(--space-6);line-height:1.5}
-.calc label{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;opacity:.7;margin-bottom:var(--space-2)}
-.calc input[type=range]{width:100%;accent-color:oklch(0.99 0.004 85);margin-bottom:var(--space-1)}
-.calc .cifra{font-family:'Fraunces',serif;font-size:34px;font-weight:700;letter-spacing:-.03em;
-  margin-bottom:var(--space-6);font-variant-numeric:tabular-nums;line-height:1}
-.resultado{background:oklch(0.99 0.004 85/.12);border-radius:var(--radius-card);padding:var(--space-4)}
-.resultado .rf{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;font-size:14px}
-.resultado .rf span{opacity:.8}
-.resultado .rf b{font-variant-numeric:tabular-nums;font-weight:600}
-.resultado .grande{border-top:1px solid oklch(0.99 0.004 85/.2);margin-top:var(--space-2);padding-top:var(--space-3)}
-.resultado .grande b{font-family:'Fraunces',serif;font-size:29px;letter-spacing:-.03em}
-
-.barra{margin-bottom:var(--space-3)}
-.barra .bt{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px}
-.barra .bt b{font-variant-numeric:tabular-nums;font-weight:600}
-.pista{height:7px;background:var(--color-surface-2);border-radius:4px;overflow:hidden}
-.relleno{height:100%;background:var(--color-action);border-radius:4px}
-.inactivo{display:flex;align-items:center;gap:var(--space-3);padding:11px 0;
-  border-top:1px solid var(--color-line);font-size:14px}
-.inactivo:first-of-type{border-top:0}
-.inactivo b{margin-left:auto;font-size:12.5px;color:var(--color-text-muted);font-weight:600}
-
-/* técnico */
-.tecnico{display:grid;gap:var(--space-2);font-family:'JetBrains Mono',monospace;font-size:12.5px}
-.tec-fila{display:flex;justify-content:space-between;gap:var(--space-4);padding:9px 0;
-  border-top:1px solid var(--color-line)}
-.tec-fila:first-child{border-top:0}
-.tec-fila span{color:var(--color-text-muted)}
-.tec-fila b{font-weight:700}
-.tec-fila b.ok{color:var(--color-ok)}
-.rol{display:flex;align-items:center;gap:var(--space-3);padding:10px 0;
-  border-top:1px solid var(--color-line);font-size:14px}
-.rol:first-of-type{border-top:0}
-.rol .permiso{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11.5px;
-  color:var(--color-text-muted)}
-</style>
+<link rel="stylesheet" href="../demo.css">
 </head>
 <body data-modo="movil">
 
@@ -319,11 +145,11 @@ body[data-modo=escritorio] .solo-movil{display:none}
 
     <div class="paso" id="p2">
       <p class="eyebrow seccion">Con quién prefieres</p>
-      <button class="opcion" aria-pressed="false" onclick="elegirDoctor(this,'la Dra. Carolina Him')">
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'la Dra. Carolina Him')">
         <span class="inicial">CH</span><span><h4>Dra. Carolina Him</h4><small>Medicina general · 9 años</small></span></button>
-      <button class="opcion" aria-pressed="false" onclick="elegirDoctor(this,'el Dr. Andrés Batista')">
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'el Dr. Andrés Batista')">
         <span class="inicial">AB</span><span><h4>Dr. Andrés Batista</h4><small>Cirugía y traumatología</small></span></button>
-      <button class="opcion" aria-pressed="false" onclick="elegirDoctor(this,'el primero disponible')">
+      <button class="opcion" aria-pressed="false" onclick="elegirProfesional(this,'el primero disponible')">
         <span class="inicial">—</span><span><h4>El primero disponible</h4><small>Más opciones de horario</small></span></button>
     </div>
 
@@ -335,8 +161,8 @@ body[data-modo=escritorio] .solo-movil{display:none}
 
     <div class="paso" id="p4">
       <p class="eyebrow seccion">Datos de tu mascota</p>
-      <div class="campo"><label for="f-mascota">Nombre de la mascota</label><input id="f-mascota" value="Rocky"></div>
-      <div class="campo"><label for="f-dueno">Tu nombre</label><input id="f-dueno" value="María Pérez"></div>
+      <div class="campo"><label for="f-extra">Nombre de la mascota</label><input id="f-extra" value="Rocky"></div>
+      <div class="campo"><label for="f-nombre">Tu nombre</label><input id="f-nombre" value="María Pérez"></div>
       <div class="campo"><label for="f-tel">WhatsApp</label><input id="f-tel" inputmode="tel" value="6123-4567"></div>
       <dl class="resumen" id="resumen"></dl>
       <button class="btn btn-primario" onclick="confirmar()">Confirmar cita</button>
@@ -518,12 +344,12 @@ Mascota Consentida<div class="sello-hora">9:02 a.m. · entregado</div></div>
       <div class="calc">
         <h3>Corra su propio número</h3>
         <p>No le voy a inventar cifras. Ponga cuántos pacientes tiene en su base y el sistema calcula el resto con los promedios del sector.</p>
-        <label for="rng-base">Pacientes en su base</label>
-        <input type="range" id="rng-base" min="100" max="2000" step="50" value="400" oninput="calcular()">
-        <div class="cifra" id="c-base">400</div>
-        <label for="rng-pct">Qué parte cree que está vencida o sin volver</label>
-        <input type="range" id="rng-pct" min="5" max="40" step="1" value="15" oninput="calcular()">
-        <div class="cifra" id="c-pct">15%</div>
+        <label for="rng-a">Pacientes en su base</label>
+        <input type="range" id="rng-a" min="100" max="2000" step="50" value="400" oninput="calcular()">
+        <div class="cifra" id="c-a">400</div>
+        <label for="rng-b">Qué parte cree que está vencida o sin volver</label>
+        <input type="range" id="rng-b" min="5" max="40" step="1" value="15" oninput="calcular()">
+        <div class="cifra" id="c-b">15%</div>
         <div class="resultado">
           <div class="rf"><span>Pacientes por recuperar</span><b id="c-pac">60</b></div>
           <div class="rf"><span>Si vuelve 1 de cada 3</span><b id="c-vuelven">20</b></div>
@@ -623,125 +449,43 @@ Mascota Consentida<div class="sello-hora">9:02 a.m. · entregado</div></div>
 <button class="cambiar-vista" id="btn-cambiar" onclick="abrirSelector()" hidden>Cambiar vista</button>
 
 <script>
-const E={serv:'',precio:0,dur:0,doc:'',dia:'',hora:''};
-const DD=['dom','lun','mar','mié','jue','vie','sáb'];
-const HORAS=['8:00','8:30','9:00','9:30','10:00','10:30','11:00','2:00','2:30','3:00','3:30','4:00'];
-const OCUPADAS=['9:30','11:00','3:00'];
+window.DEMO = {
+  negocio: 'Mascota Consentida',
+  etiquetaProfesional: 'Atiende',
+  mensaje1: d => 'Hola '+d.nombre+', su cita quedó confirmada.
 
-function entrar(modo){
-  document.body.dataset.modo=modo;
-  document.getElementById('selector').classList.add('oculto');
-  document.getElementById('btn-cambiar').hidden=false;
-  verVista(modo==='escritorio'?'panel':'cliente');
-}
-function abrirSelector(){
-  document.getElementById('selector').classList.remove('oculto');
-  document.getElementById('btn-cambiar').hidden=true;
-  window.scrollTo({top:0});
-}
-function verVista(v){
-  document.querySelectorAll('.vista').forEach(x=>x.classList.remove('activa'));
-  const el=document.getElementById('v-'+v);
-  if(el)el.classList.add('activa');
-  document.querySelectorAll('.vista-btn,.nav-lat button').forEach(b=>
-    b.setAttribute('aria-selected',b.dataset.v===v));
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-document.addEventListener('keydown',e=>{
-  if(document.body.dataset.modo!=='escritorio')return;
-  if(e.target.tagName==='INPUT')return;
-  const m={r:'cliente',e:'carnet',p:'panel',c:'cuenta',s:'tecnico'}[e.key.toLowerCase()];
-  if(m)verVista(m);
-});
-function irPaso(n){
-  document.querySelectorAll('.paso').forEach(p=>p.classList.remove('activo'));
-  document.getElementById('p'+n).classList.add('activo');
-  for(let i=1;i<=4;i++)document.getElementById('g'+i).classList.toggle('on',i<=Math.min(n,4));
-}
-function marcar(btn){
-  btn.parentNode.querySelectorAll('.opcion').forEach(o=>o.setAttribute('aria-pressed','false'));
-  btn.setAttribute('aria-pressed','true');
-}
-function elegirServicio(b,n,p,d){marcar(b);E.serv=n;E.precio=p;E.dur=d;setTimeout(()=>irPaso(2),170)}
-function elegirDoctor(b,n){marcar(b);E.doc=n;setTimeout(()=>{pintarDias();irPaso(3)},170)}
-function pintarDias(){
-  const c=document.getElementById('dias');c.innerHTML='';
-  const base=new Date(2026,7,7);
-  for(let i=0;i<8;i++){
-    const f=new Date(base);f.setDate(base.getDate()+i);
-    const b=document.createElement('button');
-    b.className='dia';b.type='button';b.setAttribute('aria-pressed','false');
-    b.innerHTML='<small>'+(i===0?'hoy':DD[f.getDay()])+'</small><b>'+f.getDate()+'</b>';
-    b.onclick=()=>{c.querySelectorAll('.dia').forEach(d=>d.setAttribute('aria-pressed','false'));
-      b.setAttribute('aria-pressed','true');
-      E.dia=(i===0?'hoy':DD[f.getDay()]+' '+f.getDate());pintarHoras()};
-    c.appendChild(b);
+<strong>'+d.extra+'</strong> · '+d.serv+
+    '
+'+d.dia+' a las '+d.hora+'
+Con '+d.prof+
+    '
+
+Si necesita cambiarla, responda a este mensaje.
+
+Mascota Consentida',
+  mensaje2: d => d.nombre+', le recordamos la cita de <strong>'+d.extra+'</strong> mañana a las '+d.hora+
+    '.
+
+Responda SÍ para confirmar o NO para reagendar.',
+  calc: {
+    formatoA: v => v.toLocaleString('en-US'),
+    formula: (base, pct) => {
+      const pac = Math.round(base*pct/100), vuelven = Math.round(pac/3), total = vuelven*32;
+      const anual = total*12;
+      return {
+        filas: {pac: pac, vuelven: vuelven, total: '$'+total.toLocaleString('en-US')},
+        veredicto: anual > 1200
+          ? '<strong>Con esos números, el sistema se paga solo.</strong> Recuperar $'+total.toLocaleString('en-US')+
+            ' al mes son $'+anual.toLocaleString('en-US')+' al año, contra $1,200 del primer año completo. '+
+            'Y eso contando únicamente los pacientes que ya son suyos: no incluye un solo cliente nuevo.'
+          : '<strong>Con esos números todavía no se paga solo</strong>, y prefiero decírselo. Con una base '+
+            'de ese tamaño le conviene empezar por la agenda y los recordatorios de cita, que cuestan menos, '+
+            'y dejar el resto para cuando la base crezca.'
+      };
+    }
   }
-  c.firstChild.click();
-}
-function pintarHoras(){
-  const c=document.getElementById('horas');c.innerHTML='';
-  HORAS.forEach(h=>{
-    const b=document.createElement('button');b.className='hora';b.type='button';b.textContent=h;
-    if(OCUPADAS.includes(h)){b.disabled=true}
-    else{b.setAttribute('aria-pressed','false');
-      b.onclick=()=>{c.querySelectorAll('.hora').forEach(x=>x.setAttribute('aria-pressed','false'));
-        b.setAttribute('aria-pressed','true');E.hora=h;setTimeout(()=>{pintarResumen();irPaso(4)},170)}}
-    c.appendChild(b);
-  });
-}
-function pintarResumen(){
-  document.getElementById('resumen').innerHTML=
-    '<div class="linea"><dt>Servicio</dt><dd>'+E.serv+'</dd></div>'+
-    '<div class="linea"><dt>Atiende</dt><dd>'+E.doc+'</dd></div>'+
-    '<div class="linea"><dt>Cuándo</dt><dd>'+E.dia+' · '+E.hora+'</dd></div>'+
-    '<div class="linea"><dt>Duración</dt><dd>'+E.dur+' min</dd></div>'+
-    '<div class="linea total"><dt>Total</dt><dd>$'+E.precio+'.00</dd></div>';
-}
-function confirmar(){
-  const m=document.getElementById('f-mascota').value||'tu mascota';
-  const d=(document.getElementById('f-dueno').value||'').trim().split(' ')[0]||'';
-  document.getElementById('txt-listo').textContent=
-    E.dia.charAt(0).toUpperCase()+E.dia.slice(1)+' a las '+E.hora+' · '+E.serv;
-  irPaso(5);
-  setTimeout(()=>{document.getElementById('hilo1').innerHTML=
-    '<div class="burbuja">Hola '+d+', su cita quedó confirmada.\n\n<strong>'+m+'</strong> · '+E.serv+
-    '\n'+E.dia+' a las '+E.hora+'\nCon '+E.doc+'\n\nSi necesita cambiarla, responda a este mensaje.'+
-    '\n\nMascota Consentida<div class="sello-hora">Ahora · entregado</div></div>'},900);
-  setTimeout(()=>{document.getElementById('hilo2').innerHTML=
-    '<div class="burbuja">'+d+', le recordamos la cita de <strong>'+m+'</strong> mañana a las '+E.hora+
-    '.\n\nResponda SÍ para confirmar o NO para reagendar.<div class="sello-hora">6:00 p.m. · entregado</div></div>'},2100);
-}
-function reiniciar(){
-  E.serv='';E.doc='';E.hora='';
-  document.querySelectorAll('.opcion').forEach(o=>o.setAttribute('aria-pressed','false'));
-  document.getElementById('hilo1').innerHTML='<div class="puntos"><i></i><i></i><i></i></div>';
-  document.getElementById('hilo2').innerHTML='<div class="puntos"><i></i><i></i><i></i></div>';
-  irPaso(1);
-}
-function calcular(){
-  const base=+document.getElementById('rng-base').value;
-  const pct=+document.getElementById('rng-pct').value;
-  const pac=Math.round(base*pct/100), vuelven=Math.round(pac/3), total=vuelven*32;
-  document.getElementById('c-base').textContent=base.toLocaleString('en-US');
-  document.getElementById('c-pct').textContent=pct+'%';
-  document.getElementById('c-pac').textContent=pac;
-  document.getElementById('c-vuelven').textContent=vuelven;
-  document.getElementById('c-total').textContent='$'+total.toLocaleString('en-US');
-  const anual=total*12;
-  const v=document.getElementById('veredicto');
-  if(anual>1200){
-    v.innerHTML='<strong>Con esos números, el sistema se paga solo.</strong> Recuperar $'+
-      total.toLocaleString('en-US')+' al mes son $'+anual.toLocaleString('en-US')+
-      ' al año, contra $1,200 del primer año completo. Y eso contando únicamente los pacientes '+
-      'que ya son suyos: no incluye un solo cliente nuevo.';
-  }else{
-    v.innerHTML='<strong>Con esos números todavía no se paga solo</strong>, y prefiero decírselo. '+
-      'Con una base de ese tamaño le conviene empezar por la agenda y los recordatorios de cita, '+
-      'que cuestan menos, y dejar el resto para cuando la base crezca.';
-  }
-}
-calcular();
+};
 </script>
+<script src="../demo.js"></script>
 </body>
 </html>
