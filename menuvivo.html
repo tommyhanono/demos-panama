@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MenuVivo — Demostración</title>
+<style>
+:root{
+  --tinta:#1a1613; --papel:#fffdf9; --crema:#f6f0e6; --borde:#e8e0d2;
+  --terra:#c0492e; --terra-osc:#96371f; --verde:#2f7d4f; --gris:#7d7368;
+  --azul-yappy:#0a2f6e; --radio:15px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:#ece6dc;color:var(--tinta);line-height:1.5;display:flex;justify-content:center}
+.marco{width:100%;max-width:430px;background:var(--papel);min-height:100vh;overflow-x:hidden;padding-bottom:86px}
+
+.portada{height:150px;background:linear-gradient(135deg,#c0492e,#7d2a16);position:relative;display:grid;place-items:center}
+.portada .emoji{font-size:56px;opacity:.9}
+.portada:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.35))}
+.cab{padding:16px 20px 0;position:relative;margin-top:-30px;z-index:2}
+.cab-box{background:var(--papel);border-radius:18px;padding:16px;box-shadow:0 6px 24px rgba(26,22,19,.12)}
+.cab h1{font-size:21px;font-weight:750;letter-spacing:-.4px}
+.cab .sub{font-size:12.5px;color:var(--gris);margin-top:2px}
+.chips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:650;padding:4px 10px;border-radius:20px;background:var(--crema);color:var(--gris)}
+.chip.ok{background:#e3f2e8;color:var(--verde)}
+
+.tabs{display:flex;gap:6px;padding:14px 20px 12px}
+.tab{flex:1;padding:9px 4px;border:1px solid var(--borde);border-radius:9px;background:transparent;
+  color:var(--gris);font-size:12px;font-weight:650;cursor:pointer;font-family:inherit}
+.tab.on{background:var(--terra);color:#fff;border-color:var(--terra)}
+.vista{display:none;padding:0 20px 30px}.vista.on{display:block}
+
+.modos{display:flex;gap:7px;margin-bottom:16px}
+.modo{flex:1;padding:11px 4px;border-radius:11px;border:1.5px solid var(--borde);background:#fff;
+  text-align:center;font-size:12.5px;font-weight:650;cursor:pointer}
+.modo.sel{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+
+.cats{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;padding:7px 14px;border-radius:20px;background:var(--crema);border:0;font-size:13px;
+  font-weight:650;color:var(--gris);cursor:pointer;font-family:inherit}
+.cat.on{background:var(--terra);color:#fff}
+
+.titulo{font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:1px;color:var(--terra);margin:18px 0 10px}
+
+.plato{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--borde);align-items:center}
+.foto{width:72px;height:72px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:31px}
+.plato .info{flex:1;min-width:0}
+.plato h4{font-size:15px;font-weight:650;margin-bottom:2px}
+.plato p{font-size:12.5px;color:var(--gris);line-height:1.4;margin-bottom:5px}
+.plato .pr{font-size:15px;font-weight:750}
+.mas{width:34px;height:34px;border-radius:50%;background:var(--terra);color:#fff;border:0;font-size:20px;
+  cursor:pointer;flex:none;display:grid;place-items:center;font-family:inherit;line-height:1}
+.mas:active{transform:scale(.9)}
+.tag{display:inline-block;font-size:10px;font-weight:750;padding:2px 7px;border-radius:20px;
+  background:#fdeee6;color:var(--terra);margin-bottom:4px;letter-spacing:.3px}
+.agotado{opacity:.42}
+.agotado .mas{background:#c9c2b8;cursor:default}
+
+.carrito-flot{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;
+  padding:12px 20px 22px;background:linear-gradient(transparent,var(--papel) 22%);z-index:50}
+.btn{display:block;width:100%;border:0;border-radius:13px;padding:15px;font-size:16px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:transform .12s}
+.btn:active{transform:scale(.985)}
+.btn-p{background:var(--terra);color:#fff;box-shadow:0 8px 22px rgba(192,73,46,.3)}
+.btn-s{background:#fff;color:var(--tinta);border:1.5px solid var(--borde)}
+.btn:disabled{background:#d9d2c7;box-shadow:none;cursor:default}
+.btn .cnt{background:rgba(255,255,255,.25);border-radius:20px;padding:1px 9px;font-size:13px;margin-right:7px}
+
+.linea{display:flex;justify-content:space-between;padding:9px 0;font-size:14.5px;border-bottom:1px solid var(--borde)}
+.linea .q{color:var(--gris);font-size:13px}
+.tot{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
+.tot.big{font-size:18px;font-weight:750;border-top:1.5px solid var(--tinta);margin-top:8px;padding-top:12px}
+
+.zona{background:var(--crema);border-radius:var(--radio);padding:14px;margin:14px 0}
+.zona h4{font-size:13px;margin-bottom:8px}
+.zona select{width:100%;padding:12px;border:1.5px solid var(--borde);border-radius:11px;font-size:15px;
+  font-family:inherit;background:#fff}
+
+.yappy{background:var(--azul-yappy);border-radius:var(--radio);padding:15px;margin:14px 0;
+  display:flex;align-items:center;gap:12px;color:#fff}
+.yappy .y{width:44px;height:44px;border-radius:12px;background:#fff;color:var(--azul-yappy);display:grid;
+  place-items:center;font-weight:800;font-size:12.5px;flex:none;letter-spacing:-.4px}
+.yappy h4{font-size:14px;margin-bottom:2px}
+.yappy p{font-size:12px;color:#a8c4ea}
+
+.ok{text-align:center;padding:22px 0}
+.ok .check{width:70px;height:70px;border-radius:50%;background:var(--verde);color:#fff;font-size:34px;
+  display:grid;place-items:center;margin:0 auto 16px;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.ok h3{font-size:22px;letter-spacing:-.4px;margin-bottom:5px}
+.ok p{color:var(--gris);font-size:14px}
+
+.wa{border-radius:var(--radio);overflow:hidden;border:1px solid var(--borde);margin-bottom:14px}
+.wa-top{padding:11px 14px;background:#075e54;color:#fff;font-size:13px;font-weight:600}
+.wa-body{background:#e5ddd5;padding:14px;min-height:100px}
+.burbuja{background:#fff;border-radius:9px;padding:11px 13px;font-size:13.5px;line-height:1.55;max-width:96%;
+  white-space:pre-line}
+.hora-msg{font-size:10.5px;color:#8a8a8a;text-align:right;margin-top:4px}
+.escribiendo{display:flex;gap:4px;padding:12px 14px;background:#fff;border-radius:9px;width:58px}
+.escribiendo i{width:7px;height:7px;background:#b6b6b6;border-radius:50%;animation:pt 1.1s infinite}
+.escribiendo i:nth-child(2){animation-delay:.18s}.escribiendo i:nth-child(3){animation-delay:.36s}
+@keyframes pt{0%,60%,100%{opacity:.35}30%{opacity:1}}
+
+/* calculadora */
+.calc{background:var(--tinta);color:#fff;border-radius:18px;padding:20px;margin-bottom:16px}
+.calc h3{font-size:17px;margin-bottom:4px;letter-spacing:-.3px}
+.calc>p{font-size:12.5px;color:#a89e92;margin-bottom:16px}
+.calc label{display:block;font-size:11.5px;color:#a89e92;margin-bottom:6px;font-weight:600}
+.calc input[type=range]{width:100%;accent-color:var(--terra);margin-bottom:4px}
+.venta{font-size:29px;font-weight:750;letter-spacing:-1px;margin-bottom:14px}
+.comp{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.cbox{background:rgba(255,255,255,.07);border-radius:12px;padding:13px}
+.cbox small{font-size:10.5px;color:#a89e92;display:block;margin-bottom:3px}
+.cbox b{font-size:21px;font-weight:750;letter-spacing:-.6px}
+.cbox.malo b{color:#ff8a6b}.cbox.bueno b{color:#6ee7a8}
+.ahorro{background:linear-gradient(135deg,#2f7d4f,#1d5c38);border-radius:13px;padding:15px;text-align:center}
+.ahorro small{font-size:11.5px;opacity:.85;display:block}
+.ahorro b{font-size:30px;font-weight:750;letter-spacing:-1.2px;display:block;margin:2px 0}
+
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.kpi{background:#fff;border:1.5px solid var(--borde);border-radius:var(--radio);padding:14px}
+.kpi b{display:block;font-size:25px;font-weight:750;letter-spacing:-1px;line-height:1.1}
+.kpi small{font-size:11px;color:var(--gris);display:block;margin-top:2px}
+.kpi.dest{background:var(--terra);border-color:var(--terra);color:#fff}
+.kpi.dest small{color:rgba(255,255,255,.8)}
+
+.ped{background:#fff;border:1.5px solid var(--borde);border-left:4px solid var(--terra);border-radius:12px;
+  padding:12px;margin-bottom:8px}
+.ped .fl{display:flex;justify-content:space-between;font-size:13.5px;font-weight:650;margin-bottom:3px}
+.ped small{font-size:12px;color:var(--gris)}
+
+.nota{background:var(--crema);border-radius:var(--radio);padding:15px;font-size:13px;color:var(--gris);
+  line-height:1.6;margin-top:16px}
+.nota b{color:var(--tinta)}
+.pie{text-align:center;padding:22px 20px 30px;font-size:12px;color:var(--gris);line-height:1.7}
+.pie b{color:var(--terra)}
+</style>
+</head>
+<body>
+<div class="marco">
+
+  <div class="portada"><div class="emoji">🍽️</div></div>
+  <div class="cab">
+    <div class="cab-box">
+      <h1>Mesa Nueve</h1>
+      <div class="sub">Cocina panameña · San Francisco</div>
+      <div class="chips">
+        <span class="chip ok">● Abierto ahora</span>
+        <span class="chip">Entrega 25-40 min</span>
+        <span class="chip">★ 4.8 (312)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-v="menu" onclick="irA('menu')">El menú</button>
+    <button class="tab" data-v="calc" onclick="irA('calc')">La cuenta</button>
+    <button class="tab" data-v="panel" onclick="irA('panel')">Tu panel</button>
+  </div>
+
+  <!-- ======= MENÚ ======= -->
+  <div class="vista on" id="v-menu">
+    <div id="pantalla-menu">
+      <div class="modos">
+        <div class="modo sel" onclick="modo(this,'Comer aquí')">Comer aquí</div>
+        <div class="modo" onclick="modo(this,'Recoger')">Recoger</div>
+        <div class="modo" onclick="modo(this,'Entrega')">Entrega</div>
+      </div>
+
+      <div class="cats">
+        <button class="cat on" onclick="cat(this,'todo')">Todo</button>
+        <button class="cat" onclick="cat(this,'pop')">Los más pedidos</button>
+        <button class="cat" onclick="cat(this,'fuertes')">Fuertes</button>
+        <button class="cat" onclick="cat(this,'entradas')">Entradas</button>
+        <button class="cat" onclick="cat(this,'bebidas')">Bebidas</button>
+      </div>
+
+      <div id="lista"></div>
+    </div>
+
+    <!-- carrito -->
+    <div id="pantalla-carrito" style="display:none">
+      <div class="titulo">Tu pedido</div>
+      <div id="items"></div>
+      <div class="zona">
+        <h4>¿A dónde lo llevamos?</h4>
+        <select id="sel-zona" onchange="pintarCarrito()">
+          <option value="2.5">San Francisco · $2.50</option>
+          <option value="3.5">Coco del Mar · $3.50</option>
+          <option value="4">Costa del Este · $4.00</option>
+          <option value="5">Punta Pacífica · $5.00</option>
+        </select>
+      </div>
+      <div id="totales"></div>
+      <div class="yappy">
+        <div class="y">Yappy</div>
+        <div><h4>Paga con Yappy</h4><p>Le cuesta al restaurante 1% + ITBMS. La app de delivery cobra 10% a 30%.</p></div>
+      </div>
+      <button class="btn btn-p" onclick="enviar()">Enviar pedido</button>
+      <button class="btn btn-s" style="margin-top:9px" onclick="volverMenu()">Seguir viendo el menú</button>
+    </div>
+
+    <!-- confirmación -->
+    <div id="pantalla-ok" style="display:none">
+      <div class="ok"><div class="check">✓</div><h3>Pedido enviado</h3>
+        <p>Llega al restaurante en el momento, ya escrito.</p></div>
+      <div class="titulo">Lo que le llega al restaurante</div>
+      <div class="wa"><div class="wa-top">🍽️ Pedidos · Mesa Nueve</div>
+        <div class="wa-body" id="wa1"><div class="escribiendo"><i></i><i></i><i></i></div></div></div>
+      <div class="titulo">Y al cliente</div>
+      <div class="wa"><div class="wa-top">🍽️ Mesa Nueve</div>
+        <div class="wa-body" id="wa2"><div class="escribiendo"><i></i><i></i><i></i></div></div></div>
+      <div class="nota">
+        <b>Fíjate en lo que no pasó:</b> nadie escribió el pedido a mano, nadie preguntó la dirección,
+        nadie calculó el total, y no hubo comisión de por medio. El pedido entró completo y cobrado.
+      </div>
+      <button class="btn btn-s" style="margin-top:13px" onclick="reiniciar()">Probar de nuevo</button>
+    </div>
+  </div>
+
+  <!-- ======= CALCULADORA ======= -->
+  <div class="vista" id="v-calc">
+    <div class="calc">
+      <h3>Corre tu propio número</h3>
+      <p>Pon tus ventas de delivery y el porcentaje que aparece en <b>tu</b> liquidación. No adivino la cifra: la pones tú.</p>
+      <label>Ventas por delivery al mes</label>
+      <input type="range" id="rng" min="1000" max="25000" step="500" value="8000" oninput="calc()">
+      <div class="venta" id="v-venta">$8,000</div>
+
+      <label>El porcentaje que dice tu liquidación</label>
+      <input type="range" id="rng2" min="5" max="35" step="1" value="20" oninput="calc()">
+      <div style="font-size:19px;font-weight:750;margin-bottom:16px" id="v-pct">20%</div>
+
+      <div class="comp">
+        <div class="cbox malo"><small>Comisión al mes</small><b id="v-app">$1,600</b><small style="margin-top:3px">sobre esas ventas</small></div>
+        <div class="cbox bueno"><small>Con tu sistema</small><b id="v-tuyo">$131</b><small style="margin-top:3px">al mes, todo incluido</small></div>
+      </div>
+
+      <div class="ahorro"><small>Diferencia al año</small><b id="v-ahorro">$17,600</b>
+        <small>Sobre la parte de pedidos que logres mover a tu canal directo</small></div>
+    </div>
+
+    <div class="nota" style="background:#fff;border:1.5px solid var(--borde)">
+      <b>El cálculo, sin trampa:</b> tu sistema cuesta $45 al mes fijos, más 1% + ITBMS de Yappy sobre
+      lo que cobres — esa cifra sí es oficial de Banco General. La comisión de la app la pones tú
+      arriba, porque cada restaurante tiene un acuerdo distinto y no voy a inventarte un número.<br><br>
+      <b>No se trata de salirte de la app.</b> Esa te trae clientes nuevos y eso vale. Se trata de que
+      el cliente repetido, el que ya te conoce y pide todos los viernes, tenga por dónde pedirte directo.
+    </div>
+
+    <div class="nota" style="background:#fff;border:1.5px solid var(--borde);margin-top:12px">
+      <b>Y hay algo que no es de plata, es de riesgo.</b> En el paro de repartidores de abril de este
+      año, los restaurantes que dependían solo de la app se quedaron sin canal de un día para otro.
+      Los que tenían pedido propio siguieron vendiendo.<br><br>
+      Un canal directo no reemplaza a la app: es tu seguro para el día que la app no funcione.
+    </div>
+  </div>
+
+  <!-- ======= PANEL ======= -->
+  <div class="vista" id="v-panel">
+    <div class="titulo" style="margin-top:4px">Viernes 7 de agosto</div>
+    <div class="kpis">
+      <div class="kpi dest"><b>34</b><small>Pedidos hoy</small></div>
+      <div class="kpi"><b>$782</b><small>Vendido hoy</small></div>
+      <div class="kpi"><b>$19</b><small>Ticket promedio</small></div>
+      <div class="kpi"><b>$0</b><small>Comisiones pagadas</small></div>
+    </div>
+
+    <div class="titulo">Pedidos entrando</div>
+    <div class="ped"><div class="fl"><span>#1043 · Entrega</span><span>$34.50</span></div>
+      <small>2 Ropa vieja, 1 Corvina, 2 Chicha · Costa del Este · Pagado con Yappy</small></div>
+    <div class="ped"><div class="fl"><span>#1042 · Recoger</span><span>$18.00</span></div>
+      <small>1 Sancocho, 1 Patacones · Listo a las 12:40 · Pagado</small></div>
+    <div class="ped"><div class="fl"><span>#1041 · Entrega</span><span>$27.00</span></div>
+      <small>1 Corvina, 1 Ceviche, 2 Chicha · San Francisco · Pagado</small></div>
+
+    <div class="titulo">Lo más vendido esta semana</div>
+    <div class="kpis">
+      <div class="kpi"><b>62</b><small>Corvina a la plancha</small></div>
+      <div class="kpi"><b>48</b><small>Ropa vieja</small></div>
+    </div>
+
+    <div class="nota">
+      <b>Cambiar un precio toma 10 segundos</b> desde el celular, y se actualiza en el menú, en el QR
+      de las mesas y en el enlace de Instagram al mismo tiempo. Marcar un plato como agotado, igual.
+    </div>
+  </div>
+
+  <div class="carrito-flot" id="flot">
+    <button class="btn btn-p" id="btn-car" onclick="verCarrito()" disabled>Tu pedido está vacío</button>
+  </div>
+
+  <div class="pie">
+    Demostración de <b>MenuVivo</b><br>
+    Restaurante ficticio. Se configura con tu menú, tus fotos, tus precios y tus zonas de entrega.<br><br>
+    Tommy Hanono · WhatsApp 6681-8669
+  </div>
+</div>
+
+<script>
+const M=[
+ {n:'Corvina a la plancha',d:'Con patacones y ensalada de la casa',p:16.50,c:'fuertes',pop:1,e:'🐟',bg:'#dff0ea',ag:0},
+ {n:'Ropa vieja',d:'Carne desmechada, arroz con coco, tajadas',p:14.00,c:'fuertes',pop:1,e:'🍖',bg:'#f6e4d8',ag:0},
+ {n:'Sancocho de gallina',d:'Con ñame, culantro y arroz blanco',p:11.50,c:'fuertes',pop:0,e:'🍲',bg:'#f3ecd8',ag:0},
+ {n:'Arroz con pollo',d:'Receta de la casa, porción generosa',p:10.50,c:'fuertes',pop:0,e:'🍛',bg:'#f5ead5',ag:1},
+ {n:'Ceviche de corvina',d:'Limón, cebolla morada, ají chombo',p:9.00,c:'entradas',pop:1,e:'🍤',bg:'#e6f0f7',ag:0},
+ {n:'Patacones con queso',d:'Seis unidades, queso nacional',p:6.50,c:'entradas',pop:0,e:'🥔',bg:'#f6efdc',ag:0},
+ {n:'Carimañolas',d:'Rellenas de carne, tres unidades',p:5.50,c:'entradas',pop:0,e:'🥟',bg:'#f2e8d5',ag:0},
+ {n:'Chicha de maracuyá',d:'Natural, jarra individual',p:3.00,c:'bebidas',pop:1,e:'🥤',bg:'#fbeed6',ag:0},
+ {n:'Chicheme',d:'Tradicional, bien frío',p:3.50,c:'bebidas',pop:0,e:'🥛',bg:'#f7f2e6',ag:0},
+ {n:'Cerveza nacional',d:'Bien fría',p:2.50,c:'bebidas',pop:0,e:'🍺',bg:'#f6ecd2',ag:0},
+];
+let car={},catAct='todo',modoAct='Comer aquí';
+
+function irA(v){document.querySelectorAll('.vista').forEach(x=>x.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.v===v));
+  document.getElementById('flot').style.display=(v==='menu')?'block':'none';
+  window.scrollTo({top:0,behavior:'smooth'});}
+function modo(el,m){document.querySelectorAll('.modo').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');modoAct=m;}
+function cat(el,c){document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));el.classList.add('on');catAct=c;pintar();}
+
+function pintar(){
+  const L=document.getElementById('lista');L.innerHTML='';
+  let arr=M.filter(x=>catAct==='todo'?1:(catAct==='pop'?x.pop:x.c===catAct));
+  if(catAct==='todo'){
+    const pops=M.filter(x=>x.pop);
+    L.innerHTML='<div class="titulo">Los más pedidos</div>';
+    pops.forEach(x=>L.appendChild(fila(x)));
+    L.innerHTML+='<div class="titulo">Todo el menú</div>';
+    M.forEach(x=>L.appendChild(fila(x)));
+    return;
+  }
+  arr.forEach(x=>L.appendChild(fila(x)));
+}
+function fila(x){
+  const d=document.createElement('div');d.className='plato'+(x.ag?' agotado':'');
+  d.innerHTML='<div class="foto" style="background:'+x.bg+'">'+x.e+'</div>'+
+   '<div class="info">'+(x.pop?'<span class="tag">MÁS PEDIDO</span>':'')+
+   (x.ag?'<span class="tag" style="background:#eee;color:#888">AGOTADO HOY</span>':'')+
+   '<h4>'+x.n+'</h4><p>'+x.d+'</p><div class="pr">$'+x.p.toFixed(2)+'</div></div>'+
+   '<button class="mas">+</button>';
+  if(!x.ag)d.querySelector('.mas').onclick=()=>{car[x.n]=(car[x.n]||0)+1;btn();};
+  return d;
+}
+function btn(){
+  const n=Object.values(car).reduce((a,b)=>a+b,0);
+  const t=Object.entries(car).reduce((a,[k,v])=>a+M.find(m=>m.n===k).p*v,0);
+  const b=document.getElementById('btn-car');
+  if(n){b.disabled=false;b.innerHTML='<span class="cnt">'+n+'</span> Ver pedido · $'+t.toFixed(2);}
+  else{b.disabled=true;b.textContent='Tu pedido está vacío';}
+}
+function verCarrito(){document.getElementById('pantalla-menu').style.display='none';
+  document.getElementById('flot').style.display='none';
+  document.getElementById('pantalla-carrito').style.display='block';pintarCarrito();window.scrollTo({top:0,behavior:'smooth'});}
+function volverMenu(){document.getElementById('pantalla-carrito').style.display='none';
+  document.getElementById('pantalla-menu').style.display='block';
+  document.getElementById('flot').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+function pintarCarrito(){
+  const I=document.getElementById('items');I.innerHTML='';let sub=0;
+  Object.entries(car).forEach(([k,v])=>{const m=M.find(x=>x.n===k);sub+=m.p*v;
+    I.innerHTML+='<div class="linea"><div><b>'+k+'</b><div class="q">Cantidad: '+v+'</div></div>'+
+    '<b>$'+(m.p*v).toFixed(2)+'</b></div>';});
+  const env=parseFloat(document.getElementById('sel-zona').value);
+  const itbms=sub*0.07;
+  document.getElementById('totales').innerHTML=
+   '<div class="tot"><span>Subtotal</span><span>$'+sub.toFixed(2)+'</span></div>'+
+   '<div class="tot"><span>ITBMS 7%</span><span>$'+itbms.toFixed(2)+'</span></div>'+
+   '<div class="tot"><span>Entrega</span><span>$'+env.toFixed(2)+'</span></div>'+
+   '<div class="tot big"><span>Total</span><span>$'+(sub+itbms+env).toFixed(2)+'</span></div>';
+}
+function enviar(){
+  document.getElementById('pantalla-carrito').style.display='none';
+  document.getElementById('pantalla-ok').style.display='block';window.scrollTo({top:0,behavior:'smooth'});
+  let sub=0,lin='';
+  Object.entries(car).forEach(([k,v])=>{const m=M.find(x=>x.n===k);sub+=m.p*v;lin+=v+'x '+k+' — $'+(m.p*v).toFixed(2)+'\n';});
+  const env=parseFloat(document.getElementById('sel-zona').value);
+  const zona=document.getElementById('sel-zona').selectedOptions[0].text.split(' ·')[0];
+  const tot=(sub*1.07+env).toFixed(2);
+  setTimeout(()=>{document.getElementById('wa1').innerHTML='<div class="burbuja"><b>🔔 PEDIDO NUEVO #1044</b>\n\n'+
+    lin+'\nSubtotal: $'+sub.toFixed(2)+'\nITBMS: $'+(sub*0.07).toFixed(2)+'\nEntrega '+zona+': $'+env.toFixed(2)+
+    '\n<b>TOTAL: $'+tot+'</b>\n\nCliente: Carlos Him — 6123-4567\nEntrega: '+zona+', Calle 50, PH Vista, apto 12-B'+
+    '\nPago: Yappy ✓ confirmado<div class="hora-msg">Ahora ✓✓</div></div>';},1000);
+  setTimeout(()=>{document.getElementById('wa2').innerHTML='<div class="burbuja">¡Gracias por tu pedido, Carlos! 🙌\n\n'+
+    'Pedido #1044 confirmado por $'+tot+'.\nSale en unos 30 minutos hacia '+zona+'.\n\n'+
+    'Te avisamos cuando salga.<div class="hora-msg">Ahora ✓✓</div></div>';},2300);
+}
+function reiniciar(){car={};document.getElementById('pantalla-ok').style.display='none';
+  document.getElementById('pantalla-menu').style.display='block';document.getElementById('flot').style.display='block';
+  document.getElementById('wa1').innerHTML='<div class="escribiendo"><i></i><i></i><i></i></div>';
+  document.getElementById('wa2').innerHTML='<div class="escribiendo"><i></i><i></i><i></i></div>';
+  btn();window.scrollTo({top:0,behavior:'smooth'});}
+
+function calc(){
+  const v=+document.getElementById('rng').value, p=+document.getElementById('rng2').value;
+  document.getElementById('v-venta').textContent='$'+v.toLocaleString('en-US');
+  document.getElementById('v-pct').textContent=p+'%';
+  const app=v*p/100, tuyo=45+v*0.0107;
+  document.getElementById('v-app').textContent='$'+Math.round(app).toLocaleString('en-US');
+  document.getElementById('v-tuyo').textContent='$'+Math.round(tuyo).toLocaleString('en-US');
+  document.getElementById('v-ahorro').textContent='$'+Math.round((app-tuyo)*12).toLocaleString('en-US');
+}
+pintar();btn();calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ReservaFácil — Demostración</title>
+<style>
+:root{
+  --negro:#141416; --carbon:#1e1f23; --carbon2:#26282d; --borde:#33363d;
+  --oro:#c9a227; --oro-claro:#e8c65a; --texto:#f2f0ec; --gris:#9a9ba1;
+  --verde:#2fbf71; --radio:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:#0a0a0b;color:var(--texto);line-height:1.5;display:flex;justify-content:center}
+.marco{width:100%;max-width:430px;background:var(--negro);min-height:100vh;overflow-x:hidden}
+
+header{padding:22px 20px 0;text-align:center}
+.logo{width:56px;height:56px;border-radius:15px;background:linear-gradient(145deg,var(--oro),#9d7d18);
+  display:grid;place-items:center;font-size:27px;margin:0 auto 12px}
+header h1{font-size:21px;font-weight:750;letter-spacing:.5px;text-transform:uppercase}
+header p{font-size:12.5px;color:var(--gris);margin-top:3px;letter-spacing:.3px}
+.abierto{display:inline-flex;align-items:center;gap:6px;margin-top:9px;font-size:11.5px;color:var(--verde);
+  background:rgba(47,191,113,.1);padding:4px 11px;border-radius:20px;font-weight:600}
+.abierto i{width:6px;height:6px;background:var(--verde);border-radius:50%}
+
+.prueba{display:flex;justify-content:center;gap:6px;align-items:center;padding:16px 20px 0;font-size:12.5px;color:var(--gris)}
+.estr{color:var(--oro);letter-spacing:1.5px}
+
+.hero{padding:20px}
+.hero h2{font-size:26px;line-height:1.16;letter-spacing:-.6px;font-weight:750;margin-bottom:7px}
+.hero p{color:var(--gris);font-size:14px;margin-bottom:17px}
+
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:16px;font-size:16px;font-weight:700;
+  cursor:pointer;font-family:inherit;letter-spacing:.2px;transition:transform .12s}
+.btn:active{transform:scale(.985)}
+.btn-p{background:var(--oro);color:#1a1408;box-shadow:0 6px 20px rgba(201,162,39,.24)}
+.btn-s{background:var(--carbon2);color:var(--texto);border:1px solid var(--borde)}
+
+.tabs{display:flex;gap:6px;padding:4px 20px 16px}
+.tab{flex:1;padding:9px 4px;border:1px solid var(--borde);border-radius:9px;background:transparent;
+  color:var(--gris);font-size:12px;font-weight:650;cursor:pointer;font-family:inherit}
+.tab.on{background:var(--oro);color:#1a1408;border-color:var(--oro)}
+
+.vista{display:none;padding:0 20px 40px}.vista.on{display:block}
+.paso{display:none}.paso.on{display:block;animation:sube .28s ease}
+@keyframes sube{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+.titulo{font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:1.1px;color:var(--oro);margin:20px 0 11px}
+.ind{display:flex;gap:5px;margin-bottom:4px}
+.pt{height:3px;flex:1;border-radius:2px;background:var(--borde)}.pt.on{background:var(--oro)}
+
+.card{background:var(--carbon);border:1px solid var(--borde);border-radius:var(--radio);padding:14px;
+  margin-bottom:9px;cursor:pointer;display:flex;align-items:center;gap:13px;transition:all .15s}
+.card:active{transform:scale(.99)}
+.card.sel{border-color:var(--oro);background:var(--carbon2);box-shadow:0 0 0 2px rgba(201,162,39,.16)}
+.card h4{font-size:15px;font-weight:650}
+.card small{color:var(--gris);font-size:12.5px}
+.card .precio{margin-left:auto;font-weight:750;font-size:15px;color:var(--oro);flex:none}
+.av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:17px;font-weight:750;color:#141416}
+.ico{width:42px;height:42px;border-radius:11px;background:var(--carbon2);display:grid;place-items:center;font-size:20px;flex:none}
+
+.dias{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:13px;scrollbar-width:none}
+.dias::-webkit-scrollbar{display:none}
+.dia{flex:none;width:56px;padding:10px 0;border-radius:12px;background:var(--carbon);border:1px solid var(--borde);text-align:center;cursor:pointer}
+.dia.sel{background:var(--oro);border-color:var(--oro);color:#1a1408}
+.dia small{display:block;font-size:10px;text-transform:uppercase;opacity:.6;letter-spacing:.4px}
+.dia b{font-size:18px;font-weight:750}
+.horas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hora{padding:13px 4px;border-radius:11px;background:var(--carbon);border:1px solid var(--borde);
+  text-align:center;font-size:14px;font-weight:650;cursor:pointer}
+.hora.sel{background:var(--oro);border-color:var(--oro);color:#1a1408}
+.hora.no{opacity:.25;text-decoration:line-through;cursor:default}
+
+.historial{background:linear-gradient(140deg,rgba(201,162,39,.14),rgba(201,162,39,.04));
+  border:1px solid rgba(201,162,39,.28);border-radius:var(--radio);padding:14px;margin-bottom:14px;display:flex;gap:12px}
+.historial .ico{background:rgba(201,162,39,.16)}
+.historial h4{font-size:13.5px;margin-bottom:2px}
+.historial p{font-size:12.5px;color:var(--gris);line-height:1.5}
+
+.resumen{background:var(--carbon);border:1px solid var(--borde);border-radius:var(--radio);padding:16px;margin-bottom:14px}
+.fila{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
+.fila span{color:var(--gris)}.fila b{font-weight:650;text-align:right}
+
+.yappy{background:#0a2f6e;border-radius:var(--radio);padding:16px;margin-bottom:14px;
+  display:flex;align-items:center;gap:13px;border:1px solid #1a4d9e}
+.yappy .y{width:44px;height:44px;border-radius:12px;background:#fff;color:#0a2f6e;display:grid;
+  place-items:center;font-weight:800;font-size:13px;flex:none;letter-spacing:-.5px}
+.yappy h4{font-size:14.5px;margin-bottom:2px}
+.yappy p{font-size:12.5px;color:#a8c4ea;line-height:1.45}
+
+.campo{margin-bottom:11px}
+.campo label{display:block;font-size:12px;font-weight:650;margin-bottom:5px;color:var(--gris)}
+.campo input{width:100%;padding:13px;border:1px solid var(--borde);border-radius:11px;font-size:16px;
+  font-family:inherit;background:var(--carbon);color:var(--texto)}
+.campo input:focus{outline:0;border-color:var(--oro)}
+
+.ok{text-align:center;padding:24px 0}
+.ok .check{width:70px;height:70px;border-radius:50%;background:var(--verde);color:#08210f;font-size:34px;
+  display:grid;place-items:center;margin:0 auto 16px;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.ok h3{font-size:22px;margin-bottom:5px;letter-spacing:-.4px}
+.ok p{color:var(--gris);font-size:14px}
+
+.wa{border-radius:var(--radio);overflow:hidden;margin-bottom:13px;border:1px solid var(--borde)}
+.wa-top{padding:11px 14px;background:#075e54;display:flex;align-items:center;gap:9px;color:#fff;font-size:13px;font-weight:600}
+.wa-body{background:#e5ddd5;padding:14px;min-height:88px}
+.burbuja{background:#fff;color:#111;border-radius:9px;padding:10px 12px;font-size:13.5px;line-height:1.5;max-width:94%}
+.hora-msg{font-size:10.5px;color:#8a8a8a;text-align:right;margin-top:4px}
+.escribiendo{display:flex;gap:4px;padding:12px 14px;background:#fff;border-radius:9px;width:58px}
+.escribiendo i{width:7px;height:7px;background:#b6b6b6;border-radius:50%;animation:pt 1.1s infinite}
+.escribiendo i:nth-child(2){animation-delay:.18s}.escribiendo i:nth-child(3){animation-delay:.36s}
+@keyframes pt{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
+.kpi{background:var(--carbon);border:1px solid var(--borde);border-radius:var(--radio);padding:14px}
+.kpi b{display:block;font-size:25px;font-weight:750;letter-spacing:-1px;line-height:1.1}
+.kpi small{font-size:11px;color:var(--gris);display:block;margin-top:2px}
+.kpi.oro{background:linear-gradient(145deg,var(--oro),#9d7d18);border-color:var(--oro);color:#1a1408}
+.kpi.oro small{color:rgba(26,20,8,.7)}
+
+.barra{background:var(--carbon);border:1px solid var(--borde);border-radius:12px;padding:13px;margin-bottom:8px}
+.barra .fl{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:7px}
+.barra .fl b{font-weight:700}
+.track{height:6px;background:var(--carbon2);border-radius:4px;overflow:hidden}
+.fill{height:100%;background:var(--oro);border-radius:4px}
+
+.turno{background:var(--carbon);border:1px solid var(--borde);border-radius:12px;padding:12px;margin-bottom:7px;
+  display:flex;align-items:center;gap:12px}
+.turno .h{font-weight:750;font-size:14px;width:48px;flex:none;color:var(--oro)}
+.turno h4{font-size:14px;font-weight:650}.turno small{font-size:12px;color:var(--gris)}
+.etiq{margin-left:auto;font-size:10px;font-weight:750;padding:4px 8px;border-radius:20px;flex:none}
+.e-pag{background:rgba(47,191,113,.15);color:var(--verde)}
+.e-esp{background:rgba(201,162,39,.15);color:var(--oro)}
+
+.nota{background:var(--carbon);border:1px dashed var(--borde);border-radius:var(--radio);padding:15px;
+  font-size:13px;color:var(--gris);line-height:1.6;margin-top:16px}
+.nota b{color:var(--texto)}
+.pie{text-align:center;padding:24px 20px 34px;font-size:12px;color:#6d6e74;line-height:1.7}
+.pie b{color:var(--oro)}
+</style>
+</head>
+<body>
+<div class="marco">
+
+  <header>
+    <div class="logo">💈</div>
+    <h1>Barbería Nueve</h1>
+    <p>San Francisco · Calle 74</p>
+    <div class="abierto"><i></i> Abierto · cierra 8:00 pm</div>
+  </header>
+
+  <div class="prueba"><span class="estr">★★★★★</span> 5.0 · 486 reseñas</div>
+
+  <div class="hero">
+    <h2>Aparta tu turno en tres toques</h2>
+    <p>Sin escribir, sin esperar que contesten. A cualquier hora.</p>
+    <button class="btn btn-p" onclick="irA('cliente')">Reservar turno</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-v="cliente" onclick="irA('cliente')">Vista del cliente</button>
+    <button class="tab" data-v="dueno" onclick="irA('dueno')">Tu panel</button>
+  </div>
+
+  <!-- ============ CLIENTE ============ -->
+  <div class="vista on" id="v-cliente">
+    <div class="ind"><div class="pt on" id="p1"></div><div class="pt" id="p2"></div><div class="pt" id="p3"></div></div>
+
+    <div class="paso on" id="s1">
+      <div class="titulo">Escoge tu barbero</div>
+      <div class="card" onclick="pickB(this,'Kevin')">
+        <div class="av" style="background:#c9a227">K</div>
+        <div><h4>Kevin</h4><small>Fades y diseño · 6 años</small></div>
+        <div class="precio" style="font-size:11px;color:#9a9ba1;font-weight:600">Libre hoy</div>
+      </div>
+      <div class="card" onclick="pickB(this,'Josué')">
+        <div class="av" style="background:#8b5cf6">J</div>
+        <div><h4>Josué</h4><small>Clásico y barba</small></div>
+        <div class="precio" style="font-size:11px;color:#9a9ba1;font-weight:600">Libre hoy</div>
+      </div>
+      <div class="card" onclick="pickB(this,'Michael')">
+        <div class="av" style="background:#ef7c4a">M</div>
+        <div><h4>Michael</h4><small>Corte de niño y adulto</small></div>
+        <div class="precio" style="font-size:11px;color:#9a9ba1;font-weight:600">Libre mañana</div>
+      </div>
+
+      <div class="titulo">Servicio</div>
+      <div class="card" onclick="pickS(this,'Corte',18,40)">
+        <div class="ico">✂️</div><div><h4>Corte</h4><small>40 minutos</small></div><div class="precio">$18</div>
+      </div>
+      <div class="card" onclick="pickS(this,'Corte + barba',28,60)">
+        <div class="ico">🪒</div><div><h4>Corte + barba</h4><small>1 hora</small></div><div class="precio">$28</div>
+      </div>
+      <div class="card" onclick="pickS(this,'Barba y perfilado',14,25)">
+        <div class="ico">🧔</div><div><h4>Barba y perfilado</h4><small>25 minutos</small></div><div class="precio">$14</div>
+      </div>
+      <div class="card" onclick="pickS(this,'Corte de niño',12,30)">
+        <div class="ico">🧒</div><div><h4>Corte de niño</h4><small>30 minutos</small></div><div class="precio">$12</div>
+      </div>
+    </div>
+
+    <div class="paso" id="s2">
+      <div class="historial">
+        <div class="ico">📋</div>
+        <div><h4>Ya te conocemos</h4>
+        <p>Tu última visita fue el 18 de julio con Kevin: fade bajo, barba perfilada.</p></div>
+      </div>
+      <div class="titulo">Día y hora</div>
+      <div class="dias" id="dias"></div>
+      <div class="horas" id="horas"></div>
+    </div>
+
+    <div class="paso" id="s3">
+      <div class="titulo">Confirma tu turno</div>
+      <div class="resumen" id="resumen"></div>
+
+      <div class="yappy">
+        <div class="y">Yappy</div>
+        <div><h4>Aparta con $5 por Yappy</h4>
+        <p>Se te descuenta del total. Es lo que asegura que el turno sea tuyo.</p></div>
+      </div>
+
+      <div class="campo"><label>Tu nombre</label><input id="i-nom" value="Carlos Him"></div>
+      <div class="campo"><label>WhatsApp</label><input id="i-tel" value="6123-4567"></div>
+      <button class="btn btn-p" onclick="confirmar()">Pagar $5 y confirmar</button>
+      <button class="btn btn-s" style="margin-top:9px" onclick="confirmar()">Reservar sin anticipo</button>
+    </div>
+
+    <div class="paso" id="s4">
+      <div class="ok">
+        <div class="check">✓</div>
+        <h3>Turno apartado</h3>
+        <p id="ok-txt"></p>
+      </div>
+
+      <div class="titulo">Le llega al cliente</div>
+      <div class="wa"><div class="wa-top">💈 Barbería Nueve</div>
+        <div class="wa-body" id="wa1"><div class="escribiendo"><i></i><i></i><i></i></div></div></div>
+
+      <div class="titulo">Y dos horas antes, solo</div>
+      <div class="wa"><div class="wa-top">💈 Barbería Nueve</div>
+        <div class="wa-body" id="wa2"><div class="escribiendo"><i></i><i></i><i></i></div></div></div>
+
+      <div class="nota">
+        <b>La cuenta que importa:</b> tres turnos botados a la semana, a $18 cada uno, son
+        <b>$216 al mes</b> que no se recuperan porque la silla ya estuvo vacía. El recordatorio
+        automático y el anticipo de $5 existen exactamente para eso.
+      </div>
+      <button class="btn btn-s" style="margin-top:13px" onclick="reiniciar()">Probar de nuevo</button>
+    </div>
+  </div>
+
+  <!-- ============ PANEL ============ -->
+  <div class="vista" id="v-dueno">
+    <div class="titulo" style="margin-top:6px">Viernes 7 de agosto</div>
+    <div class="kpis">
+      <div class="kpi oro"><b>23</b><small>Turnos hoy</small></div>
+      <div class="kpi"><b>$462</b><small>Producido hoy</small></div>
+      <div class="kpi"><b>1</b><small>Ausencias este mes</small></div>
+      <div class="kpi"><b>$115</b><small>Anticipos cobrados</small></div>
+    </div>
+
+    <div class="titulo">Producción por barbero</div>
+    <div class="barra"><div class="fl"><span>Kevin</span><b>$198 · 11 turnos</b></div>
+      <div class="track"><div class="fill" style="width:82%"></div></div></div>
+    <div class="barra"><div class="fl"><span>Josué</span><b>$164 · 8 turnos</b></div>
+      <div class="track"><div class="fill" style="width:68%"></div></div></div>
+    <div class="barra"><div class="fl"><span>Michael</span><b>$100 · 4 turnos</b></div>
+      <div class="track"><div class="fill" style="width:41%"></div></div></div>
+
+    <div class="titulo">Próximos turnos</div>
+    <div class="turno"><div class="h">3:00</div><div><h4>Carlos Him</h4><small>Corte + barba · Kevin</small></div><span class="etiq e-pag">Pagó $5</span></div>
+    <div class="turno"><div class="h">3:40</div><div><h4>Luis Ortega</h4><small>Corte · Kevin</small></div><span class="etiq e-pag">Pagó $5</span></div>
+    <div class="turno"><div class="h">4:00</div><div><h4>Diego Sáez</h4><small>Barba · Josué</small></div><span class="etiq e-esp">Sin anticipo</span></div>
+    <div class="turno"><div class="h">4:30</div><div><h4>Iván Castro</h4><small>Corte · Josué</small></div><span class="etiq e-pag">Pagó $5</span></div>
+
+    <div class="titulo">Esta semana, sin que nadie moviera un dedo</div>
+    <div class="kpis">
+      <div class="kpi"><b>31</b><small>Turnos reservados fuera de horario</small></div>
+      <div class="kpi"><b>0</b><small>Mensajes de "¿tienes campo?"</small></div>
+    </div>
+
+    <div class="nota">
+      <b>31 turnos se reservaron de noche o en domingo</b>, con la barbería cerrada. Antes,
+      esos clientes escribían y esperaban respuesta; muchos se iban a otra barbería mientras tanto.
+    </div>
+  </div>
+
+  <div class="pie">
+    Demostración de <b>ReservaFácil</b><br>
+    Barbería ficticia. Se configura con tu nombre, tus barberos, tus servicios y tus precios.<br>
+    Sirve igual para salones de belleza, uñas, spas y barbería con spa.<br><br>
+    Tommy Hanono · WhatsApp 6681-8669
+  </div>
+</div>
+
+<script>
+const S={b:'',s:'',p:0,d:0,dia:'',hora:''};
+const dd=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const hrs=['9:00','9:40','10:20','11:00','11:40','1:00','1:40','2:20','3:00','3:40','4:20','5:00'];
+const oc=['11:00','3:00','4:20'];
+
+function irA(v){document.querySelectorAll('.vista').forEach(x=>x.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.v===v));
+  window.scrollTo({top:0,behavior:'smooth'});}
+function paso(n){document.querySelectorAll('.paso').forEach(p=>p.classList.remove('on'));
+  document.getElementById('s'+n).classList.add('on');
+  for(let i=1;i<=3;i++)document.getElementById('p'+i).classList.toggle('on',i<=Math.min(n,3));
+  window.scrollTo({top:0,behavior:'smooth'});}
+function pickB(el,n){el.parentNode.querySelectorAll('.card').forEach(c=>{if(c.querySelector('.av'))c.classList.remove('sel')});
+  el.classList.add('sel');S.b=n;chk();}
+function pickS(el,n,p,d){el.parentNode.querySelectorAll('.card').forEach(c=>{if(c.querySelector('.ico'))c.classList.remove('sel')});
+  el.classList.add('sel');S.s=n;S.p=p;S.d=d;chk();}
+function chk(){if(S.b&&S.s)setTimeout(()=>{pintarDias();paso(2);},200);}
+
+function pintarDias(){const c=document.getElementById('dias');c.innerHTML='';
+  const hoy=new Date(2026,7,7);
+  for(let i=0;i<8;i++){const f=new Date(hoy);f.setDate(hoy.getDate()+i);
+    const b=document.createElement('div');b.className='dia';
+    b.innerHTML='<small>'+(i===0?'Hoy':dd[f.getDay()])+'</small><b>'+f.getDate()+'</b>';
+    b.onclick=()=>{document.querySelectorAll('.dia').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+      S.dia=(i===0?'hoy':dd[f.getDay()]+' '+f.getDate());pintarHoras();};
+    c.appendChild(b);}
+  c.firstChild.click();}
+function pintarHoras(){const c=document.getElementById('horas');c.innerHTML='';
+  hrs.forEach(h=>{const b=document.createElement('div');const no=oc.includes(h);
+    b.className='hora'+(no?' no':'');b.textContent=h;
+    if(!no)b.onclick=()=>{document.querySelectorAll('.hora').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');S.hora=h;setTimeout(()=>{res();paso(3);},200);};
+    c.appendChild(b);});}
+function res(){document.getElementById('resumen').innerHTML=
+  '<div class="fila"><span>Barbero</span><b>'+S.b+'</b></div>'+
+  '<div class="fila"><span>Servicio</span><b>'+S.s+'</b></div>'+
+  '<div class="fila"><span>Cuándo</span><b>'+S.dia+' a las '+S.hora+'</b></div>'+
+  '<div class="fila" style="border-top:1px solid #33363d;margin-top:6px;padding-top:10px">'+
+  '<span>Total</span><b style="font-size:17px;color:#c9a227">$'+S.p+'.00</b></div>';}
+function confirmar(){
+  const n=(document.getElementById('i-nom').value||'').split(' ')[0]||'';
+  document.getElementById('ok-txt').textContent=S.dia.charAt(0).toUpperCase()+S.dia.slice(1)+' a las '+S.hora+' con '+S.b;
+  paso(4);
+  setTimeout(()=>{document.getElementById('wa1').innerHTML='<div class="burbuja">Listo '+n+' 👊 Tu turno quedó apartado.<br><br>'+
+    '<b>'+S.s+'</b> con '+S.b+'<br>'+S.dia+' a las '+S.hora+'<br>Total: $'+S.p+'.00<br><br>'+
+    'Barbería Nueve · Calle 74, San Francisco<div class="hora-msg">Ahora ✓✓</div></div>';},1000);
+  setTimeout(()=>{document.getElementById('wa2').innerHTML='<div class="burbuja">'+n+', tu turno con '+S.b+
+    ' es hoy a las '+S.hora+' 💈<br><br>Responde <b>SÍ</b> si vienes o <b>NO</b> para liberarlo.'+
+    '<div class="hora-msg">1:00 p.m. ✓✓</div></div>';},2300);}
+function reiniciar(){S.b='';S.s='';S.hora='';document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('wa1').innerHTML='<div class="escribiendo"><i></i><i></i><i></i></div>';
+  document.getElementById('wa2').innerHTML='<div class="escribiendo"><i></i><i></i><i></i></div>';paso(1);}
+</script>
+</body>
+</html>
