@@ -1,38 +1,47 @@
 /* ============================================================
-   tokens-calm — variante del sistema de diseño de Tommy Hanono
+   tokens-calm — sistema de diseño de Tommy Hanono
    Fuente: 90_Sistema/TOMMY-DESIGN.md
-   Elegida porque la usa gente no técnica, apurada, decidiendo
-   sobre algo serio. Concepto: "la libreta de citas que no se pierde".
-   Prohibido aquí: emojis como icono, crema+serif+terracota,
-   tres tarjetas en fila, radio 12px por inercia, sombra única.
+
+   Todo el color se deriva de dos variables por negocio:
+     --h  matiz de la marca (0-360)
+     --c  croma del acento
+   Los neutros van TEÑIDOS con ese mismo matiz, nunca #FFF ni #000.
+
+   Dos temas:
+     claro   (default)  — salud, belleza femenina, servicios
+     oscuro  [data-tema=oscuro] — barberías y talleres, donde la
+             convención visual del rubro es oscura y una paleta
+             clínica se lee equivocada. Elevación por luz, no por sombra.
    ============================================================ */
 
 :root{
-  --color-bg:         oklch(0.97 0.008  85);
-  --color-surface:    oklch(0.99 0.004  85);
-  --color-surface-2:  oklch(0.94 0.010  85);
+  --h: 255;   /* matiz de marca — lo sobrescribe cada negocio */
+  --c: 0.075; /* croma del acento */
 
-  --color-action:     oklch(0.38 0.075 255);
-  --color-action-ink: oklch(0.99 0.004  85);
+  --color-bg:         oklch(0.97 0.008 var(--h));
+  --color-surface:    oklch(0.99 0.004 var(--h));
+  --color-surface-2:  oklch(0.94 0.012 var(--h));
 
-  --color-text:       oklch(0.24 0.022 255);
-  --color-text-muted: oklch(0.50 0.020 255);
+  --color-action:     oklch(0.40 var(--c) var(--h));
+  --color-action-ink: oklch(0.99 0.004 var(--h));
+
+  --color-text:       oklch(0.24 0.022 var(--h));
+  --color-text-muted: oklch(0.50 0.020 var(--h));
+  --color-line:       oklch(0.88 0.012 var(--h));
 
   --color-ok:         oklch(0.46 0.090 160);
   --color-warn:       oklch(0.55 0.120  60);
   --color-danger:     oklch(0.44 0.140  28);
 
-  --color-line:       oklch(0.88 0.010  85);
-
   --radius-card:      8px;
   --shadow-card:
-      0 1px 1px  oklch(0.30 0.02 255 / 0.04),
-      0 2px 4px  oklch(0.30 0.02 255 / 0.04),
-      0 8px 16px -6px oklch(0.30 0.02 255 / 0.08);
+      0 1px 1px  oklch(0.30 0.02 var(--h) / 0.04),
+      0 2px 4px  oklch(0.30 0.02 var(--h) / 0.04),
+      0 8px 16px -6px oklch(0.30 0.02 var(--h) / 0.08);
   --shadow-lift:
-      0 1px 1px  oklch(0.30 0.02 255 / 0.05),
-      0 4px 8px  oklch(0.30 0.02 255 / 0.06),
-      0 16px 32px -10px oklch(0.30 0.02 255 / 0.12);
+      0 1px 1px  oklch(0.30 0.02 var(--h) / 0.05),
+      0 4px 8px  oklch(0.30 0.02 var(--h) / 0.06),
+      0 16px 32px -10px oklch(0.30 0.02 var(--h) / 0.12);
 
   --motion-fast: 150ms;
   --motion-base: 220ms;
@@ -42,27 +51,59 @@
   --space-6:24px; --space-8:32px; --space-12:48px; --space-16:64px;
 }
 
+/* ---------- tema oscuro: elevación por luz ---------- */
+body[data-tema=oscuro]{
+  --color-bg:         oklch(0.17 0.020 var(--h));
+  --color-surface:    oklch(0.23 0.024 var(--h));
+  --color-surface-2:  oklch(0.28 0.026 var(--h));
+
+  --color-action:     oklch(0.76 var(--c) var(--h));
+  --color-action-ink: oklch(0.18 0.020 var(--h));
+
+  --color-text:       oklch(0.94 0.008 var(--h));
+  --color-text-muted: oklch(0.71 0.018 var(--h));
+  --color-line:       oklch(0.34 0.022 var(--h));
+
+  --color-ok:         oklch(0.78 0.115 155);
+  --color-warn:       oklch(0.81 0.120  75);
+  --color-danger:     oklch(0.73 0.140  25);
+
+  --shadow-card:
+      0 1px 0 0 oklch(1 0 0 / 0.05) inset,
+      0 1px 2px oklch(0.10 0.02 var(--h) / 0.5),
+      0 8px 24px -6px oklch(0.08 0.02 var(--h) / 0.55);
+  --shadow-lift:
+      0 1px 0 0 oklch(1 0 0 / 0.07) inset,
+      0 2px 4px oklch(0.10 0.02 var(--h) / 0.5),
+      0 18px 40px -10px oklch(0.08 0.02 var(--h) / 0.6);
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 body{
   font-family:'Source Sans 3',system-ui,sans-serif;
-  background:oklch(0.93 0.010 85);
+  background:oklch(0.93 0.010 var(--h));
   color:var(--color-text);
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
   display:flex;justify-content:center;
 }
+body[data-tema=oscuro]{background:oklch(0.12 0.016 var(--h))}
 
 .marco{
   width:100%;max-width:440px;background:var(--color-bg);
   min-height:100vh;overflow-x:hidden;
 }
 
-/* ---------- tipografía ---------- */
 h1,h2,h3,.serif{
   font-family:'Fraunces',Georgia,serif;
   font-variation-settings:'opsz' 40;
   font-weight:700;letter-spacing:-.015em;line-height:1.14;
+}
+/* En oscuro el serif de alto contraste se afina demasiado: se compensa */
+body[data-tema=oscuro] h1,body[data-tema=oscuro] h2,
+body[data-tema=oscuro] h3,body[data-tema=oscuro] .serif{
+  font-variation-settings:'opsz' 60;
 }
 .num{font-variant-numeric:tabular-nums}
 
@@ -71,7 +112,6 @@ h1,h2,h3,.serif{
   color:var(--color-text-muted);
 }
 
-/* ---------- cabecera ---------- */
 .head{padding:var(--space-6) var(--space-6) 0}
 .ident{display:flex;align-items:center;gap:var(--space-3)}
 .monograma{
@@ -91,17 +131,15 @@ h1,h2,h3,.serif{
   background:var(--color-surface-2);color:var(--color-text-muted);
   border:1px solid var(--color-line);
 }
-.aviso.vivo{color:var(--color-ok);border-color:oklch(0.46 0.090 160/.3);
-  background:oklch(0.46 0.090 160/.07)}
-.aviso.urgente{color:var(--color-danger);border-color:oklch(0.44 0.140 28/.32);
-  background:oklch(0.44 0.140 28/.07)}
+.aviso.vivo{color:var(--color-ok);border-color:color-mix(in oklch,var(--color-ok) 35%,transparent);
+  background:color-mix(in oklch,var(--color-ok) 9%,transparent)}
+.aviso.urgente{color:var(--color-danger);border-color:color-mix(in oklch,var(--color-danger) 38%,transparent);
+  background:color-mix(in oklch,var(--color-danger) 9%,transparent)}
 
-/* ---------- portada ---------- */
 .portada{padding:var(--space-6)}
 .portada h2{font-size:30px;margin-bottom:var(--space-2)}
 .portada .bajada{color:var(--color-text-muted);font-size:15px;margin-bottom:var(--space-6)}
 
-/* ---------- botones ---------- */
 .btn{
   display:block;width:100%;min-height:48px;border:0;border-radius:var(--radius-card);
   padding:14px var(--space-4);font-size:16px;font-weight:600;font-family:inherit;
@@ -116,9 +154,8 @@ h1,h2,h3,.serif{
 .btn:disabled{background:var(--color-surface-2);color:var(--color-text-muted);
   box-shadow:none;cursor:default}
 .btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,
-[role=button]:focus-visible{outline:2px solid var(--color-action);outline-offset:2px}
+[role=button]:focus-visible,button:focus-visible{outline:2px solid var(--color-action);outline-offset:2px}
 
-/* ---------- navegación de vistas ---------- */
 .vistas{display:flex;gap:var(--space-1);padding:0 var(--space-6) var(--space-4)}
 .vista-btn{
   flex:1;min-height:44px;padding:9px 6px;border:1px solid var(--color-line);
@@ -142,7 +179,6 @@ h1,h2,h3,.serif{
 
 .seccion{margin:var(--space-6) 0 var(--space-3)}
 
-/* ---------- opciones seleccionables ---------- */
 .opcion{
   width:100%;text-align:left;background:var(--color-surface);
   border:1px solid var(--color-line);border-radius:var(--radius-card);
@@ -168,10 +204,9 @@ h1,h2,h3,.serif{
 }
 .opcion[aria-pressed=true] .inicial{background:var(--color-action);color:var(--color-action-ink)}
 
-/* ---------- calendario ---------- */
 .tira-dias{display:flex;gap:var(--space-2);overflow-x:auto;padding-bottom:var(--space-2);
   margin-bottom:var(--space-3);scrollbar-width:none}
-.tira-dias::-webkit-scrollbar{display:display:none;display:none}
+.tira-dias::-webkit-scrollbar{display:none}
 .dia{
   flex:none;width:56px;min-height:60px;padding:var(--space-2) 0;border-radius:var(--radius-card);
   background:var(--color-surface);border:1px solid var(--color-line);text-align:center;
@@ -193,7 +228,6 @@ h1,h2,h3,.serif{
   border-color:var(--color-action)}
 .hora[disabled]{opacity:.4;cursor:default;box-shadow:none;text-decoration:line-through}
 
-/* ---------- formulario ---------- */
 .campo{margin-bottom:var(--space-3)}
 .campo label{display:block;font-size:13px;font-weight:600;margin-bottom:var(--space-1);
   color:var(--color-text-muted)}
@@ -204,7 +238,6 @@ h1,h2,h3,.serif{
 }
 .campo input:focus{outline:2px solid var(--color-action);outline-offset:1px}
 
-/* ---------- resumen ---------- */
 .resumen{background:var(--color-surface-2);border-radius:var(--radius-card);
   padding:var(--space-4);margin-bottom:var(--space-4)}
 .linea{display:flex;justify-content:space-between;gap:var(--space-4);padding:5px 0;font-size:15px}
@@ -214,35 +247,35 @@ h1,h2,h3,.serif{
   padding-top:var(--space-3);font-size:17px}
 .linea.total dd{font-family:'Fraunces',serif;font-size:20px}
 
-/* ---------- confirmación ---------- */
 .listo{text-align:center;padding:var(--space-8) 0 var(--space-6)}
 .sello{
   width:64px;height:64px;border-radius:50%;background:var(--color-ok);
-  color:var(--color-action-ink);display:grid;place-items:center;margin:0 auto var(--space-4);
+  color:oklch(0.99 0.004 var(--h));display:grid;place-items:center;margin:0 auto var(--space-4);
   font-size:30px;font-weight:700;animation:sello var(--motion-base) var(--motion-ease)
 }
+body[data-tema=oscuro] .sello{color:oklch(0.16 0.02 var(--h))}
 @keyframes sello{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
 .listo h3{font-size:24px;margin-bottom:var(--space-1)}
 .listo p{color:var(--color-text-muted);font-size:15px}
 
-/* ---------- WhatsApp simulado ---------- */
 .hilo{border-radius:var(--radius-card);overflow:hidden;border:1px solid var(--color-line);
   margin-bottom:var(--space-3);box-shadow:var(--shadow-card)}
 .hilo-top{padding:10px var(--space-4);background:oklch(0.32 0.045 165);color:#fff;
   font-size:13px;font-weight:600;display:flex;align-items:center;gap:var(--space-2)}
 .hilo-top .punto{width:7px;height:7px;border-radius:50%;background:oklch(0.80 0.14 150)}
 .hilo-cuerpo{background:oklch(0.90 0.012 100);padding:var(--space-4);min-height:92px}
-.burbuja{background:var(--color-surface);border-radius:2px 8px 8px 8px;padding:10px var(--space-3);
-  font-size:14px;line-height:1.5;max-width:96%;white-space:pre-line;box-shadow:var(--shadow-card)}
-.burbuja .sello-hora{font-size:11px;color:var(--color-text-muted);text-align:right;margin-top:4px}
-.puntos{display:flex;gap:4px;padding:12px var(--space-3);background:var(--color-surface);
-  border-radius:2px 8px 8px 8px;width:58px;box-shadow:var(--shadow-card)}
-.puntos i{width:6px;height:6px;background:var(--color-text-muted);border-radius:50%;
+.burbuja{background:oklch(0.99 0.004 100);color:oklch(0.22 0.02 100);
+  border-radius:2px 8px 8px 8px;padding:10px var(--space-3);
+  font-size:14px;line-height:1.5;max-width:96%;white-space:pre-line;
+  box-shadow:0 1px 1px oklch(0.2 0 0/.13)}
+.burbuja .sello-hora{font-size:11px;color:oklch(0.55 0.01 100);text-align:right;margin-top:4px}
+.puntos{display:flex;gap:4px;padding:12px var(--space-3);background:oklch(0.99 0.004 100);
+  border-radius:2px 8px 8px 8px;width:58px;box-shadow:0 1px 1px oklch(0.2 0 0/.13)}
+.puntos i{width:6px;height:6px;background:oklch(0.60 0.01 100);border-radius:50%;
   opacity:.4;animation:latir 1.2s infinite}
 .puntos i:nth-child(2){animation-delay:.2s}.puntos i:nth-child(3){animation-delay:.4s}
 @keyframes latir{0%,60%,100%{opacity:.35}30%{opacity:1}}
 
-/* ---------- bento del panel ---------- */
 .bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--space-3);
   margin-bottom:var(--space-4)}
 .celda{background:var(--color-surface);border:1px solid var(--color-line);
@@ -254,9 +287,8 @@ h1,h2,h3,.serif{
 .celda.ancha b{font-size:40px}
 .celda small{display:block;font-size:12.5px;color:var(--color-text-muted);margin-top:var(--space-1)}
 .celda.acento{background:var(--color-action);border-color:var(--color-action);color:var(--color-action-ink)}
-.celda.acento small{color:oklch(0.99 0.004 85/.75)}
+.celda.acento small{color:color-mix(in oklch,var(--color-action-ink) 75%,transparent)}
 
-/* ---------- filas de agenda ---------- */
 .turno{display:flex;align-items:center;gap:var(--space-3);background:var(--color-surface);
   border:1px solid var(--color-line);border-radius:var(--radius-card);
   padding:var(--space-3);margin-bottom:var(--space-2);box-shadow:var(--shadow-card)}
@@ -266,11 +298,10 @@ h1,h2,h3,.serif{
 .turno small{font-size:12.5px;color:var(--color-text-muted)}
 .estado{margin-left:auto;flex:none;font-size:11.5px;font-weight:700;padding:4px 9px;
   border-radius:999px;white-space:nowrap}
-.estado.ok{background:oklch(0.46 0.090 160/.1);color:var(--color-ok)}
-.estado.pendiente{background:oklch(0.55 0.120 60/.11);color:var(--color-warn)}
-.estado.vencido{background:oklch(0.44 0.140 28/.1);color:var(--color-danger)}
+.estado.ok{background:color-mix(in oklch,var(--color-ok) 12%,transparent);color:var(--color-ok)}
+.estado.pendiente{background:color-mix(in oklch,var(--color-warn) 13%,transparent);color:var(--color-warn)}
+.estado.vencido{background:color-mix(in oklch,var(--color-danger) 12%,transparent);color:var(--color-danger)}
 
-/* ---------- nota de venta ---------- */
 .margen{background:var(--color-surface-2);border-left:3px solid var(--color-action);
   border-radius:0 var(--radius-card) var(--radius-card) 0;padding:var(--space-4);
   font-size:14px;line-height:1.6;color:var(--color-text-muted);margin-top:var(--space-4)}

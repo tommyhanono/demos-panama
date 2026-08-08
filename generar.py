@@ -15,65 +15,72 @@ PLANTILLAS = BASE / "plantillas"
 SALIDA = BASE / "d"
 URL = "https://tommyhanono.github.io/demos-panama/d"
 
-# (nombre, sector, zona, corto)  — corto = como se le dice al panel
+# (nombre, sector, zona, corto, h, c, tema)
+#   h    = matiz de marca 0-360   c = croma del acento   tema = claro | oscuro
+#   La paleta se eligió por el nombre y el posicionamiento de cada negocio.
+#   Cuando veas su logo real, cambias h y c aquí y se regenera.
 NEGOCIOS = [
-    # ---------- VETERINARIAS ----------
-    ("Mercy Veterinary Hospital",            "vet", "Pan Canal Plaza, Ancón",        "la clínica"),
-    ("Veterinaria Lapenta",                  "vet", "Calle 23B Norte, Bethania",     "la clínica"),
-    ("Panamá Pets Clínica Veterinaria",      "vet", "Calle 75 Este, Bethania",       "la clínica"),
-    ("Mascota Consentida",                   "vet", "Av. Cincuentenario, San Francisco", "la clínica"),
-    ("Fashion Pet",                          "vet", "Av. La Paz, Bethania",          "la clínica"),
-    ("Patitas Market",                       "vet", "Calle 63 Oeste, Bethania",      "la clínica"),
-    ("Clínica del Dr. Jorge Landires",       "vet", "Av. Ramón Arias, Bella Vista",  "la clínica"),
-    ("Tomo Vet",                             "vet", "Corredor Sur, Tocumen",         "la clínica"),
-    ("Dogland",                              "vet", "Calle Andrés Bello, Bella Vista","la clínica"),
-    ("Pets Fashion",                         "vet", "Calle 75 Este, San Francisco",  "la clínica"),
-    ("Kaspet",                               "vet", "Albrook Mall, Ancón",           "la clínica"),
-    ("Clínica Veterinaria Andy's Pets",      "vet", "Terrazas de Albrook, Ancón",    "la clínica"),
-    ("Consultoría Veterinaria de Panamá",    "vet", "Ciudad de Panamá",              "la clínica"),
-    ("Asistencia Médica Animal",             "vet", "Ernesto Córdoba Campos",        "la clínica"),
-    ("Veterinaria 24 de Diciembre",          "vet", "Vía Tocumen",                   "la clínica"),
-    ("Veterinaria Chilibre",                 "vet", "Vía Transístmica, Chilibre",    "la clínica"),
-    # ---------- CLÍNICAS DENTALES ----------
-    ("Clínica Dental Tovar",                 "dental", "San Francisco",              "la clínica"),
-    ("Dental Design",                        "dental", "Bella Vista",                "la clínica"),
-    ("Clínica Dental City",                  "dental", "Bella Vista",                "la clínica"),
-    ("Denti Club",                           "dental", "Bella Vista",                "la clínica"),
-    ("Esthetic Dental Clinic",               "dental", "Bella Vista",                "la clínica"),
-    ("Clínica Barnes Lam",                   "dental", "Bella Vista",                "la clínica"),
-    ("Centro de Odontología Dr. Horacio Villarreal", "dental", "Bethania",           "el centro"),
-    ("Brilliant Smile Dental Clinic",        "dental", "Bella Vista",                "la clínica"),
-    ("Clínica Dental Ibiza",                 "dental", "Parque Lefevre",             "la clínica"),
-    ("Clínica Dental Smile Factory",         "dental", "Juan Díaz",                  "la clínica"),
-    ("Clínica Santísima Trinidad",           "dental", "Ancón",                      "la clínica"),
-    ("Clínica Dental Santa Catarina",        "dental", "Calidonia",                  "la clínica"),
-    # ---------- BARBERÍAS ----------
-    ("Felix Barbería",                       "barber", "Calle 62A Oeste, San Francisco", "la barbería"),
-    ("Barbería Machete",                     "barber", "Calle Sur, San Francisco",      "la barbería"),
-    ("Barbería Universidad Nacional",        "barber", "Vía Argentina, Bella Vista",    "la barbería"),
-    ("BLK Barber Shop",                      "barber", "Av. 12 de Octubre, Pueblo Nuevo","la barbería"),
-    ("Aldos Barber Shop",                    "barber", "Calle 9, Parque Lefevre",       "la barbería"),
-    ("Gaza Barbershop",                      "barber", "Calle 93 Oeste, Río Abajo",     "la barbería"),
-    ("Jay's Barber Shop",                    "barber", "Av. Central, Calidonia",        "la barbería"),
-    ("Johny Barbería",                       "barber", "Calle 13 Oeste, Santa Ana",     "la barbería"),
-    ("Barbería Bless4ever",                  "barber", "Av. José María Torrijos, Pedregal", "la barbería"),
-    ("Alberto's Barbería",                   "barber", "Ernesto Córdoba Campos",        "la barbería"),
-    # ---------- SALONES DE BELLEZA ----------
-    ("Maravilla Beauty Club",                "salon", "Plaza Belén, San Francisco",     "el salón"),
-    ("Beauty Hair Liss",                     "salon", "Vía Porras, San Francisco",      "el salón"),
-    ("Gaia Salón",                           "salon", "Calle Las Acacias, Bella Vista", "el salón"),
-    ("Glamorium",                            "salon", "Av. Samuel Lewis, Bella Vista",  "el salón"),
-    ("Beauty Essence & Spa",                 "salon", "P.H. El Dorado, Bethania",       "el salón"),
-    ("Akaneh Beauty Salón",                  "salon", "Av. Costanera, Don Bosco",       "el salón"),
-    ("Rocío Hair Center",                    "salon", "Av. 1 B Norte, Bella Vista",     "el salón"),
-    ("Sala de Belleza Doralis",              "salon", "Calle 75 I Oeste, Bethania",     "el salón"),
-    # ---------- TALLERES ----------
-    ("Panamá Top Car",                       "taller", "Av. La Paz, Bethania",          "el taller"),
-    ("Industrias Tuñon de Gracia",           "taller", "Calle 80, Bethania",            "el taller"),
-    ("Autos La Guadalupe",                   "taller", "Calle 4a, Parque Lefevre",      "el taller"),
-    ("Taller Full Color",                    "taller", "Av. Ernesto T. Lefevre",        "el taller"),
-    ("Kevin Car Shop",                       "taller", "Calle 19, Río Abajo",           "el taller"),
-    ("Cangas Trucks",                        "taller", "Calle 57, Bella Vista",         "el taller"),
+    # ---------- VETERINARIAS · claro, matices cálidos y de confianza ----------
+    ("Mercy Veterinary Hospital",            "vet", "Pan Canal Plaza, Ancón",        "la clínica", 195, 0.085, "claro"),
+    ("Veterinaria Lapenta",                  "vet", "Calle 23B Norte, Bethania",     "la clínica", 155, 0.080, "claro"),
+    ("Panamá Pets Clínica Veterinaria",      "vet", "Calle 75 Este, Bethania",       "la clínica", 235, 0.080, "claro"),
+    ("Mascota Consentida",                   "vet", "Av. Cincuentenario, San Francisco", "la clínica", 350, 0.075, "claro"),
+    ("Fashion Pet",                          "vet", "Av. La Paz, Bethania",          "la clínica", 320, 0.080, "claro"),
+    ("Patitas Market",                       "vet", "Calle 63 Oeste, Bethania",      "la clínica",  45, 0.090, "claro"),
+    ("Clínica del Dr. Jorge Landires",       "vet", "Av. Ramón Arias, Bella Vista",  "la clínica", 250, 0.070, "claro"),
+    ("Tomo Vet",                             "vet", "Corredor Sur, Tocumen",         "la clínica", 210, 0.085, "claro"),
+    ("Dogland",                              "vet", "Calle Andrés Bello, Bella Vista","la clínica", 140, 0.095, "claro"),
+    ("Pets Fashion",                         "vet", "Calle 75 Este, San Francisco",  "la clínica", 335, 0.085, "claro"),
+    ("Kaspet",                               "vet", "Albrook Mall, Ancón",           "la clínica",  65, 0.085, "claro"),
+    ("Clínica Veterinaria Andy's Pets",      "vet", "Terrazas de Albrook, Ancón",    "la clínica", 175, 0.085, "claro"),
+    ("Consultoría Veterinaria de Panamá",    "vet", "Ciudad de Panamá",              "la clínica", 255, 0.075, "claro"),
+    ("Asistencia Médica Animal",             "vet", "Ernesto Córdoba Campos",        "la clínica", 200, 0.080, "claro"),
+    ("Veterinaria 24 de Diciembre",          "vet", "Vía Tocumen",                   "la clínica",  25, 0.085, "claro"),
+    ("Veterinaria Chilibre",                 "vet", "Vía Transístmica, Chilibre",    "la clínica", 130, 0.085, "claro"),
+
+    # ---------- CLÍNICAS DENTALES · claro, azules y verdes clínicos ----------
+    ("Clínica Dental Tovar",                 "dental", "San Francisco",              "la clínica", 225, 0.080, "claro"),
+    ("Dental Design",                        "dental", "Bella Vista",                "la clínica", 265, 0.070, "claro"),
+    ("Clínica Dental City",                  "dental", "Bella Vista",                "la clínica", 240, 0.085, "claro"),
+    ("Denti Club",                           "dental", "Bella Vista",                "la clínica", 190, 0.090, "claro"),
+    ("Esthetic Dental Clinic",               "dental", "Bella Vista",                "la clínica", 300, 0.065, "claro"),
+    ("Clínica Barnes Lam",                   "dental", "Bella Vista",                "la clínica", 215, 0.075, "claro"),
+    ("Centro de Odontología Dr. Horacio Villarreal", "dental", "Bethania",           "el centro",  250, 0.075, "claro"),
+    ("Brilliant Smile Dental Clinic",        "dental", "Bella Vista",                "la clínica", 205, 0.095, "claro"),
+    ("Clínica Dental Ibiza",                 "dental", "Parque Lefevre",             "la clínica", 185, 0.095, "claro"),
+    ("Clínica Dental Smile Factory",         "dental", "Juan Díaz",                  "la clínica", 170, 0.085, "claro"),
+    ("Clínica Santísima Trinidad",           "dental", "Ancón",                      "la clínica", 275, 0.065, "claro"),
+    ("Clínica Dental Santa Catarina",        "dental", "Calidonia",                  "la clínica", 160, 0.080, "claro"),
+
+    # ---------- BARBERÍAS · oscuro, acentos de latón, cobre y ámbar ----------
+    ("Felix Barbería",                       "barber", "Calle 62A Oeste, San Francisco", "la barbería",  70, 0.115, "oscuro"),
+    ("Barbería Machete",                     "barber", "Calle Sur, San Francisco",      "la barbería",  35, 0.130, "oscuro"),
+    ("Barbería Universidad Nacional",        "barber", "Vía Argentina, Bella Vista",    "la barbería", 240, 0.105, "oscuro"),
+    ("BLK Barber Shop",                      "barber", "Av. 12 de Octubre, Pueblo Nuevo","la barbería",  85, 0.100, "oscuro"),
+    ("Aldos Barber Shop",                    "barber", "Calle 9, Parque Lefevre",       "la barbería",  55, 0.120, "oscuro"),
+    ("Gaza Barbershop",                      "barber", "Calle 93 Oeste, Río Abajo",     "la barbería", 150, 0.100, "oscuro"),
+    ("Jay's Barber Shop",                    "barber", "Av. Central, Calidonia",        "la barbería",  25, 0.125, "oscuro"),
+    ("Johny Barbería",                       "barber", "Calle 13 Oeste, Santa Ana",     "la barbería", 200, 0.105, "oscuro"),
+    ("Barbería Bless4ever",                  "barber", "Av. José María Torrijos, Pedregal", "la barbería", 100, 0.105, "oscuro"),
+    ("Alberto's Barbería",                   "barber", "Ernesto Córdoba Campos",        "la barbería",  15, 0.115, "oscuro"),
+
+    # ---------- SALONES · claro, matices cálidos y sofisticados ----------
+    ("Maravilla Beauty Club",                "salon", "Plaza Belén, San Francisco",     "el salón",  15, 0.090, "claro"),
+    ("Beauty Hair Liss",                     "salon", "Vía Porras, San Francisco",      "el salón", 340, 0.085, "claro"),
+    ("Gaia Salón",                           "salon", "Calle Las Acacias, Bella Vista", "el salón", 120, 0.080, "claro"),
+    ("Glamorium",                            "salon", "Av. Samuel Lewis, Bella Vista",  "el salón", 310, 0.080, "claro"),
+    ("Beauty Essence & Spa",                 "salon", "P.H. El Dorado, Bethania",       "el salón", 165, 0.075, "claro"),
+    ("Akaneh Beauty Salón",                  "salon", "Av. Costanera, Don Bosco",       "el salón",  30, 0.095, "claro"),
+    ("Rocío Hair Center",                    "salon", "Av. 1 B Norte, Bella Vista",     "el salón", 355, 0.080, "claro"),
+    ("Sala de Belleza Doralis",              "salon", "Calle 75 I Oeste, Bethania",     "el salón", 295, 0.075, "claro"),
+
+    # ---------- TALLERES · oscuro industrial, acentos de señalización ----------
+    ("Panamá Top Car",                       "taller", "Av. La Paz, Bethania",          "el taller",  60, 0.135, "oscuro"),
+    ("Industrias Tuñon de Gracia",           "taller", "Calle 80, Bethania",            "el taller",  30, 0.130, "oscuro"),
+    ("Autos La Guadalupe",                   "taller", "Calle 4a, Parque Lefevre",      "el taller", 230, 0.115, "oscuro"),
+    ("Taller Full Color",                    "taller", "Av. Ernesto T. Lefevre",        "el taller", 145, 0.120, "oscuro"),
+    ("Kevin Car Shop",                       "taller", "Calle 19, Río Abajo",           "el taller",  20, 0.135, "oscuro"),
+    ("Cangas Trucks",                        "taller", "Calle 57, Bella Vista",         "el taller",  85, 0.115, "oscuro"),
 ]
 
 
@@ -102,7 +109,7 @@ def main():
     indice = ["# Enlaces por prospecto\n"]
     hechos = 0
 
-    for nombre, sector, zona, corto in NEGOCIOS:
+    for nombre, sector, zona, corto, h, c, tema in NEGOCIOS:
         ruta_p = PLANTILLAS / f"{sector}.html"
         if not ruta_p.exists():
             print(f"  falta plantilla: {sector}.html — se salta {nombre}")
@@ -111,7 +118,10 @@ def main():
             plantillas[sector] = ruta_p.read_text(encoding="utf-8")
 
         s = slug(nombre)
+        paleta = f'<style>:root{{--h:{h};--c:{c}}}</style>'
         html = (plantillas[sector]
+                .replace("</head>", paleta + "\n</head>")
+                .replace('<body data-modo="movil">', f'<body data-modo="movil" data-tema="{tema}">')
                 .replace("{{NEGOCIO}}", nombre)
                 .replace("{{INICIALES}}", iniciales(nombre))
                 .replace("{{ZONA}}", zona)
