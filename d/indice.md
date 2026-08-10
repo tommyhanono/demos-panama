@@ -53,3 +53,14 @@
 - **Taller Full Color** — https://tommyhanono.github.io/demos-panama/d/taller-full-color.html
 - **Kevin Car Shop** — https://tommyhanono.github.io/demos-panama/d/kevin-car-shop.html
 - **Cangas Trucks** — https://tommyhanono.github.io/demos-panama/d/cangas-trucks.html
+- **Vet4Pets** — https://tommyhanono.github.io/demos-panama/d/vet4pets.html
+- **Veterinaria Knino** — https://tommyhanono.github.io/demos-panama/d/veterinaria-knino.html
+- **Veterinaria Mordisco** — https://tommyhanono.github.io/demos-panama/d/veterinaria-mordisco.html
+- **Veterinaria Del Sur** — https://tommyhanono.github.io/demos-panama/d/veterinaria-del-sur.html
+- **Pet Club Veterinaria** — https://tommyhanono.github.io/demos-panama/d/pet-club-veterinaria.html
+- **Unident Panamá** — https://tommyhanono.github.io/demos-panama/d/unident-panama.html
+- **Clínica Dental Leay-Palacios** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-leay-palacios.html
+- **Clínica Dental Obarrio** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-obarrio.html
+- **Atelier Dental** — https://tommyhanono.github.io/demos-panama/d/atelier-dental.html
+- **Centro Odontológico Paitilla** — https://tommyhanono.github.io/demos-panama/d/centro-odontologico-paitilla.html
+- **Clínica Dental San Antonio** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-san-antonio.html

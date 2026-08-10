@@ -82,6 +82,19 @@ NEGOCIOS = [
     ("Taller Full Color",                    "taller", "Av. Ernesto T. Lefevre",        "el taller", 145, 0.120, "oscuro"),
     ("Kevin Car Shop",                       "taller", "Calle 19, Río Abajo",           "el taller",  20, 0.135, "oscuro"),
     ("Cangas Trucks",                        "taller", "Calle 57, Bella Vista",         "el taller",  85, 0.115, "oscuro"),
+
+    # ---------- ALCANZABLES POR CORREO (tienen sitio web) ----------
+    ("Vet4Pets",                             "vet", "Ciudad de Panamá",              "la clínica", 205, 0.090, "claro"),
+    ("Veterinaria Knino",                    "vet", "Ciudad de Panamá",              "la clínica", 145, 0.090, "claro"),
+    ("Veterinaria Mordisco",                 "vet", "Llano Bonito, Juan Díaz",       "la clínica",  35, 0.095, "claro"),
+    ("Veterinaria Del Sur",                  "vet", "Ciudad de Panamá",              "la clínica", 190, 0.085, "claro"),
+    ("Pet Club Veterinaria",                 "vet", "Altos de Bethania",             "la clínica", 260, 0.080, "claro"),
+    ("Unident Panamá",                       "dental", "Royal Center, local 16",     "la clínica", 220, 0.085, "claro"),
+    ("Clínica Dental Leay-Palacios",         "dental", "Galerías Obarrio",           "la clínica", 245, 0.075, "claro"),
+    ("Clínica Dental Obarrio",               "dental", "Plaza Mont Blanc, Obarrio",  "la clínica", 195, 0.090, "claro"),
+    ("Atelier Dental",                       "dental", "Edificio Le Blue, El Carmen","la clínica", 290, 0.070, "claro"),
+    ("Centro Odontológico Paitilla",         "dental", "Centro Especializado Paitilla","el centro", 230, 0.080, "claro"),
+    ("Clínica Dental San Antonio",           "dental", "Ciudad de Panamá",           "la clínica", 175, 0.085, "claro"),
 ]
 
 
