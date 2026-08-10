@@ -53,6 +53,7 @@ NEGOCIOS = [
     ("Clínica Dental Santa Catarina",        "dental", "Calidonia",                  "la clínica", 160, 0.080, "claro"),
 
     # ---------- BARBERÍAS · oscuro, acentos de latón, cobre y ámbar ----------
+    ("Mendoza Barbershop",                    "barber", "Vía Porras · 3 sedes",          "la barbería",  40, 0.120, "oscuro"),
     ("Felix Barbería",                       "barber", "Calle 62A Oeste, San Francisco", "la barbería",  70, 0.115, "oscuro"),
     ("Barbería Machete",                     "barber", "Calle Sur, San Francisco",      "la barbería",  35, 0.130, "oscuro"),
     ("Barbería Universidad Nacional",        "barber", "Vía Argentina, Bella Vista",    "la barbería", 240, 0.105, "oscuro"),

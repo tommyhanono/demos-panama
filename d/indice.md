@@ -28,6 +28,7 @@
 - **Clínica Dental Smile Factory** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-smile-factory.html
 - **Clínica Santísima Trinidad** — https://tommyhanono.github.io/demos-panama/d/clinica-santisima-trinidad.html
 - **Clínica Dental Santa Catarina** — https://tommyhanono.github.io/demos-panama/d/clinica-dental-santa-catarina.html
+- **Mendoza Barbershop** — https://tommyhanono.github.io/demos-panama/d/mendoza-barbershop.html
 - **Felix Barbería** — https://tommyhanono.github.io/demos-panama/d/felix-barberia.html
 - **Barbería Machete** — https://tommyhanono.github.io/demos-panama/d/barberia-machete.html
 - **Barbería Universidad Nacional** — https://tommyhanono.github.io/demos-panama/d/barberia-universidad-nacional.html
