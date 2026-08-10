@@ -1,0 +1,99 @@
+=== INICIO Mon Aug 10 13:11:40 EST 2026 · intervalo 60s ===
+Unload failed: 5: Input/output error
+Try running `launchctl bootout` as root for richer errors.
+--- [13:11:45] [29] Felix Barbería (50768089482)
+no LID found for 50768089482@s.whatsapp.net from server
+FALLO: Felix Barbería (50768089482) — sin WhatsApp
+--- [13:11:47] [30] Barbería Machete (50766383234)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+server returned error 463
+FALLO: Barbería Machete (50766383234) — sin WhatsApp
+--- [13:11:50] [31] Barbería Universidad Nacional (50762044349)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50762044349@s.whatsapp.net from server
+FALLO: Barbería Universidad Nacional (50762044349) — sin WhatsApp
+--- [13:11:50] [32] BLK Barber Shop (50768823867)
+warning: send command was invoked 1s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50768823867@s.whatsapp.net from server
+FALLO: BLK Barber Shop (50768823867) — sin WhatsApp
+--- [13:11:52] [33] Aldos Barber Shop (50766542565)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:11:55.358 [Client ERROR] Failed to issue privacy token for 158283184758858@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Aldos Barber Shop (50766542565) — sin WhatsApp
+--- [13:11:55] [34] Gaza Barbershop (50762208312)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:11:57.005 [Client ERROR] Failed to issue privacy token for 182072387874978@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Gaza Barbershop (50762208312) — sin WhatsApp
+--- [13:11:57] [35] Jay's Barber Shop (50765515326)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:11:58.470 [Client ERROR] Failed to issue privacy token for 211617467895815@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Jay's Barber Shop (50765515326) — sin WhatsApp
+--- [13:11:58] [36] Johny Barbería (50767399874)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:01.987 [Client ERROR] Failed to issue privacy token for 160194411688085@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Johny Barbería (50767399874) — sin WhatsApp
+--- [13:12:02] [37] Barbería Bless4ever (50766598694)
+warning: send command was invoked 3s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:03.673 [Client ERROR] Failed to issue privacy token for 31675484475440@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Barbería Bless4ever (50766598694) — sin WhatsApp
+--- [13:12:03] [38] Alberto's Barbería (50765001585)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:05.703 [Client ERROR] Failed to issue privacy token for 126005834436862@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Alberto's Barbería (50765001585) — sin WhatsApp
+--- [13:12:05] [39] Maravilla Beauty Club (50760109024)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50760109024@s.whatsapp.net from server
+FALLO: Maravilla Beauty Club (50760109024) — sin WhatsApp
+--- [13:12:07] [40] Beauty Hair Liss (50767417496)
+warning: send command was invoked 1s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50767417496@s.whatsapp.net from server
+FALLO: Beauty Hair Liss (50767417496) — sin WhatsApp
+--- [13:12:08] [41] Gaia Salón (50765503850)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50765503850@s.whatsapp.net from server
+FALLO: Gaia Salón (50765503850) — sin WhatsApp
+--- [13:12:10] [42] Glamorium (50769412588)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+server returned error 463
+FALLO: Glamorium (50769412588) — sin WhatsApp
+--- [13:12:13] [43] Beauty Essence & Spa (50767757145)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+server returned error 463
+FALLO: Beauty Essence & Spa (50767757145) — sin WhatsApp
+--- [13:12:15] [44] Akaneh Beauty Salón (50762237804)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:17.390 [Client ERROR] Failed to issue privacy token for 26079125315658@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Akaneh Beauty Salón (50762237804) — sin WhatsApp
+--- [13:12:17] [45] Rocío Hair Center (50767516061)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50767516061@s.whatsapp.net from server
+FALLO: Rocío Hair Center (50767516061) — sin WhatsApp
+--- [13:12:19] [46] Sala de Belleza Doralis (50768871016)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50768871016@s.whatsapp.net from server
+FALLO: Sala de Belleza Doralis (50768871016) — sin WhatsApp
+--- [13:12:21] [47] Panamá Top Car (50766756222)
+warning: send command was invoked 1s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:22.426 [Client ERROR] Failed to issue privacy token for 154893734117399@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Panamá Top Car (50766756222) — sin WhatsApp
+--- [13:12:22] [48] Industrias Tuñon de Gracia (50769971814)
+warning: send command was invoked 1s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:23.797 [Client ERROR] Failed to issue privacy token for 142356774936789@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Industrias Tuñon de Gracia (50769971814) — sin WhatsApp
+--- [13:12:23] [49] Autos La Guadalupe (50764049150)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50764049150@s.whatsapp.net from server
+FALLO: Autos La Guadalupe (50764049150) — sin WhatsApp
+--- [13:12:25] [50] Taller Full Color (50763785874)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:12:28.898 [Client ERROR] Failed to issue privacy token for 178125832994999@lid: websocket disconnected before info query returned response
+server returned error 463

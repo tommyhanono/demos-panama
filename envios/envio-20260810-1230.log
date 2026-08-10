@@ -1,0 +1,13 @@
+=== INICIO Mon Aug 10 12:30:01 EST 2026 · intervalo 300s ===
+Unload failed: 5: Input/output error
+Try running `launchctl bootout` as root for richer errors.
+--- [12:30:06] [1] Mercy Veterinary Hospital (50765141701)
+no LID found for 50765141701@s.whatsapp.net from server
+FALLO: Mercy Veterinary Hospital (50765141701) — sin WhatsApp
+--- [12:30:07] [2] Veterinaria Lapenta (50765155908)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+Sent to 50765155908@s.whatsapp.net (id 3EB060E67C90221BC33063)
+OK: Veterinaria Lapenta
+--- [12:35:11] [3] Panamá Pets Clínica Veterinaria (50762071805)
+Sent to 50762071805@s.whatsapp.net (id 3EB06F55FFF23146105F85)
+OK: Panamá Pets Clínica Veterinaria

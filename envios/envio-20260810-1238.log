@@ -1,0 +1,44 @@
+=== INICIO Mon Aug 10 12:38:27 EST 2026 · intervalo 50s ===
+--- [12:38:32] [3] Panamá Pets Clínica Veterinaria (50762071805)
+Sent to 50762071805@s.whatsapp.net (id 3EB0E47BF57A27904F83FB)
+OK: Panamá Pets Clínica Veterinaria
+--- [12:39:27] [4] Mascota Consentida (50767442777)
+Sent to 50767442777@s.whatsapp.net (id 3EB0ADBE15F38A7C773504)
+OK: Mascota Consentida
+--- [12:40:22] [5] Fashion Pet (50762009830)
+Sent to 50762009830@s.whatsapp.net (id 3EB07F259470BC0FF3CE6E)
+OK: Fashion Pet
+--- [12:41:16] [6] Patitas Market (50761173841)
+Sent to 50761173841@s.whatsapp.net (id 3EB02D785B985572AE32D4)
+OK: Patitas Market
+--- [12:42:11] [7] Clínica del Dr. Jorge Landires (50766724092)
+Sent to 50766724092@s.whatsapp.net (id 3EB01CB747FA1ED51D9154)
+OK: Clínica del Dr. Jorge Landires
+--- [12:43:05] [8] Tomo Vet (50769806018)
+Sent to 50769806018@s.whatsapp.net (id 3EB06C3F83B32DC5FA1A33)
+OK: Tomo Vet
+--- [12:44:01] [9] Dogland (50767702910)
+Sent to 50767702910@s.whatsapp.net (id 3EB0894CFBD2E4D7CCC7DF)
+OK: Dogland
+--- [12:44:54] [10] Pets Fashion (50769671859)
+Sent to 50769671859@s.whatsapp.net (id 3EB03DF8BB37E54212E2BF)
+OK: Pets Fashion
+--- [12:45:50] [11] Kaspet (50766729280)
+no LID found for 50766729280@s.whatsapp.net from server
+FALLO: Kaspet (50766729280) — sin WhatsApp
+--- [12:46:41] [12] Clínica Veterinaria Andy's Pets (50762570925)
+Sent to 50762570925@s.whatsapp.net (id 3EB036E22CE9AC968F63AE)
+OK: Clínica Veterinaria Andy's Pets
+--- [12:47:36] [13] Consultoría Veterinaria de Panamá (50768486747)
+Sent to 50768486747@s.whatsapp.net (id 3EB008A201417B73C9DB49)
+OK: Consultoría Veterinaria de Panamá
+--- [12:48:31] [14] Asistencia Médica Animal (50768745363)
+12:48:32.891 [Client ERROR] Failed to send request to upload prekeys: websocket disconnected before info query returned response
+no LID found for 50768745363@s.whatsapp.net from server
+FALLO: Asistencia Médica Animal (50768745363) — sin WhatsApp
+--- [12:49:22] [15] Veterinaria 24 de Diciembre (50766555070)
+Sent to 50766555070@s.whatsapp.net (id 3EB097869D6FE731E48335)
+OK: Veterinaria 24 de Diciembre
+--- [12:50:18] [16] Veterinaria Chilibre (50767802795)
+not authenticated; run `wacli auth`
+FALLO: Veterinaria Chilibre (50767802795) — sin WhatsApp

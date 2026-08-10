@@ -1,0 +1,93 @@
+=== INICIO Mon Aug 10 13:06:26 EST 2026 · intervalo 60s ===
+--- [13:06:33] [17] Clínica Dental Tovar (50766717699)
+13:06:37.269 [Client ERROR] Failed to issue privacy token for 263861332611076@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Clínica Dental Tovar (50766717699) — sin WhatsApp
+--- [13:06:37] [18] Dental Design (50766755062)
+warning: send command was invoked 4s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:06:41.434 [Client ERROR] Failed to issue privacy token for 12137678270524@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Dental Design (50766755062) — sin WhatsApp
+--- [13:06:41] [19] Clínica Dental City (50766754222)
+warning: send command was invoked 4s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:06:43.535 [Client ERROR] Failed to issue privacy token for 114250441842848@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Clínica Dental City (50766754222) — sin WhatsApp
+--- [13:06:43] [20] Denti Club (50762715353)
+warning: send command was invoked 3s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:06:47.067 [Client ERROR] Failed to issue privacy token for 21427692536012@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Denti Club (50762715353) — sin WhatsApp
+--- [13:06:47] [21] Esthetic Dental Clinic (50769494350)
+warning: send command was invoked 3s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+server returned error 463
+FALLO: Esthetic Dental Clinic (50769494350) — sin WhatsApp
+--- [13:06:49] [22] Clínica Barnes Lam (50766740005)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:06:51.457 [Client ERROR] Failed to issue privacy token for 181251931685075@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Clínica Barnes Lam (50766740005) — sin WhatsApp
+--- [13:06:51] [23] Centro de Odontología Dr. Horacio Villarreal (50766185475)
+warning: send command was invoked 3s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:06:56.473 [Client ERROR] Failed to issue privacy token for 172597673250963@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Centro de Odontología Dr. Horacio Villarreal (50766185475) — sin WhatsApp
+--- [13:06:56] [24] Brilliant Smile Dental Clinic (50761224472)
+warning: send command was invoked 4s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:06:58.631 [Client ERROR] Failed to issue privacy token for 100437843771515@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Brilliant Smile Dental Clinic (50761224472) — sin WhatsApp
+--- [13:06:58] [25] Clínica Dental Ibiza (50763992698)
+warning: send command was invoked 3s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+server returned error 463
+FALLO: Clínica Dental Ibiza (50763992698) — sin WhatsApp
+--- [13:07:02] [26] Clínica Dental Smile Factory (50761264253)
+warning: send command was invoked 4s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:05.966 [Client ERROR] Failed to issue privacy token for 189880957145132@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Clínica Dental Smile Factory (50761264253) — sin WhatsApp
+--- [13:07:05] [27] Clínica Santísima Trinidad (50766181809)
+warning: send command was invoked 4s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:10.446 [Client ERROR] Failed to issue privacy token for 261705326149684@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Clínica Santísima Trinidad (50766181809) — sin WhatsApp
+--- [13:07:10] [28] Clínica Dental Santa Catarina (50762064562)
+warning: send command was invoked 4s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+server returned error 463
+FALLO: Clínica Dental Santa Catarina (50762064562) — sin WhatsApp
+--- [13:07:12] [29] Felix Barbería (50768089482)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50768089482@s.whatsapp.net from server
+FALLO: Felix Barbería (50768089482) — sin WhatsApp
+--- [13:07:14] [30] Barbería Machete (50766383234)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:16.800 [Client ERROR] Failed to issue privacy token for 90915951612148@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Barbería Machete (50766383234) — sin WhatsApp
+--- [13:07:16] [31] Barbería Universidad Nacional (50762044349)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50762044349@s.whatsapp.net from server
+FALLO: Barbería Universidad Nacional (50762044349) — sin WhatsApp
+--- [13:07:18] [32] BLK Barber Shop (50768823867)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+no LID found for 50768823867@s.whatsapp.net from server
+FALLO: BLK Barber Shop (50768823867) — sin WhatsApp
+--- [13:07:20] [33] Aldos Barber Shop (50766542565)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:22.731 [Client ERROR] Failed to issue privacy token for 158283184758858@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Aldos Barber Shop (50766542565) — sin WhatsApp
+--- [13:07:22] [34] Gaza Barbershop (50762208312)
+warning: send command was invoked 3s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:24.860 [Client ERROR] Failed to issue privacy token for 182072387874978@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Gaza Barbershop (50762208312) — sin WhatsApp
+--- [13:07:24] [35] Jay's Barber Shop (50765515326)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:26.537 [Client ERROR] Failed to issue privacy token for 211617467895815@lid: websocket disconnected before info query returned response
+server returned error 463
+FALLO: Jay's Barber Shop (50765515326) — sin WhatsApp
+--- [13:07:26] [36] Johny Barbería (50767399874)
+warning: send command was invoked 2s after the previous send; rapid automated sends may trigger WhatsApp rate limits or account restrictions
+13:07:28.533 [Client ERROR] Failed to issue privacy token for 160194411688085@lid: websocket disconnected before info query returned response
+server returned error 463

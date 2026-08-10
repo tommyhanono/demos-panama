@@ -1,49 +1,52 @@
 #!/bin/zsh
 # ============================================================
-#  PROSPECCIÓN — 52 mensajes, cada uno con su demo personalizada
-#  Uso:  ./enviar.sh test        ver los mensajes sin enviar
-#        ./enviar.sh             enviar, uno cada 5 minutos
-#        INTERVALO=120 ./enviar.sh    cambiar el espaciado
+#  PENDIENTES — 39 negocios que aún no han recibido nada
+#
+#  Uso:  ./pendientes.sh test        ver los mensajes sin enviar
+#        ./pendientes.sh             mandar los 8 del día, uno cada 10 min
+#        DESDE=9 ./pendientes.sh     continuar donde quedó
+#        MAX=39 ./pendientes.sh      mandar todos (NO recomendado)
+#
+#  Números verificados contra segunda fuente el 10 de agosto.
+#  Tope diario de 8: intentar 52 en una hora fue lo que trabó la cuenta.
+#  Maravilla Beauty Club queda fuera: cerró (su propio Instagram lo dice).
 # ============================================================
 set -u
 MODO="${1:-real}"
-INTERVALO="${INTERVALO:-300}"
-DESDE="${DESDE:-1}"   # reanudar desde el mensaje N
+INTERVALO="${INTERVALO:-600}"
+MAX="${MAX:-8}"
+DESDE="${DESDE:-1}"
 WACLI="$HOME/bin/wacli"
 PLIST="$HOME/Library/LaunchAgents/com.tommyhanono.wacli-sync.plist"
-LOG="$HOME/demos-panama/envios/envio-$(date +%Y%m%d-%H%M).log"
+LOG="$HOME/demos-panama/envios/pend-$(date +%Y%m%d-%H%M).log"
 mkdir -p "$HOME/demos-panama/envios"
-N=0
+N=0; OK_N=0; FALLO_N=0
 
-OK_N=0
-FALLO_N=0
 enviar(){
   local nombre="$1" numero="$2" msg="$3"
   N=$((N+1))
-  if [[ $N -lt $DESDE ]]; then return; fi
+  [[ $N -lt $DESDE ]] && return
   if [[ "$MODO" == "test" ]]; then
     echo "\n=============== [$N] $nombre  ($numero) ==============="
     echo "$msg"
     return
   fi
-  # La pausa solo cuenta entre mensajes ENTREGADOS. Un número muerto
-  # no gasta 5 minutos: se registra y se sigue de una.
+  [[ $OK_N -ge $MAX ]] && return
   [[ $OK_N -gt 0 ]] && sleep "$INTERVALO"
   echo "--- [$(date +%H:%M:%S)] [$N] $nombre ($numero)" >> "$LOG"
   if "$WACLI" send text --to "$numero" --message "$msg" >> "$LOG" 2>&1; then
     OK_N=$((OK_N+1)); echo "OK: $nombre" >> "$LOG"
   else
-    FALLO_N=$((FALLO_N+1)); echo "FALLO: $nombre ($numero) — sin WhatsApp" >> "$LOG"
+    FALLO_N=$((FALLO_N+1)); echo "FALLO: $nombre ($numero)" >> "$LOG"
   fi
 }
 
 if [[ "$MODO" != "test" ]]; then
-  echo "=== INICIO $(date) · intervalo ${INTERVALO}s ===" > "$LOG"
-  launchctl unload "$PLIST" 2>>"$LOG"; sleep 5
+  echo "=== INICIO $(date) · desde $DESDE · tope $MAX · intervalo ${INTERVALO}s ===" > "$LOG"
+  launchctl unload "$PLIST" 2>>"$LOG"; sleep 15
 fi
 
-
-# ---------- VET ----------
+# ---------- VETERINARIAS ----------
 enviar "Mercy Veterinary Hospital" "50765141701" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
 
 Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
@@ -52,150 +55,6 @@ Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El
 
 Le preparé una demostración con el nombre de Mercy Veterinary Hospital. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
 https://tommyhanono.github.io/demos-panama/d/mercy-veterinary-hospital.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Veterinaria Lapenta" "50765155908" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Veterinaria Lapenta. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/veterinaria-lapenta.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Panamá Pets Clínica Veterinaria" "50762071805" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Panamá Pets Clínica Veterinaria. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/panama-pets-clinica-veterinaria.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Mascota Consentida" "50767442777" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Mascota Consentida. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/mascota-consentida.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Fashion Pet" "50762009830" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Fashion Pet. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/fashion-pet.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Patitas Market" "50761173841" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Patitas Market. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/patitas-market.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Clínica del Dr. Jorge Landires" "50766724092" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Clínica del Dr. Jorge Landires. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/clinica-del-dr-jorge-landires.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Tomo Vet" "50769806018" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Tomo Vet. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/tomo-vet.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Dogland" "50767702910" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Dogland. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/dogland.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Pets Fashion" "50769671859" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Pets Fashion. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/pets-fashion.html
 
 La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
 
@@ -220,38 +79,6 @@ Esta demostración está armada con datos de ejemplo y se puede ajustar por comp
 Quedo atento a su respuesta. Gracias por su tiempo.
 
 Tommy Hanono"
-enviar "Clínica Veterinaria Andy's Pets" "50762570925" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Clínica Veterinaria Andy's Pets. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/clinica-veterinaria-andy-s-pets.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Consultoría Veterinaria de Panamá" "50768486747" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Consultoría Veterinaria de Panamá. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/consultoria-veterinaria-de-panama.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
 enviar "Asistencia Médica Animal" "50768745363" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
 
 Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
@@ -260,22 +87,6 @@ Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El
 
 Le preparé una demostración con el nombre de Asistencia Médica Animal. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
 https://tommyhanono.github.io/demos-panama/d/asistencia-medica-animal.html
-
-La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
-enviar "Veterinaria 24 de Diciembre" "50766555070" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de agenda y recordatorios para clínicas veterinarias en Panamá.
-
-Le escribo por algo concreto: en toda clínica hay pacientes con la vacuna vencida que no han vuelto, no por descuido del dueño, sino porque avisarle a cada uno a mano es imposible.
-
-Lo que hago es un carnet digital de vacunas con el historial de cada mascota. El dueño lo abre desde un enlace y el sistema le escribe solo por WhatsApp cuando le toca. Además separa la agenda entre consulta, grooming y cirugía, y le muestra a usted qué pacientes llevan meses sin volver.
-
-Le preparé una demostración con el nombre de Veterinaria 24 de Diciembre. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/veterinaria-24-de-diciembre.html
 
 La implementación es de B/.600.00 y B/.50.00 mensuales, e incluye que yo lo monte con los servicios, precios y veterinarios de su clínica.
 
@@ -301,7 +112,7 @@ Quedo atento a su respuesta. Gracias por su tiempo.
 
 Tommy Hanono"
 
-# ---------- DENTAL ----------
+# ---------- CLÍNICAS DENTALES ----------
 enviar "Clínica Dental Tovar" "50766717699" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de citas para clínicas dentales en Panamá.
 
 Le escribo por dos cosas concretas. La primera es el recordatorio automático de los seis meses: en cualquier clínica hay decenas de pacientes que se hicieron una limpieza y nunca volvieron, no porque no quisieran, sino porque nadie les recordó. La segunda son los presupuestos que quedan abiertos: la mayoría no se pierde porque el paciente dijo que no, sino porque nadie volvió a preguntar.
@@ -495,7 +306,7 @@ Quedo atento a su respuesta. Gracias por su tiempo.
 
 Tommy Hanono"
 
-# ---------- BARBER ----------
+# ---------- BARBERÍAS ----------
 enviar "Felix Barbería" "50768089482" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de reserva para barberías en Panamá.
 
 Le hago una pregunta directa: ¿cuántos turnos se le caen al mes porque el cliente no llegó? A B/.18.00 cada uno, tres a la semana son más de B/.200.00 mensuales que no se recuperan, porque la silla ya estuvo vacía.
@@ -657,23 +468,7 @@ Quedo atento a su respuesta. Gracias por su tiempo.
 
 Tommy Hanono"
 
-# ---------- SALON ----------
-enviar "Maravilla Beauty Club" "50760109024" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de citas para salones de belleza en Panamá.
-
-Le escribo por algo que en este rubro se pierde todos los meses: la clienta de uñas o de color vuelve cada quince días, o se olvida y pasa un mes. Un recordatorio automático con el enlace para reservar es la forma más barata que existe de subir las ventas, y no requiere que nadie esté pendiente.
-
-El sistema también guarda la ficha técnica de cada clienta, con la fórmula de color exacta que se le aplicó. Si la estilista no viene ese día, otra puede repetir el color; y si un día se va del salón, la fórmula se queda con usted.
-
-Le preparé una demostración con el nombre de Maravilla Beauty Club. Puede abrirla desde el celular o desde la computadora, funciona de verdad:
-https://tommyhanono.github.io/demos-panama/d/maravilla-beauty-club.html
-
-La implementación es de B/.450.00 y B/.40.00 mensuales, con sus estilistas, servicios y precios cargados por mí.
-
-Esta demostración está armada con datos de ejemplo y se puede ajustar por completo: los colores, los servicios, los precios y lo que haga falta. La idea es que vea lo que se puede hacer. Si hay algo que le gustaría distinto, o algo que necesita y no aparece ahí, me lo dice y lo exploramos.
-
-Quedo atento a su respuesta. Gracias por su tiempo.
-
-Tommy Hanono"
+# ---------- SALONES ----------
 enviar "Beauty Hair Liss" "50767417496" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de citas para salones de belleza en Panamá.
 
 Le escribo por algo que en este rubro se pierde todos los meses: la clienta de uñas o de color vuelve cada quince días, o se olvida y pasa un mes. Un recordatorio automático con el enlace para reservar es la forma más barata que existe de subir las ventas, y no requiere que nadie esté pendiente.
@@ -787,7 +582,7 @@ Quedo atento a su respuesta. Gracias por su tiempo.
 
 Tommy Hanono"
 
-# ---------- TALLER ----------
+# ---------- TALLERES ----------
 enviar "Panamá Top Car" "50766756222" "Buenas tardes. Mi nombre es Tommy Hanono y desarrollo sistemas de control de trabajos para talleres en Panamá.
 
 Le escribo por la llamada que más se repite en un taller: \"¿ya está listo mi carro?\". Cada cliente llama tres o cuatro veces, y alguien tiene que soltar la herramienta para contestar.
@@ -887,10 +682,8 @@ Tommy Hanono"
 
 if [[ "$MODO" != "test" ]]; then
   launchctl load "$PLIST" 2>>"$LOG"
-  echo "=== FIN $(date) ===" >> "$LOG"
   echo "" >> "$LOG"
-  echo "=== RESUMEN: $OK_N entregados · $FALLO_N sin WhatsApp ===" >> "$LOG"
-  grep "^FALLO:" "$LOG" >> "$LOG".fallos 2>/dev/null
-  echo "Listo. $OK_N entregados, $FALLO_N fallaron. Log: $LOG"
+  echo "=== RESUMEN: $OK_N entregados · $FALLO_N fallidos · último N=$N ===" >> "$LOG"
+  echo "Listo. $OK_N entregados, $FALLO_N fallaron."
+  echo "Para continuar: DESDE=$((N+1)) ./pendientes.sh"
 fi
-
